@@ -71,7 +71,7 @@ class _ExpandingCircleOverlayState extends ConsumerState<ExpandingCircle>
             height: animationNotifier.animation.value * 10,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.background,
             ),
           ),
         ),
