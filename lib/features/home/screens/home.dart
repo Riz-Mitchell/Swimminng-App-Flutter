@@ -10,6 +10,7 @@ class HomePage extends StatelessWidget {
     return Stack(
       children: [
         Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.primary,
           //   navigationBar: CupertinoNavigationBar(middle: Text('Home')),
           body: Center(child: Welcome()),
         ),
