@@ -37,7 +37,9 @@ class Welcome extends ConsumerWidget {
           duration: const Duration(seconds: 2),
           child: Text(
             'Welcome to',
-            style: Theme.of(context).textTheme.labelSmall,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           ),
         ),
         AnimatedOpacity(
@@ -45,7 +47,9 @@ class Welcome extends ConsumerWidget {
           duration: const Duration(seconds: 2),
           child: Text(
             'Splashbook',
-            style: Theme.of(context).textTheme.displayLarge,
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           ),
         ),
       ],
