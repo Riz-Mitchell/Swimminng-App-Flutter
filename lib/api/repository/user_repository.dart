@@ -5,9 +5,8 @@ import 'package:swimming_app_frontend/api/models/user_model.dart';
 
 class UserRepository {
   final ApiClient _apiClient;
-  final Ref _ref;
 
-  UserRepository(this._ref) : _apiClient = _ref.read(apiClientProvider);
+  UserRepository(this._apiClient);
 
   Future<GetUserResDTO> createUserReq(CreateUserReqDTO schema) async {
     // Validate user data
