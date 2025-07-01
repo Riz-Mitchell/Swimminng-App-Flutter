@@ -9,16 +9,28 @@ class GetUsersQuery {
   final int pageNumber;
   final int pageSize;
 
-  GetUsersQuery({
+  const GetUsersQuery({
     required this.nameContains,
     this.pageNumber = 1,
     this.pageSize = 10,
   });
 
+  GetUsersQuery copyWith({
+    String? nameContains,
+    int? pageNumber,
+    int? pageSize,
+  }) {
+    return GetUsersQuery(
+      nameContains: nameContains ?? this.nameContains,
+      pageNumber: pageNumber ?? this.pageNumber,
+      pageSize: pageSize ?? this.pageSize,
+    );
+  }
+
   Map<String, dynamic> toJson() => {
-    'nameContains': nameContains,
-    'pageNumber': pageNumber,
-    'pageSize': pageSize,
+    'NameContains': nameContains,
+    'PageNumber': pageNumber,
+    'PageSize': pageSize,
   };
 }
 
@@ -56,7 +68,7 @@ class CreateUserReqDTO {
   final String? email;
   final UserType userType;
 
-  CreateUserReqDTO({
+  const CreateUserReqDTO({
     required this.name,
     required this.phoneNumber,
     required this.dateOfBirth,
@@ -64,6 +76,24 @@ class CreateUserReqDTO {
     this.email,
     required this.userType,
   });
+
+  CreateUserReqDTO copyWith({
+    String? name,
+    String? phoneNumber,
+    DateTime? dateOfBirth,
+    double? height,
+    String? email,
+    UserType? userType,
+  }) {
+    return CreateUserReqDTO(
+      name: name ?? this.name,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      height: height ?? this.height,
+      email: email ?? this.email,
+      userType: userType ?? this.userType,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     'Name': name,
@@ -81,7 +111,26 @@ class UpdateUserReqDTO {
   final double? height;
   final String? email;
 
-  UpdateUserReqDTO({this.name, this.dateOfBirth, this.height, this.email});
+  const UpdateUserReqDTO({
+    this.name,
+    this.dateOfBirth,
+    this.height,
+    this.email,
+  });
+
+  UpdateUserReqDTO copyWith({
+    String? name,
+    DateTime? dateOfBirth,
+    double? height,
+    String? email,
+  }) {
+    return UpdateUserReqDTO(
+      name: name ?? this.name,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      height: height ?? this.height,
+      email: email ?? this.email,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     if (name != null) 'Name': name,
