@@ -1,18 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import './features/home/screens/home.dart';
+import 'package:swimming_app_frontend/core/router.dart';
+import 'package:swimming_app_frontend/features/app_start/ui/screens/splash_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
+
+    return MaterialApp.router(
+      routerConfig: router,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF5F5F5),
         colorScheme: const ColorScheme(
@@ -34,7 +38,6 @@ class MyApp extends StatelessWidget {
           labelSmall: TextStyle(fontSize: 12, letterSpacing: 1.2),
         ),
       ),
-      home: const HomePage(),
     );
   }
 }
