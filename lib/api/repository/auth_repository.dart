@@ -4,9 +4,8 @@ import 'package:swimming_app_frontend/api/models/auth_model.dart';
 
 class AuthRepository {
   final ApiClient _apiClient;
-  final Ref _ref;
 
-  AuthRepository(this._ref) : _apiClient = _ref.read(apiClientProvider);
+  AuthRepository(this._apiClient);
 
   Future<void> generateOTP(OTPRequest schema) async {
     try {
@@ -20,8 +19,18 @@ class AuthRepository {
 
   Future<void> verifyOTP(LoginRequest schema) async {
     try {
-      // Call API to verify OTP
-      await _apiClient.post('/api/auth/login', data: schema.toJson());
+      // Call API to verify OTP and get tokens
+      final response = await _apiClient.post(
+        '/api/auth/login',
+        data: schema.toJson(),
+      );
+
+      final data = response.data as Map<String, dynamic>;
+      final access = data['access_token'] as String;
+      final refresh = data['refresh_token'] as String;
+
+      // Save tokens using storage
+      await _apiClient.storage.saveTokens(access: access, refresh: refresh);
     } catch (e) {
       // Handle error, e.g., show error message to user
       throw Exception('Failed to verify OTP: $e');
