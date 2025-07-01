@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/providers/create_user_provider.dart';
 import 'package:swimming_app_frontend/providers/user_provider.dart';
 
 class EnterTextWidget extends ConsumerWidget {
@@ -9,8 +10,8 @@ class EnterTextWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(createUserProvider);
-    final userNotifier = ref.read(createUserProvider.notifier);
+    final createUserReq = ref.watch(createUserProvider);
+    final createUserReqNotifier = ref.read(createUserProvider.notifier);
 
     return TextField(
       decoration: InputDecoration(
@@ -38,7 +39,7 @@ class EnterTextWidget extends ConsumerWidget {
         ),
       ),
       onChanged: (newName) {
-        userNotifier.state = user.copyWith(name: newName);
+        createUserReqNotifier.state = createUserReq.copyWith(name: newName);
       },
     );
   }
