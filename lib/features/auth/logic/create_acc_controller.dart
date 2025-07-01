@@ -1,5 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/core/router.dart';
+import 'package:swimming_app_frontend/features/auth/logic/auth_provider.dart';
+import 'package:swimming_app_frontend/providers/create_user_provider.dart';
+import 'package:swimming_app_frontend/providers/user_provider.dart';
 
 enum CreateAccStatus {
   initial,
@@ -17,12 +20,15 @@ class CreateAccController extends StateNotifier<CreateAccStatus> {
   CreateAccController(this.ref) : super(CreateAccStatus.initial);
 
   void next() {
+    final current = ref.read(createUserProvider);
+
     switch (state) {
       case CreateAccStatus.initial:
         state = CreateAccStatus.addName;
         ref.read(routerProvider).go('/ca-add-name');
         break;
       case CreateAccStatus.addName:
+        if (current.name.length < 3) return;
         state = CreateAccStatus.addDOB;
         ref.read(routerProvider).go('/ca-add-dob');
         break;
@@ -31,10 +37,12 @@ class CreateAccController extends StateNotifier<CreateAccStatus> {
         ref.read(routerProvider).go('/ca-add-height');
         break;
       case CreateAccStatus.addHeight:
+        if (current.height == null || current.height! <= 0) return;
         state = CreateAccStatus.addSex;
         ref.read(routerProvider).go('/ca-add-sex');
         break;
       case CreateAccStatus.addSex:
+        if (current.sex == null) return;
         state = CreateAccStatus.addPhoneNumber;
         ref.read(routerProvider).go('/ca-add-phone-number');
         break;
@@ -86,8 +94,21 @@ class CreateAccController extends StateNotifier<CreateAccStatus> {
     }
   }
 
-  final createAccControllerProvider =
-      StateNotifierProvider<CreateAccController, CreateAccStatus>(
-        (ref) => CreateAccController(ref),
-      );
+  Future<void> submit() async {
+    final user = ref.read(createUserProvider);
+
+    if (!user.isComplete) return;
+
+    try {
+      // await ref.read(authProvider.notifier).registerUser(user.toJson());
+      print('submitting user: ${user.toJson()}');
+    } catch (e) {
+      // Show error to user
+    }
+  }
 }
+
+final createAccControllerProvider =
+    StateNotifierProvider<CreateAccController, CreateAccStatus>(
+      (ref) => CreateAccController(ref),
+    );
