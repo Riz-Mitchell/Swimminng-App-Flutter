@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import './welcome.dart';
+import 'package:swimming_app_frontend/features/app_start/logic/app_start_controller.dart';
 
-class CircleAnimationNotifier extends ChangeNotifier {
-  late AnimationController controller;
-  late Animation<double> animation;
+// Animation controller class
+class ExpandingCircleAnimationNotifier extends ChangeNotifier {
+  late final AnimationController controller;
+  late final Animation<double> animation;
 
-  CircleAnimationNotifier(TickerProvider vsync) {
+  ExpandingCircleAnimationNotifier(TickerProvider vsync) {
     controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: vsync,
@@ -29,12 +30,13 @@ class CircleAnimationNotifier extends ChangeNotifier {
   }
 }
 
+// Riverpod provider using ChangeNotifierProvider.family
 final circleAnimationProvider =
-    ChangeNotifierProvider.family<CircleAnimationNotifier, TickerProvider>((
-      ref,
-      vsync,
-    ) {
-      final notifier = CircleAnimationNotifier(vsync);
+    ChangeNotifierProvider.family<
+      ExpandingCircleAnimationNotifier,
+      TickerProvider
+    >((ref, vsync) {
+      final notifier = ExpandingCircleAnimationNotifier(vsync);
       ref.onDispose(() => notifier.disposeController());
       return notifier;
     });
@@ -53,10 +55,10 @@ class _ExpandingCircleOverlayState extends ConsumerState<ExpandingCircle>
 
   @override
   Widget build(BuildContext context) {
-    final welcomeDone = ref.watch(welcomeCompleteProvider);
+    final splashStatus = ref.watch(splashControllerProvider);
     final animationNotifier = ref.watch(circleAnimationProvider(this));
 
-    if (welcomeDone && !_hasStarted) {
+    if (splashStatus == SplashStatus.expandCircle && !_hasStarted) {
       _hasStarted = true;
       animationNotifier.start();
     }
@@ -71,7 +73,7 @@ class _ExpandingCircleOverlayState extends ConsumerState<ExpandingCircle>
             height: animationNotifier.animation.value * 10,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ),
