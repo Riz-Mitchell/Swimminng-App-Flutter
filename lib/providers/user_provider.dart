@@ -1,4 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/models/user_model.dart';
+import 'package:swimming_app_frontend/api/api.dart';
+import 'package:swimming_app_frontend/api/repository/user_repository.dart';
+import 'package:swimming_app_frontend/api/services/user_service.dart';
+import 'package:swimming_app_frontend/providers/repository_provider.dart';
 
-final createUserProvider = StateProvider<CreateUser>((ref) => CreateUser());
+final userServiceProvider = Provider<UserService>((ref) {
+  final userRepo = ref.read(userRepositoryProvider);
+  final authRepo = ref.read(authRepositoryProvider);
+  return UserService(userRepo, authRepo);
+});
