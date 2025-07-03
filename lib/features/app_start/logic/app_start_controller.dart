@@ -34,7 +34,7 @@ class SplashController extends StateNotifier<SplashStatus> {
     if (isLoggedIn) {
       ref.read(routerProvider).go('/home');
     } else {
-      ref.read(routerProvider).go('/ca-add-name');
+      ref.read(routerProvider).go('/ca-initial');
     }
 
     state = SplashStatus.done;
