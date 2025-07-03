@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/core/storage.dart';
 
@@ -11,9 +13,42 @@ final apiClientProvider = Provider<ApiClient>((ref) {
 class ApiClient {
   final Dio _dio;
   final TokenStorage storage;
+  final CookieJar _cookieJar;
 
   ApiClient({required String baseUrl, required this.storage})
-    : _dio = Dio(BaseOptions(baseUrl: baseUrl)) {
+    : _dio = Dio(BaseOptions(baseUrl: baseUrl)),
+      _cookieJar = CookieJar() {
+    _dio.interceptors.add(CookieManager(_cookieJar));
+    _dio.interceptors.add(
+      QueuedInterceptorsWrapper(
+        onRequest: (options, handler) async {
+          final token = await storage.readAccess();
+          if (token != null) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+
+          debugPrint('--- REQUEST DEBUG ---');
+          debugPrint('URI: ${options.uri}');
+          debugPrint('Headers: ${options.headers}');
+          debugPrint('Method: ${options.method}');
+          debugPrint('Data: ${options.data}');
+          debugPrint('----------------------');
+
+          return handler.next(options);
+        },
+      ),
+    );
+    _dio.interceptors.add(
+      LogInterceptor(
+        request: true,
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: false,
+        responseBody: true,
+        error: true,
+        logPrint: (obj) => print('[DIO] $obj'), // Optional: custom logger
+      ),
+    );
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -51,7 +86,7 @@ class ApiClient {
   }
 
   bool _isRefreshEndpoint(RequestOptions options) {
-    return options.path.contains('/auth/refresh');
+    return options.path.contains('api/Auth/refresh');
   }
 
   Future<void> _refreshTokens() async {
@@ -59,7 +94,7 @@ class ApiClient {
     if (refreshToken == null) throw Exception('No refresh token');
 
     final resp = await _dio.post(
-      '/auth/refresh',
+      '/api/Auth/refresh',
       data: {'refresh_token': refreshToken},
     );
 
@@ -69,26 +104,56 @@ class ApiClient {
     await storage.saveTokens(access: access, refresh: refresh);
   }
 
-  // Convenience GET/POST/etc methods
-  Future<Response<T>> get<T>(String path, {Map<String, dynamic>? query}) {
-    return _dio.get(path, queryParameters: query);
+  Future<Response<T>?> get<T>(
+    String path, {
+    Map<String, dynamic>? query,
+  }) async {
+    try {
+      return await _dio.get<T>(path, queryParameters: query);
+    } catch (e, stacktrace) {
+      print('GET $path failed: $e');
+      print(stacktrace);
+      rethrow; // Optionally rethrow if you want upstream handling
+    }
   }
 
-  Future<Response<T>> post<T>(String path, {dynamic data}) {
-    return _dio.post(path, data: data);
+  Future<Response<T>?> post<T>(String path, {dynamic data}) async {
+    try {
+      return await _dio.post<T>(path, data: data);
+    } catch (e, stacktrace) {
+      print('POST $path failed: $e');
+      print(stacktrace);
+      rethrow;
+    }
   }
 
-  Future<Response<T>> put<T>(String path, {dynamic data}) {
-    return _dio.put(path, data: data);
+  Future<Response<T>?> put<T>(String path, {dynamic data}) async {
+    try {
+      return await _dio.put<T>(path, data: data);
+    } catch (e, stacktrace) {
+      print('PUT $path failed: $e');
+      print(stacktrace);
+      rethrow;
+    }
   }
 
-  Future<Response<T>> patch<T>(String path, {dynamic data}) {
-    return _dio.patch(path, data: data);
+  Future<Response<T>?> patch<T>(String path, {dynamic data}) async {
+    try {
+      return await _dio.patch<T>(path, data: data);
+    } catch (e, stacktrace) {
+      print('PATCH $path failed: $e');
+      print(stacktrace);
+      rethrow;
+    }
   }
 
-  Future<Response<T>> delete<T>(String path, {dynamic data}) {
-    return _dio.delete(path, data: data);
+  Future<Response<T>?> delete<T>(String path, {dynamic data}) async {
+    try {
+      return await _dio.delete<T>(path, data: data);
+    } catch (e, stacktrace) {
+      print('DELETE $path failed: $e');
+      print(stacktrace);
+      rethrow;
+    }
   }
-
-  // … put/patch/delete as needed
 }
