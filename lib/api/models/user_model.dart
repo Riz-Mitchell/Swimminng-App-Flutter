@@ -4,6 +4,8 @@ enum UserType {
   admin, // Add more as needed
 }
 
+enum Sex { male, female }
+
 class GetUsersQuery {
   final String nameContains;
   final int pageNumber;
@@ -28,9 +30,9 @@ class GetUsersQuery {
   }
 
   Map<String, dynamic> toJson() => {
-    'NameContains': nameContains,
-    'PageNumber': pageNumber,
-    'PageSize': pageSize,
+    'nameContains': nameContains,
+    'pageNumber': pageNumber,
+    'pageSize': pageSize,
   };
 }
 
@@ -51,11 +53,13 @@ class GetUserResDTO {
 
   factory GetUserResDTO.fromJson(Map<String, dynamic> json) {
     return GetUserResDTO(
-      id: json['Id'] as String,
-      name: json['Name'] as String,
-      age: json['Age'] as int,
-      height: json['Height']?.toDouble(),
-      userType: UserType.values.byName(json['UserType']),
+      id: json['id'] as String,
+      name: json['name'] as String,
+      age: json['age'] as int,
+      height: json['height']?.toDouble(),
+      userType: UserType.values.byName(
+        (json['userType'] as String).toLowerCase(),
+      ),
     );
   }
 }
@@ -65,6 +69,7 @@ class CreateUserReqDTO {
   final String phoneNumber;
   final DateTime dateOfBirth;
   final double? height;
+  final Sex? sex;
   final String? email;
   final UserType userType;
 
@@ -74,6 +79,7 @@ class CreateUserReqDTO {
     required this.dateOfBirth,
     this.height,
     this.email,
+    this.sex,
     required this.userType,
   });
 
@@ -83,6 +89,7 @@ class CreateUserReqDTO {
     DateTime? dateOfBirth,
     double? height,
     String? email,
+    Sex? sex,
     UserType? userType,
   }) {
     return CreateUserReqDTO(
@@ -91,17 +98,18 @@ class CreateUserReqDTO {
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       height: height ?? this.height,
       email: email ?? this.email,
+      sex: sex ?? this.sex,
       userType: userType ?? this.userType,
     );
   }
 
   Map<String, dynamic> toJson() => {
-    'Name': name,
-    'PhoneNumber': phoneNumber,
-    'DateOfBirth': dateOfBirth.toIso8601String(),
-    'Height': height,
-    'Email': email,
-    'UserType': userType.name,
+    'name': name,
+    'phoneNumber': phoneNumber,
+    'dateOfBirth': dateOfBirth.toIso8601String(),
+    'height': height,
+    'email': email,
+    'userType': userType.name[0].toUpperCase() + userType.name.substring(1),
   };
 }
 
@@ -133,9 +141,9 @@ class UpdateUserReqDTO {
   }
 
   Map<String, dynamic> toJson() => {
-    if (name != null) 'Name': name,
-    if (dateOfBirth != null) 'DateOfBirth': dateOfBirth!.toIso8601String(),
-    if (height != null) 'Height': height,
-    if (email != null) 'Email': email,
+    if (name != null) 'name': name,
+    if (dateOfBirth != null) 'dateOfBirth': dateOfBirth!.toIso8601String(),
+    if (height != null) 'height': height,
+    if (email != null) 'email': email,
   };
 }
