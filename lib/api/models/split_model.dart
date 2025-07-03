@@ -1,4 +1,10 @@
-enum Stroke { freestyle, backstroke, breaststroke, butterfly }
+enum Stroke {
+  freestyle,
+  backstroke,
+  breaststroke,
+  butterfly,
+  // Add others based on your C# Stroke enum
+}
 
 class GetSplitResDTO {
   final String id;
@@ -31,35 +37,35 @@ class GetSplitResDTO {
 
   factory GetSplitResDTO.fromJson(Map<String, dynamic> json) {
     return GetSplitResDTO(
-      id: json['Id'] as String,
-      stroke: Stroke.values.byName(json['Stroke']),
-      intervalTime: (json['IntervalTime'] as num).toDouble(),
-      intervalDistance: json['IntervalDistance'] as int,
-      intervalStrokeRate: json['IntervalStrokeRate'],
-      intervalStrokeCount: json['IntervalStrokeCount'],
-      perOffPBIntervalTime: (json['PerOffPBIntervalTime'] as num?)?.toDouble(),
-      perOffPBStrokeRate: (json['PerOffPBStrokeRate'] as num?)?.toDouble(),
-      perOffGoalTime: (json['PerOffGoalTime'] as num?)?.toDouble(),
-      perOffGoalStrokeRate: (json['PerOffGoalStrokeRate'] as num?)?.toDouble(),
-      dive: json['Dive'] as bool,
-      recordedAt: DateTime.parse(json['RecordedAt']),
+      id: json['id'] as String,
+      stroke: Stroke.values.byName(json['stroke']),
+      intervalTime: (json['intervalTime'] as num).toDouble(),
+      intervalDistance: json['intervalDistance'] as int,
+      intervalStrokeRate: json['intervalStrokeRate'],
+      intervalStrokeCount: json['intervalStrokeCount'],
+      perOffPBIntervalTime: (json['perOffPBIntervalTime'] as num?)?.toDouble(),
+      perOffPBStrokeRate: (json['perOffPBStrokeRate'] as num?)?.toDouble(),
+      perOffGoalTime: (json['perOffGoalTime'] as num?)?.toDouble(),
+      perOffGoalStrokeRate: (json['perOffGoalStrokeRate'] as num?)?.toDouble(),
+      dive: json['dive'] as bool,
+      recordedAt: DateTime.parse(json['recordedAt']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'Id': id,
-      'Stroke': stroke.name,
-      'IntervalTime': intervalTime,
-      'IntervalDistance': intervalDistance,
-      'IntervalStrokeRate': intervalStrokeRate,
-      'IntervalStrokeCount': intervalStrokeCount,
-      'PerOffPBIntervalTime': perOffPBIntervalTime,
-      'PerOffPBStrokeRate': perOffPBStrokeRate,
-      'PerOffGoalTime': perOffGoalTime,
-      'PerOffGoalStrokeRate': perOffGoalStrokeRate,
-      'Dive': dive,
-      'RecordedAt': recordedAt.toIso8601String(),
+      'id': id,
+      'stroke': stroke.name,
+      'intervalTime': intervalTime,
+      'intervalDistance': intervalDistance,
+      'intervalStrokeRate': intervalStrokeRate,
+      'intervalStrokeCount': intervalStrokeCount,
+      'perOffPBIntervalTime': perOffPBIntervalTime,
+      'perOffPBStrokeRate': perOffPBStrokeRate,
+      'perOffGoalTime': perOffGoalTime,
+      'perOffGoalStrokeRate': perOffGoalStrokeRate,
+      'dive': dive,
+      'recordedAt': recordedAt.toIso8601String(),
     };
   }
 }
@@ -83,23 +89,23 @@ class CreateSplitReqDTO {
 
   Map<String, dynamic> toJson() {
     return {
-      'Stroke': stroke.name,
-      'IntervalTime': intervalTime,
-      'IntervalDistance': intervalDistance,
-      'IntervalStrokeRate': intervalStrokeRate,
-      'IntervalStrokeCount': intervalStrokeCount,
-      'Dive': dive,
+      'stroke': stroke.name,
+      'intervalTime': intervalTime,
+      'intervalDistance': intervalDistance,
+      'intervalStrokeRate': intervalStrokeRate,
+      'intervalStrokeCount': intervalStrokeCount,
+      'dive': dive,
     };
   }
 
   factory CreateSplitReqDTO.fromJson(Map<String, dynamic> json) {
     return CreateSplitReqDTO(
-      stroke: Stroke.values.byName(json['Stroke']),
-      intervalTime: (json['IntervalTime'] as num).toDouble(),
-      intervalDistance: json['IntervalDistance'] as int,
-      intervalStrokeRate: json['IntervalStrokeRate'],
-      intervalStrokeCount: json['IntervalStrokeCount'],
-      dive: json['Dive'] as bool,
+      stroke: Stroke.values.byName(json['stroke']),
+      intervalTime: (json['intervalTime'] as num).toDouble(),
+      intervalDistance: json['intervalDistance'] as int,
+      intervalStrokeRate: json['intervalStrokeRate'],
+      intervalStrokeCount: json['intervalStrokeCount'],
+      dive: json['dive'] as bool,
     );
   }
 }
