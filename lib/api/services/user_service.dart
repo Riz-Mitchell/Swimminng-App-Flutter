@@ -16,7 +16,9 @@ class UserService {
 
     OTPRequest otpRequest = OTPRequest(phoneNum: schema.phoneNumber);
 
-    await _authRepository.generateOTP(otpRequest);
+    final res = await _authRepository.generateOTP(otpRequest);
+
+    print('res.data: ${res.data}');
 
     return newUser;
   }
