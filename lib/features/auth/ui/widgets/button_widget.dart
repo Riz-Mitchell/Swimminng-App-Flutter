@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/core/router.dart';
 import 'package:swimming_app_frontend/features/auth/logic/create_acc_controller.dart';
 import 'package:swimming_app_frontend/providers/create_user_provider.dart';
-import 'package:swimming_app_frontend/providers/user_provider.dart';
+import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
 class ButtonWidget extends ConsumerWidget {
   final String text;
@@ -12,7 +12,7 @@ class ButtonWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final createUserNotifierState = ref.read(createUserProvider.notifier).state;
+    final createUser = ref.watch(createUserProvider);
 
     return SizedBox(
       width: double.infinity,
@@ -24,7 +24,11 @@ class ButtonWidget extends ConsumerWidget {
         ),
         onPressed: () {
           ref.read(createAccControllerProvider.notifier).next();
-          print('name: ${createUserNotifierState.name}');
+          print('name: ${createUser.name}');
+          print('date of birth: ${createUser.dateOfBirth}');
+          print('height: ${createUser.height}');
+          print('sex: ${createUser.sex}');
+          print('phoneNumber: ${createUser.phoneNumber}');
         },
         child: Text(
           'Next',
