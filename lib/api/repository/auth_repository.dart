@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:swimming_app_frontend/api/api.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/api/models/auth_model.dart';
@@ -7,23 +8,31 @@ class AuthRepository {
 
   AuthRepository(this._apiClient);
 
-  Future<void> generateOTP(OTPRequest schema) async {
-    try {
-      // Call API to generate OTP
-      await _apiClient.post('/api/auth/generate-otp', data: schema.toJson());
-    } catch (e) {
-      // Handle error, e.g., show error message to user
-      throw Exception('Failed to generate OTP: $e');
+  Future<Response> generateOTP(OTPRequest schema) async {
+    // Call API to generate OTP
+    final res = await _apiClient.post(
+      '/api/Auth/generate-otp',
+      data: schema.toJson(),
+    );
+    if (res == null) {
+      throw Exception('Failed to generate OTP: No response from server.');
     }
+
+    print('res.data: ${res.data}');
+    return res;
   }
 
-  Future<void> verifyOTP(LoginRequest schema) async {
+  Future<Response> verifyOTP(LoginRequest schema) async {
     try {
       // Call API to verify OTP and get tokens
       final response = await _apiClient.post(
-        '/api/auth/login',
+        '/api/Auth/login',
         data: schema.toJson(),
       );
+
+      if (response == null) {
+        throw Exception('Failed to verify OTP: No response from server.');
+      }
 
       final data = response.data as Map<String, dynamic>;
       final access = data['access_token'] as String;
@@ -31,6 +40,9 @@ class AuthRepository {
 
       // Save tokens using storage
       await _apiClient.storage.saveTokens(access: access, refresh: refresh);
+      print('Access token: $access');
+      print('Refresh token: $refresh');
+      return response;
     } catch (e) {
       // Handle error, e.g., show error message to user
       throw Exception('Failed to verify OTP: $e');

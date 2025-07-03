@@ -10,7 +10,11 @@ class SwimRepository {
 
   Future<GetSwimResDTO> createSwimReq(CreateSwimReqDTO schema) async {
     try {
-      final res = await _apiClient.post('/api/swim', data: schema.toJson());
+      final res = await _apiClient.post('/api/Swim', data: schema.toJson());
+
+      if (res == null) {
+        throw Exception('Failed to create swim: No response from server.');
+      }
       return GetSwimResDTO.fromJson(res.data);
     } catch (e) {
       throw Exception('Failed to create swim: $e');
@@ -19,7 +23,10 @@ class SwimRepository {
 
   Future<GetSwimResDTO> getSwimReq(String swimId) async {
     try {
-      final res = await _apiClient.get('/api/swim/$swimId');
+      final res = await _apiClient.get('/api/Swim/$swimId');
+      if (res == null) {
+        throw Exception('Failed to create swim: No response from server.');
+      }
       return GetSwimResDTO.fromJson(res.data);
     } catch (e) {
       throw Exception('Failed to get swim: $e');
@@ -28,7 +35,10 @@ class SwimRepository {
 
   Future<List<GetSwimResDTO>> getAllSwimsReq(GetSwimsQuery schema) async {
     try {
-      final res = await _apiClient.get('/api/swim', query: schema.toJson());
+      final res = await _apiClient.get('/api/Swim', query: schema.toJson());
+      if (res == null) {
+        throw Exception('Failed to create swim: No response from server.');
+      }
       return (res.data as List)
           .map((swim) => GetSwimResDTO.fromJson(swim))
           .toList();
@@ -43,9 +53,12 @@ class SwimRepository {
   ) async {
     try {
       final res = await _apiClient.put(
-        '/api/swim/$swimId',
+        '/api/Swim/$swimId',
         data: schema.toJson(),
       );
+      if (res == null) {
+        throw Exception('Failed to create swim: No response from server.');
+      }
       return GetSwimResDTO.fromJson(res.data);
     } catch (e) {
       throw Exception('Failed to update swim: $e');
@@ -54,7 +67,7 @@ class SwimRepository {
 
   Future<void> deleteSwimReq(String swimId) async {
     try {
-      await _apiClient.delete('/api/swim/$swimId');
+      await _apiClient.delete('/api/Swim/$swimId');
     } catch (e) {
       throw Exception('Failed to delete swim: $e');
     }

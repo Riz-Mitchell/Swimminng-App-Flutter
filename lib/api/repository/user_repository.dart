@@ -14,8 +14,10 @@ class UserRepository {
 
     try {
       // Call API to create user
-      final res = await _apiClient.post('/api/user', data: schema.toJson());
-
+      final res = await _apiClient.post('/api/User', data: schema.toJson());
+      if (res == null) {
+        throw Exception('Failed to create swim: No response from server.');
+      }
       return GetUserResDTO.fromJson(res.data);
     } catch (e) {
       // Handle error, e.g., show error message to user
@@ -26,8 +28,10 @@ class UserRepository {
   Future<GetUserResDTO> getUserReq(String userId) async {
     try {
       // Call API to get user by ID
-      final res = await _apiClient.get('/api/user/$userId');
-
+      final res = await _apiClient.get('/api/User/$userId');
+      if (res == null) {
+        throw Exception('Failed to create swim: No response from server.');
+      }
       return GetUserResDTO.fromJson(res.data);
     } catch (e) {
       // Handle error, e.g., show error message to user
@@ -38,8 +42,11 @@ class UserRepository {
   Future<List<GetUserResDTO>> getAllUsersReq(GetUsersQuery schema) async {
     try {
       // Call API to get all users
-      final res = await _apiClient.get('/api/user', query: schema.toJson());
+      final res = await _apiClient.get('/api/User', query: schema.toJson());
 
+      if (res == null) {
+        throw Exception('Failed to create swim: No response from server.');
+      }
       // Map response data to List<GetUserResDTO>
       return (res.data as List)
           .map((user) => GetUserResDTO.fromJson(user))
@@ -53,7 +60,7 @@ class UserRepository {
   Future<void> deleteUserReq(String userId) async {
     try {
       // Call API to delete user by ID
-      await _apiClient.delete('/api/user/$userId');
+      await _apiClient.delete('/api/User/$userId');
     } catch (e) {
       // Handle error, e.g., show error message to user
       throw Exception('Failed to delete user: $e');
@@ -67,34 +74,17 @@ class UserRepository {
     try {
       // Call API to update user by ID
       final res = await _apiClient.put(
-        '/api/user/$userId',
+        '/api/User/$userId',
         data: schema.toJson(),
       );
+      if (res == null) {
+        throw Exception('Failed to create swim: No response from server.');
+      }
 
       return GetUserResDTO.fromJson(res.data);
     } catch (e) {
       // Handle error, e.g., show error message to user
       throw Exception('Failed to update user: $e');
-    }
-  }
-
-  Future<void> generateOTP(OTPRequest schema) async {
-    try {
-      // Call API to generate OTP
-      await _apiClient.post('/api/auth/generate-otp', data: schema.toJson());
-    } catch (e) {
-      // Handle error, e.g., show error message to user
-      throw Exception('Failed to generate OTP: $e');
-    }
-  }
-
-  Future<void> verifyOTP(LoginRequest schema) async {
-    try {
-      // Call API to verify OTP
-      await _apiClient.post('/api/auth/login', data: schema.toJson());
-    } catch (e) {
-      // Handle error, e.g., show error message to user
-      throw Exception('Failed to verify OTP: $e');
     }
   }
 }
