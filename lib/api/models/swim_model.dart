@@ -40,14 +40,14 @@ class GetSwimsQuery {
   });
 
   Map<String, dynamic> toJson() => {
-    if (userId != null) 'UserId': userId,
-    if (event != null) 'Event': event!.name,
-    'OnlyPersonalBest': onlyPersonalBest,
-    'OnlyGoalSwim': onlyGoalSwim,
-    'OnlyDive': onlyDive,
-    'TimePeriod': timePeriod.name,
-    'Page': page,
-    'PageSize': pageSize,
+    if (userId != null) 'userId': userId,
+    if (event != null) 'event': event!.name,
+    'onlyPersonalBest': onlyPersonalBest,
+    'onlyGoalSwim': onlyGoalSwim,
+    'onlyDive': onlyDive,
+    'timePeriod': timePeriod.name,
+    'page': page,
+    'pageSize': pageSize,
   };
 }
 
