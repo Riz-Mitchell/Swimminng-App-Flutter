@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/core/router.dart';
 import 'package:swimming_app_frontend/features/auth/logic/auth_provider.dart';
 import 'package:swimming_app_frontend/providers/create_user_provider.dart';
-import 'package:swimming_app_frontend/providers/user_provider.dart';
+import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
 enum CreateAccStatus {
   initial,
@@ -19,7 +19,7 @@ class CreateAccController extends StateNotifier<CreateAccStatus> {
   final Ref ref;
   CreateAccController(this.ref) : super(CreateAccStatus.initial);
 
-  void next() {
+  Future<void> next() async {
     final current = ref.read(createUserProvider);
 
     switch (state) {
@@ -47,8 +47,20 @@ class CreateAccController extends StateNotifier<CreateAccStatus> {
         ref.read(routerProvider).go('/ca-add-phone-number');
         break;
       case CreateAccStatus.addPhoneNumber:
-        state = CreateAccStatus.verifyPhoneNumber;
-        ref.read(routerProvider).go('/ca-verify-phone-number');
+        if (current.phoneNumber.isEmpty) print('empty');
+        try {
+          final userService = ref.read(userServiceProvider);
+          print("Creating user and sending OTP for \n${current.toJson()}");
+          await userService.createUserAndSendVerifyCode(current);
+          print("OTP sent");
+
+          state = CreateAccStatus.verifyPhoneNumber;
+          ref.read(routerProvider).go('/ca-verify-phone-number');
+        } catch (e) {
+          // Show a snackbar or log error
+          print('Error creating user or sending OTP: $e');
+          // optionally: show retry or remain on same page
+        }
         break;
       case CreateAccStatus.verifyPhoneNumber:
         state = CreateAccStatus.done;
@@ -97,7 +109,7 @@ class CreateAccController extends StateNotifier<CreateAccStatus> {
   Future<void> submit() async {
     final user = ref.read(createUserProvider);
 
-    if (!user.isComplete) return;
+    // if (!user.isComplete) return;
 
     try {
       // await ref.read(authProvider.notifier).registerUser(user.toJson());
