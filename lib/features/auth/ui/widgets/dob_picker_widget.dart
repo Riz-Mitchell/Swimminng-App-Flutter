@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/providers/create_user_provider.dart';
 
 class DOBPickerWidget extends ConsumerStatefulWidget {
   const DOBPickerWidget({super.key});
@@ -10,9 +11,12 @@ class DOBPickerWidget extends ConsumerStatefulWidget {
 }
 
 class _DOBPickerState extends ConsumerState<DOBPickerWidget> {
-  DateTime selectedDate = DateTime(2000, 1, 1);
+  DateTime selectedDate = DateTime.now();
 
   void _showDatePicker(BuildContext context) {
+    final createUserReq = ref.watch(createUserProvider);
+    final createUserReqNotifier = ref.read(createUserProvider.notifier);
+
     showCupertinoModalPopup(
       context: context,
       builder: (_) => Container(
@@ -28,6 +32,10 @@ class _DOBPickerState extends ConsumerState<DOBPickerWidget> {
             setState(() {
               selectedDate = newDate;
             });
+
+            createUserReqNotifier.state = createUserReq.copyWith(
+              dateOfBirth: newDate.toUtc(),
+            );
           },
         ),
       ),

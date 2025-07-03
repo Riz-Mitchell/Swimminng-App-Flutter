@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/providers/create_user_provider.dart';
-import 'package:swimming_app_frontend/providers/user_provider.dart';
+import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
 class EnterTextWidget extends ConsumerWidget {
   final String text;
