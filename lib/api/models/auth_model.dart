@@ -3,7 +3,7 @@ class OTPRequest {
 
   OTPRequest({required this.phoneNum});
 
-  Map<String, dynamic> toJson() => {'PhoneNum': phoneNum};
+  Map<String, dynamic> toJson() => {'phoneNum': phoneNum};
 }
 
 class LoginRequest {
@@ -12,5 +12,5 @@ class LoginRequest {
 
   LoginRequest({required this.phoneNum, required this.otp});
 
-  Map<String, dynamic> toJson() => {'PhoneNum': phoneNum, 'OTP': otp};
+  Map<String, dynamic> toJson() => {'phoneNum': phoneNum, 'otp': otp};
 }
