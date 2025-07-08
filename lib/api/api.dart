@@ -39,11 +39,11 @@ class ApiClient {
       QueuedInterceptorsWrapper(
         onError: (DioException error, ErrorInterceptorHandler handler) async {
           final isUnauthorized = error.response?.statusCode == 401;
-          final isRefreshEndpoint = error.requestOptions.path.contains(
+          bool isExceptionEndpoint = error.requestOptions.path.contains(
             '/api/Auth/refresh',
           );
 
-          if (isUnauthorized && !isRefreshEndpoint) {
+          if (isUnauthorized && !isExceptionEndpoint) {
             try {
               print('[AUTH] Attempting token refresh...');
 
@@ -73,7 +73,9 @@ class ApiClient {
               Uri.parse(_dio.options.baseUrl),
             );
             for (var cookie in cookies) {
-              print('[COOKIE] ${cookie.name} = ${cookie.value}');
+              print(
+                '[COOKIE] ${cookie.name} = ${cookie.value} was sent in above request',
+              );
             }
           }
 
@@ -82,6 +84,7 @@ class ApiClient {
       ),
     );
   }
+
   Future<void> _initCookieJar() async {
     final appDocDir = await getApplicationDocumentsDirectory();
     final cookiePath = '${appDocDir.path}/.cookies';
@@ -97,6 +100,32 @@ class ApiClient {
     } catch (_) {
       return false;
     }
+  }
+
+  Future<bool> checkLoginStatus() async {
+    if (kIsWeb || _cookieJar == null) return false;
+
+    final uri = Uri.parse(_dio.options.baseUrl);
+    final cookies = await _cookieJar!.loadForRequest(uri);
+
+    final accessToken = findCookie('AccessToken', cookies);
+    final refreshToken = findCookie('RefreshToken', cookies);
+
+    if (accessToken == null || refreshToken == null) return false;
+    if (accessToken.expires != null &&
+        accessToken.expires!.isBefore(DateTime.now())) {
+      print('[AUTH] AccessToken expired — trying refresh...');
+      return await _attemptRefreshTokens(); // fallback to refresh
+    }
+
+    return true; // Token present and not expired
+  }
+
+  Cookie? findCookie(String name, List<Cookie> cookies) {
+    for (var cookie in cookies) {
+      if (cookie.name == name) return cookie;
+    }
+    return null;
   }
 
   Future<Response<T>?> get<T>(
