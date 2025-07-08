@@ -8,7 +8,9 @@ import 'package:swimming_app_frontend/providers/create_user_provider.dart';
 import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
 class VerifyWidget extends ConsumerWidget {
-  const VerifyWidget({super.key});
+  final Function(String)? onCompleted;
+
+  const VerifyWidget({super.key, this.onCompleted});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,18 +20,22 @@ class VerifyWidget extends ConsumerWidget {
     return Pinput(
       length: 6,
       onCompleted: (code) async {
-        print('Verification code entered: $code');
-        final success = await userService.verifyUserAndLogin(
-          LoginRequest(phoneNum: createUserReq.phoneNumber, otp: code),
-        );
-
-        if (success) {
-          ref.read(createAccControllerProvider.notifier).next();
-          print('Verification successful, proceeding to next step.');
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Invalid code. Please try again.')),
+        if (onCompleted == null) {
+          print('Verification code entered: $code');
+          final success = await userService.verifyUserAndLogin(
+            LoginReqDTO(phoneNum: createUserReq.phoneNumber, otp: code),
           );
+
+          if (success) {
+            ref.read(createAccControllerProvider.notifier).next();
+            print('Verification successful, proceeding to next step.');
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Invalid code. Please try again.')),
+            );
+          }
+        } else {
+          onCompleted!(code);
         }
       },
     );
