@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/core/router.dart';
 import 'package:swimming_app_frontend/features/auth/logic/auth_provider.dart';
+import 'package:swimming_app_frontend/providers/login_user_provider.dart';
+import 'package:swimming_app_frontend/providers/startup_provider.dart';
 
 enum SplashStatus {
   initial,
@@ -17,7 +19,7 @@ class SplashController extends StateNotifier<SplashStatus> {
 
   Future<void> start() async {
     state = SplashStatus.authCheck;
-    final isLoggedIn = await ref.read(authProvider.notifier).checkIfLoggedIn();
+    final isLoggedIn = ref.read(loginStatusProvider);
 
     state = SplashStatus.showFirstText;
     await Future.delayed(const Duration(seconds: 3)); // Wait for anim to finish
@@ -30,12 +32,17 @@ class SplashController extends StateNotifier<SplashStatus> {
       const Duration(seconds: 3),
     ); // Wait for circle to expand
 
-    // Step 4: Navigate based on auth
-    if (isLoggedIn) {
-      ref.read(routerProvider).go('/home');
-    } else {
-      ref.read(routerProvider).go('/ca-initial');
-    }
+    isLoggedIn.when(
+      data: (isLoggedIn) {
+        ref.read(routerProvider).go(isLoggedIn ? '/home' : '/login-or-signup');
+      },
+      loading: () {
+        // optional loading handler
+      },
+      error: (_, __) {
+        ref.read(routerProvider).go('/login-or-signup');
+      },
+    );
 
     state = SplashStatus.done;
   }
