@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:swimming_app_frontend/features/app_start/ui/screens/login_done_screen.dart';
+import 'package:swimming_app_frontend/features/app_start/ui/screens/login_or_signup_screen.dart';
+import 'package:swimming_app_frontend/features/app_start/ui/screens/login_phone_num_screen.dart';
+import 'package:swimming_app_frontend/features/app_start/ui/screens/login_verify_screen.dart';
 import 'package:swimming_app_frontend/features/app_start/ui/screens/splash_screen.dart';
 import 'package:swimming_app_frontend/features/auth/ui/screens/create_acc_add_height.dart';
 import 'package:swimming_app_frontend/features/auth/ui/screens/create_acc_add_name.dart';
@@ -9,6 +13,7 @@ import 'package:swimming_app_frontend/features/auth/ui/screens/create_acc_add_ph
 import 'package:swimming_app_frontend/features/auth/ui/screens/create_acc_add_sex.dart';
 import 'package:swimming_app_frontend/features/auth/ui/screens/create_acc_verify.dart';
 import 'package:swimming_app_frontend/features/auth/ui/screens/initial_screen.dart';
+import 'package:swimming_app_frontend/features/home/screens/home.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -62,12 +67,32 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) =>
             const CreateAccVerify(), // Replace with VerifyPhoneNumberScreen
       ),
-      //   GoRoute(
-      //     path: '/ca-done',
-      //     name: 'doneCA',
-      //     builder: (context, state) =>
-      //         const CreateAccDone(), // Replace with DoneScreen
-      //   ),
+      GoRoute(
+        path: '/login-or-signup',
+        name: 'loginOrSignup',
+        builder: (context, state) => const LoginOrSignupScreen(),
+      ),
+      GoRoute(
+        path: '/login-phonenumber',
+        name: 'login',
+        builder: (context, state) =>
+            const LoginPhoneNumScreen(), // Replace with DoneScreen
+      ),
+      GoRoute(
+        path: '/login-verify',
+        name: 'loginVerify',
+        builder: (context, state) => const LoginVerifyScreen(),
+      ),
+      GoRoute(
+        path: '/login-done',
+        name: 'loginDone',
+        builder: (context, state) => const LoginDoneScreen(),
+      ),
+      GoRoute(
+        path: '/home',
+        name: 'home',
+        builder: (context, state) => const Home(),
+      ),
     ],
   );
 });
