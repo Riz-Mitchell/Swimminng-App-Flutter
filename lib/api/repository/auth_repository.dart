@@ -8,44 +8,45 @@ class AuthRepository {
 
   AuthRepository(this._apiClient);
 
-  Future<Response> generateOTP(OTPRequest schema) async {
+  Future<bool> generateOTP(OTPReqDTO schema) async {
     // Call API to generate OTP
-    final res = await _apiClient.post(
-      '/api/Auth/generate-otp',
-      data: schema.toJson(),
-    );
-    if (res == null) {
-      throw Exception('Failed to generate OTP: No response from server.');
-    }
+    try {
+      final res = await _apiClient.post(
+        '/api/Auth/generate-otp',
+        data: schema.toJson(),
+      );
 
-    print('res.data: ${res.data}');
-    return res;
+      print('res.data: ${res!.data}');
+
+      return true;
+    } catch (er) {
+      print(er);
+      return false;
+    }
   }
 
-  Future<Response> verifyOTP(LoginRequest schema) async {
+  Future<bool> verifyOTP(LoginReqDTO schema) async {
     try {
       // Call API to verify OTP and get tokens
-      final response = await _apiClient.post(
+      final res = await _apiClient.post(
         '/api/Auth/login',
         data: schema.toJson(),
       );
 
-      if (response == null) {
-        throw Exception('Failed to verify OTP: No response from server.');
-      }
+      print('res.data: ${res!.data}');
 
-      final data = response.data as Map<String, dynamic>;
-      final access = data['access_token'] as String;
-      final refresh = data['refresh_token'] as String;
+      return true;
+    } catch (er) {
+      return false;
+    }
+  }
 
-      // Save tokens using storage
-      await _apiClient.storage.saveTokens(access: access, refresh: refresh);
-      print('Access token: $access');
-      print('Refresh token: $refresh');
-      return response;
+  Future<bool> checkLoginStatus() async {
+    try {
+      final loggedIn = await _apiClient.checkLoginStatus();
+      return loggedIn;
     } catch (e) {
-      // Handle error, e.g., show error message to user
-      throw Exception('Failed to verify OTP: $e');
+      return false;
     }
   }
 }
