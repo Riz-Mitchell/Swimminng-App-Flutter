@@ -14,16 +14,25 @@ class UserService {
   ) async {
     final newUser = await _userRepository.createUserReq(schema);
 
-    OTPRequest otpRequest = OTPRequest(phoneNum: schema.phoneNumber);
+    OTPReqDTO otpRequest = OTPReqDTO(phoneNum: schema.phoneNumber);
 
-    final res = await _authRepository.generateOTP(otpRequest);
-
-    print('res.data: ${res.data}');
+    bool success = await _authRepository.generateOTP(otpRequest);
 
     return newUser;
   }
 
-  Future<bool> verifyUserAndLogin(LoginRequest schema) async {
+  Future<bool> requestOtpFromServer(OTPReqDTO otpSchema) async {
+    try {
+      await _authRepository.generateOTP(otpSchema);
+
+      return true;
+    } catch (e) {
+      // Handle otpRequest failure
+      return false;
+    }
+  }
+
+  Future<bool> verifyUserAndLogin(LoginReqDTO schema) async {
     try {
       await _authRepository.verifyOTP(schema);
       return true; // Login successful
@@ -31,5 +40,9 @@ class UserService {
       // Handle login failure, e.g., show error message to user
       return false;
     }
+  }
+
+  Future<bool> checkLoginStatus() async {
+    return await _authRepository.checkLoginStatus();
   }
 }
