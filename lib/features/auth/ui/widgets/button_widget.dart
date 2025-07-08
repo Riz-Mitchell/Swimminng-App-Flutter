@@ -7,8 +7,9 @@ import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
 class ButtonWidget extends ConsumerWidget {
   final String text;
+  final VoidCallback? onPressed;
 
-  const ButtonWidget({super.key, required this.text});
+  const ButtonWidget({super.key, required this.text, this.onPressed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,15 +24,19 @@ class ButtonWidget extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 16),
         ),
         onPressed: () {
-          ref.read(createAccControllerProvider.notifier).next();
-          print('name: ${createUser.name}');
-          print('date of birth: ${createUser.dateOfBirth}');
-          print('height: ${createUser.height}');
-          print('sex: ${createUser.sex}');
-          print('phoneNumber: ${createUser.phoneNumber}');
+          if (onPressed == null) {
+            ref.read(createAccControllerProvider.notifier).next();
+            print('name: ${createUser.name}');
+            print('date of birth: ${createUser.dateOfBirth}');
+            print('height: ${createUser.height}');
+            print('sex: ${createUser.sex}');
+            print('phoneNumber: ${createUser.phoneNumber}');
+          } else {
+            onPressed?.call();
+          }
         },
         child: Text(
-          'Next',
+          text,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
             color: Theme.of(context).colorScheme.onPrimary,
           ),
