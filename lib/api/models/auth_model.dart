@@ -1,16 +1,27 @@
-class OTPRequest {
+class OTPReqDTO {
   final String phoneNum;
 
-  OTPRequest({required this.phoneNum});
+  const OTPReqDTO({required this.phoneNum});
+
+  OTPReqDTO copyWith({String? phoneNum}) {
+    return OTPReqDTO(phoneNum: phoneNum ?? this.phoneNum);
+  }
 
   Map<String, dynamic> toJson() => {'phoneNum': phoneNum};
 }
 
-class LoginRequest {
+class LoginReqDTO {
   final String phoneNum;
   final String otp;
 
-  LoginRequest({required this.phoneNum, required this.otp});
+  const LoginReqDTO({required this.phoneNum, required this.otp});
+
+  LoginReqDTO copyWith({String? phoneNum, String? otp}) {
+    return LoginReqDTO(
+      phoneNum: phoneNum ?? this.phoneNum,
+      otp: otp ?? this.otp,
+    );
+  }
 
   Map<String, dynamic> toJson() => {'phoneNum': phoneNum, 'otp': otp};
 }
