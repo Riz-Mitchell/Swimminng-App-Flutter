@@ -4,7 +4,9 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:swimming_app_frontend/providers/create_user_provider.dart';
 
 class PhoneNumberInputWidget extends ConsumerWidget {
-  const PhoneNumberInputWidget({super.key});
+  final void Function(String)? onChanged;
+
+  const PhoneNumberInputWidget({super.key, this.onChanged});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,9 +38,13 @@ class PhoneNumberInputWidget extends ConsumerWidget {
       ),
       initialValue: createUserReq.phoneNumber,
       onChanged: (phone) {
-        createUserReqNotifier.state = createUserReq.copyWith(
-          phoneNumber: phone.completeNumber,
-        );
+        if (onChanged == null) {
+          createUserReqNotifier.state = createUserReq.copyWith(
+            phoneNumber: phone.completeNumber,
+          );
+        } else {
+          onChanged!(phone.completeNumber);
+        }
       },
       onCountryChanged: (country) {
         debugPrint('Country changed to: ${country.name}');
