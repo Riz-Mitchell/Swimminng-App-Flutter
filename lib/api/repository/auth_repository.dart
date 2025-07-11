@@ -44,6 +44,7 @@ class AuthRepository {
   Future<bool> checkLoginStatus() async {
     try {
       final loggedIn = await _apiClient.checkLoginStatus();
+      print('loggedIn in repo: ${loggedIn}');
       return loggedIn;
     } catch (e) {
       return false;
