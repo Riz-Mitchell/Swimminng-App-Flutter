@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/api/models/user_model.dart';
+import 'package:swimming_app_frontend/features/user_creation/providers/selected_sex_status_provider.dart';
+import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
 class PostUserReqNotifier extends Notifier<CreateUserReqDTO> {
   @override
@@ -34,8 +36,22 @@ class PostUserReqNotifier extends Notifier<CreateUserReqDTO> {
     state = state.copyWith(height: height);
   }
 
-  void updateSex(Sex sex) {
-    state = state.copyWith(sex: sex);
+  void updateSex(SelectedSexStatus sex) {
+    if (sex == SelectedSexStatus.male) {
+      state = state.copyWith(sex: Sex.male);
+    } else if (sex == SelectedSexStatus.female) {
+      state = state.copyWith(sex: Sex.female);
+    } else {
+      print('Sex not selected (PostUserReqNotifier.updateSex())');
+    }
+  }
+
+  Future<GetUserResDTO> submitAsync() async {
+    // Verify format here
+
+    final userService = ref.read(userServiceProvider);
+
+    return await userService.createUserAndSendVerifyCode(state);
   }
 }
 
