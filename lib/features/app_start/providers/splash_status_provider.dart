@@ -1,0 +1,52 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/shared/router.dart';
+import 'package:swimming_app_frontend/providers/login_user_provider.dart';
+import 'package:swimming_app_frontend/providers/startup_provider.dart';
+import 'package:swimming_app_frontend/providers/user_service_provider.dart';
+
+enum SplashStatus {
+  initial,
+  authCheck,
+  showFirstText,
+  showSecondText,
+  expandCircle,
+  done,
+}
+
+class SplashStatusNotifier extends Notifier<SplashStatus> {
+  @override
+  SplashStatus build() => SplashStatus.initial;
+
+  Future<void> start() async {
+    state = SplashStatus.authCheck;
+    bool isLoggedIn;
+    try {
+      print('attempting to check if logged in');
+      isLoggedIn = await ref.read(userServiceProvider).checkLoginStatus();
+      print('logged in set to: $isLoggedIn, in start');
+    } catch (e) {
+      print('error: ${e}');
+      isLoggedIn = false;
+    }
+
+    state = SplashStatus.showFirstText;
+    await Future.delayed(const Duration(seconds: 3)); // Wait for anim to finish
+
+    state = SplashStatus.showSecondText;
+    await Future.delayed(const Duration(seconds: 3)); // Wait for anim to finish
+
+    state = SplashStatus.expandCircle;
+    await Future.delayed(
+      const Duration(seconds: 3),
+    ); // Wait for circle to expand
+
+    state = SplashStatus.done;
+
+    ref.read(routerProvider).go(isLoggedIn ? '/home' : '/login-or-signup');
+  }
+}
+
+final splashStatusProvider =
+    NotifierProvider<SplashStatusNotifier, SplashStatus>(
+      () => SplashStatusNotifier(),
+    );
