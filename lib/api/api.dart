@@ -6,10 +6,12 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/core/storage.dart';
+import 'package:swimming_app_frontend/shared/storage/storage.dart';
 
 final apiClientProvider = Provider<ApiClient>((ref) {
-  return ApiClient(baseUrl: 'https://api.inteliswim.com');
+  final client = ApiClient(baseUrl: 'https://api.inteliswim.com');
+  client.init();
+  return client;
 });
 
 class ApiClient {
@@ -27,11 +29,6 @@ class ApiClient {
         logPrint: (obj) => print('[DIO] $obj'),
       ),
     );
-
-    if (!kIsWeb) {
-      _initCookieJar(); // Only on mobile
-    }
-
     /**
      * MIDDLEWARE TO ATTACH THE COOKIES
      */
@@ -49,7 +46,8 @@ class ApiClient {
 
               bool refreshed = false;
               // attempt to get new tokens
-              refreshed = await _attemptRefreshTokens();
+              String userId = globalStorage.userId!;
+              refreshed = await _attemptRefreshTokens(userId);
 
               if (refreshed) {
                 // Retry original request
@@ -85,25 +83,14 @@ class ApiClient {
     );
   }
 
-  Future<void> _initCookieJar() async {
+  Future<void> init() async {
+    if (kIsWeb) return;
+
+    print('initialising cookie jar');
     final appDocDir = await getApplicationDocumentsDirectory();
     final cookiePath = '${appDocDir.path}/.cookies';
 
     _cookieJar = PersistCookieJar(storage: FileStorage(cookiePath));
-    _dio.interceptors.add(CookieManager(_cookieJar!));
-  }
-
-  Future<bool> _attemptRefreshTokens() async {
-    try {
-      final response = await _dio.post('/api/Auth/refresh');
-      return response.statusCode == 200;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  Future<bool> checkLoginStatus() async {
-    if (kIsWeb || _cookieJar == null) return false;
 
     final uri = Uri.parse(_dio.options.baseUrl);
     final cookies = await _cookieJar!.loadForRequest(uri);
@@ -111,13 +98,47 @@ class ApiClient {
     final accessToken = findCookie('AccessToken', cookies);
     final refreshToken = findCookie('RefreshToken', cookies);
 
-    if (accessToken == null || refreshToken == null) return false;
-    if (accessToken.expires != null &&
-        accessToken.expires!.isBefore(DateTime.now())) {
-      print('[AUTH] AccessToken expired — trying refresh...');
-      return await _attemptRefreshTokens(); // fallback to refresh
+    if (accessToken != null) print('access token found');
+    if (refreshToken != null) print('refreshtoken found');
+
+    _dio.interceptors.add(CookieManager(_cookieJar!));
+  }
+
+  Future<bool> _attemptRefreshTokens(String userId) async {
+    try {
+      final response = await _dio.post('/api/Auth/refresh$userId');
+      return response.statusCode == 200;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<bool> checkLoginStatus() async {
+    if (kIsWeb || _cookieJar == null) {
+      print('either web or cookiJar null');
+      if (_cookieJar == null) {
+        print('cookie jar null');
+      }
+      return false;
     }
 
+    final uri = Uri.parse(_dio.options.baseUrl);
+    final cookies = await _cookieJar!.loadForRequest(uri);
+
+    final accessToken = findCookie('AccessToken', cookies);
+    final refreshToken = findCookie('RefreshToken', cookies);
+
+    if (accessToken == null || refreshToken == null) {
+      print('returning false tokens not found');
+      return false;
+    }
+    // if (accessToken.expires != null &&
+    //     accessToken.expires!.isBefore(DateTime.now())) {
+    //   print('[AUTH] AccessToken expired — trying refresh...');
+    //   return await _attemptRefreshTokens(); // fallback to refresh
+    // }
+
+    print('check login status returning true');
     return true; // Token present and not expired
   }
 
