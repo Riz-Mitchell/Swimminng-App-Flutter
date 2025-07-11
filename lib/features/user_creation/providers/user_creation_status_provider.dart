@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/api/models/user_model.dart';
 import 'package:swimming_app_frontend/features/user_creation/providers/login_user_req_provider.dart';
-import 'package:swimming_app_frontend/shared/router.dart';
+import 'package:swimming_app_frontend/shared/providers/router_provider.dart';
 import 'package:swimming_app_frontend/features/user_creation/providers/post_user_req_provider.dart';
 import 'package:swimming_app_frontend/providers/storage_provider.dart';
 import 'package:swimming_app_frontend/providers/user_service_provider.dart';

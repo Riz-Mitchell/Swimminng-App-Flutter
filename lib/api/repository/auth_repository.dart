@@ -50,4 +50,15 @@ class AuthRepository {
       return false;
     }
   }
+
+  Future<bool> deleteCookiesAndAuthData(String userId) async {
+    try {
+      final res = await _apiClient.delete('/api/Auth/logout/$userId');
+
+      print('logged out with status ${res!.statusCode}');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

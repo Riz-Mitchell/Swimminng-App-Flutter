@@ -14,10 +14,14 @@ class LoginUserReqNotifier extends Notifier<LoginReqDTO> {
     state = state.copyWith(otp: otp);
   }
 
-  Future<bool> submitAsync() async {
+  Future<String?> submitAsync() async {
     final userService = ref.read(userServiceProvider);
 
-    return await userService.verifyUserAndLogin(state);
+    if (await userService.verifyUserAndLogin(state)) {
+      return 
+    }
+
+    return ;
   }
 }
 

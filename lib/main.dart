@@ -1,19 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swimming_app_frontend/api/api.dart';
-import 'package:swimming_app_frontend/shared/router.dart';
-import 'package:swimming_app_frontend/features/app_start/presentation/screens/splash_screen.dart';
+import 'package:swimming_app_frontend/shared/providers/router_provider.dart';
+import 'package:swimming_app_frontend/shared/providers/storage_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final storage = Storage(prefs);
 
   final apiClient = ApiClient(baseUrl: 'https://api.inteliswim.com');
   await apiClient.init();
 
   runApp(
     ProviderScope(
-      overrides: [apiClientProvider.overrideWithValue(apiClient)],
+      overrides: [
+        apiClientProvider.overrideWithValue(apiClient),
+        storageProvider.overrideWithValue(storage),
+      ],
       child: MyApp(),
     ),
   );

@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/shared/storage/storage.dart';
+import 'package:swimming_app_frontend/shared/providers/storage_provider.dart';
 
 final apiClientProvider = Provider<ApiClient>((ref) {
   final client = ApiClient(baseUrl: 'https://api.inteliswim.com');
@@ -147,6 +147,13 @@ class ApiClient {
       if (cookie.name == name) return cookie;
     }
     return null;
+  }
+
+  Future<void> clearCookies() async {
+    if (!kIsWeb && _cookieJar != null) {
+      print('[AUTH] Clearing cookies');
+      await _cookieJar!.deleteAll();
+    }
   }
 
   Future<Response<T>?> get<T>(
