@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/user_creation/presentation/widgets/button_widget.dart';
-import 'package:swimming_app_frontend/features/user_creation/presentation/widgets/enter_text_widget.dart';
 import 'package:swimming_app_frontend/features/user_creation/presentation/widgets/phone_number_input_widget.dart';
 
 class CreateAccAddPhoneNumber extends ConsumerWidget {
