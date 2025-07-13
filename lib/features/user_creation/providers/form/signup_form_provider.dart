@@ -1,9 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/api/models/user_model.dart';
 import 'package:swimming_app_frontend/features/user_creation/providers/selected_sex_status_provider.dart';
-import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
-class PostUserReqNotifier extends Notifier<CreateUserReqDTO> {
+class SignupForm extends Notifier<CreateUserReqDTO> {
   @override
   CreateUserReqDTO build() {
     return CreateUserReqDTO(
@@ -45,17 +44,8 @@ class PostUserReqNotifier extends Notifier<CreateUserReqDTO> {
       print('Sex not selected (PostUserReqNotifier.updateSex())');
     }
   }
-
-  Future<GetUserResDTO> submitAsync() async {
-    // Verify format here
-
-    final userService = ref.read(userServiceProvider);
-
-    return await userService.createUserAndSendVerifyCode(state);
-  }
 }
 
-final postUserReqProvider =
-    NotifierProvider<PostUserReqNotifier, CreateUserReqDTO>(
-      () => PostUserReqNotifier(),
-    );
+final signupFormProvider = NotifierProvider<SignupForm, CreateUserReqDTO>(
+  () => SignupForm(),
+);
