@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/user_creation/providers/post_user_req_provider.dart';
+import 'package:swimming_app_frontend/features/user_creation/providers/form/signup_form_provider.dart';
 
 class HeightPickerWidget extends ConsumerStatefulWidget {
   const HeightPickerWidget({super.key});
@@ -17,8 +17,8 @@ class _HeightPickerState extends ConsumerState<HeightPickerWidget> {
       List.generate(151, (index) => 100.0 + index); // 100.0cm to 250.0cm
 
   void _showHeightPicker(BuildContext context) {
-    final postUserReq = ref.watch(postUserReqProvider);
-    final postUserReqNotifier = ref.read(postUserReqProvider.notifier);
+    final signupForm = ref.watch(signupFormProvider);
+    final signupFormNotifier = ref.read(signupFormProvider.notifier);
 
     showCupertinoModalPopup(
       context: context,
@@ -39,7 +39,7 @@ class _HeightPickerState extends ConsumerState<HeightPickerWidget> {
                   });
 
                   // Update height in Riverpod state
-                  postUserReqNotifier.updateHeight(heightOptions[index]);
+                  signupFormNotifier.updateHeight(heightOptions[index]);
                 },
                 children: heightOptions
                     .map(
@@ -59,7 +59,7 @@ class _HeightPickerState extends ConsumerState<HeightPickerWidget> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final height = ref.watch(postUserReqProvider).height;
+    final height = ref.watch(signupFormProvider).height;
 
     return GestureDetector(
       onTap: () => _showHeightPicker(context),

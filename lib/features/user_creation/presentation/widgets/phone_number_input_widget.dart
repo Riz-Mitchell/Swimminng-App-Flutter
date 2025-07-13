@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:swimming_app_frontend/features/user_creation/providers/post_user_req_provider.dart';
+import 'package:swimming_app_frontend/features/user_creation/providers/form/signup_form_provider.dart';
 
 class PhoneNumberInputWidget extends ConsumerWidget {
   final void Function(String)? onChanged;
@@ -10,8 +10,8 @@ class PhoneNumberInputWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final postUserReq = ref.watch(postUserReqProvider);
-    final postUserReqNotifier = ref.read(postUserReqProvider.notifier);
+    final signupForm = ref.watch(signupFormProvider);
+    final signupFormNotifier = ref.read(signupFormProvider.notifier);
 
     return IntlPhoneField(
       initialCountryCode: 'AU', // Change as needed
@@ -36,10 +36,10 @@ class PhoneNumberInputWidget extends ConsumerWidget {
           ),
         ),
       ),
-      initialValue: postUserReq.phoneNumber,
+      initialValue: signupForm.phoneNumber,
       onChanged: (phone) {
         if (onChanged == null) {
-          postUserReqNotifier.updatePhoneNumber(phone.completeNumber);
+          signupFormNotifier.updatePhoneNumber(phone.completeNumber);
         } else {
           onChanged!(phone.completeNumber);
         }

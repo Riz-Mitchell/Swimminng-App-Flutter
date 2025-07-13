@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swimming_app_frontend/api/models/user_model.dart';
-import 'package:swimming_app_frontend/features/user_creation/providers/post_user_req_provider.dart';
+import 'package:swimming_app_frontend/features/user_creation/providers/form/signup_form_provider.dart';
 import 'package:swimming_app_frontend/features/user_creation/providers/selected_sex_status_provider.dart';
 
 class SexPickerWidget extends ConsumerWidget {
@@ -13,8 +13,8 @@ class SexPickerWidget extends ConsumerWidget {
     final selectedSex = ref.watch(selectedSexStatusProvider);
     final selectedSexNotifier = ref.read(selectedSexStatusProvider.notifier);
 
-    final postUserReqNotifier = ref.read(postUserReqProvider.notifier);
-    final postUserReq = ref.watch(postUserReqProvider);
+    final signupFormNotifier = ref.read(signupFormProvider.notifier);
+    final signupForm = ref.watch(signupFormProvider);
 
     Widget buildSexCard(SelectedSexStatus widgetSex, String assetPath) {
       final isSelected = selectedSex == widgetSex;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/user_creation/providers/user_creation_status_provider.dart';
-import 'package:swimming_app_frontend/features/user_creation/providers/post_user_req_provider.dart';
+import 'package:swimming_app_frontend/features/user_creation/providers/navigation/signup_navigation_provider.dart';
+import 'package:swimming_app_frontend/features/user_creation/providers/form/signup_form_provider.dart';
 
 class ButtonWidget extends ConsumerWidget {
   final String text;
@@ -11,9 +11,9 @@ class ButtonWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final postUserReq = ref.watch(postUserReqProvider);
+    final signupForm = ref.watch(signupFormProvider);
     final userCreationStatusNotifier = ref.read(
-      userCreationStatusProvider.notifier,
+      signupNavigationProvider.notifier,
     );
 
     return SizedBox(
@@ -27,11 +27,11 @@ class ButtonWidget extends ConsumerWidget {
         onPressed: () {
           if (onPressed == null) {
             userCreationStatusNotifier.next();
-            print('name: ${postUserReq.name}');
-            print('date of birth: ${postUserReq.dateOfBirth}');
-            print('height: ${postUserReq.height}');
+            print('name: ${signupForm.name}');
+            print('date of birth: ${signupForm.dateOfBirth}');
+            print('height: ${signupForm.height}');
             // print('sex: ${postUserReq.sex}');
-            print('phoneNumber: ${postUserReq.phoneNumber}');
+            print('phoneNumber: ${signupForm.phoneNumber}');
           } else {
             onPressed?.call();
           }
