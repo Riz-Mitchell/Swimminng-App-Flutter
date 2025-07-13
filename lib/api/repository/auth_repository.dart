@@ -25,19 +25,27 @@ class AuthRepository {
     }
   }
 
-  Future<bool> verifyOTP(LoginReqDTO schema) async {
+  Future<String?> verifyOTP(LoginReqDTO schema) async {
     try {
-      // Call API to verify OTP and get tokens
       final res = await _apiClient.post(
         '/api/Auth/login',
         data: schema.toJson(),
       );
 
-      print('res.data: ${res!.data}');
+      // Check if response and data exist
+      if (res?.data == null || res!.data['userId'] == null) {
+        print('[OTP] Missing userId in response');
+        return null;
+      }
 
-      return true;
-    } catch (er) {
-      return false;
+      final String userId = res.data['userId'] as String;
+      print('[OTP] Login successful, userId: $userId');
+
+      return userId;
+    } catch (e, st) {
+      print('[OTP ERROR] $e');
+      print('[STACK] $st');
+      return null;
     }
   }
 

@@ -9,19 +9,13 @@ class UserService {
 
   UserService(this._userRepository, this._authRepository);
 
-  Future<GetUserResDTO> createUserAndSendVerifyCode(
-    CreateUserReqDTO schema,
-  ) async {
+  Future<GetUserResDTO> signupUser(CreateUserReqDTO schema) async {
     final newUser = await _userRepository.createUserReq(schema);
-
-    OTPReqDTO otpRequest = OTPReqDTO(phoneNum: schema.phoneNumber);
-
-    bool success = await _authRepository.generateOTP(otpRequest);
 
     return newUser;
   }
 
-  Future<bool> requestOtpFromServer(OTPReqDTO otpSchema) async {
+  Future<bool> requestOtp(OTPReqDTO otpSchema) async {
     try {
       await _authRepository.generateOTP(otpSchema);
 
@@ -32,14 +26,8 @@ class UserService {
     }
   }
 
-  Future<bool> verifyUserAndLogin(LoginReqDTO schema) async {
-    try {
-      await _authRepository.verifyOTP(schema);
-      return true; // Login successful
-    } catch (e) {
-      // Handle login failure, e.g., show error message to user
-      return false;
-    }
+  Future<String?> verifyUser(LoginReqDTO schema) async {
+    return await _authRepository.verifyOTP(schema);
   }
 
   Future<bool> checkLoginStatus() async {
