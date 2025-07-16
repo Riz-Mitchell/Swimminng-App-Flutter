@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/swims/infrastructure/models/swim_model.dart';
+import 'package:swimming_app_frontend/features/home/providers/home_provider.dart';
+import 'package:swimming_app_frontend/shared/providers/router_provider.dart';
 
 class SwimCardWidget extends ConsumerWidget {
-  const SwimCardWidget({super.key});
+  const SwimCardWidget({
+    this.finalTime,
+    this.event,
+    this.finalRate,
+    this.finalStrokes,
+    this.exertion,
+    this.splitsCount,
+    this.firstSplit,
+    super.key,
+    required this.isLoading,
+  });
+
+  final double? finalTime;
+  final EventEnum? event;
+  final int? finalRate;
+  final int? finalStrokes;
+  final int? exertion;
+  final int? splitsCount;
+  final double? firstSplit;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: implement build
-    return Container(
+    return GestureDetector(
+      onTap: () => ref.read(routerProvider).go('/swims-landing'),
       child: Column(
         spacing: 30,
         children: [
@@ -49,7 +71,7 @@ class SwimCardWidget extends ConsumerWidget {
                           spacing: 16,
                           children: [
                             Text(
-                              '55.61s',
+                              '${(!isLoading) ? finalTime : '-'}s',
 
                               style: Theme.of(context).textTheme.displayLarge
                                   ?.copyWith(
@@ -63,7 +85,7 @@ class SwimCardWidget extends ConsumerWidget {
                               spacing: 10,
                               children: [
                                 Text(
-                                  '57cyc/min',
+                                  '${(!isLoading && finalRate != null) ? finalRate : '-'}cyc/min',
                                   style: Theme.of(context).textTheme.labelSmall
                                       ?.copyWith(
                                         color: Theme.of(
@@ -72,7 +94,7 @@ class SwimCardWidget extends ConsumerWidget {
                                       ),
                                 ),
                                 Text(
-                                  '- strokes',
+                                  '${(!isLoading && finalStrokes != null) ? finalStrokes : '-'} strokes',
                                   style: Theme.of(context).textTheme.labelSmall
                                       ?.copyWith(
                                         color: Theme.of(
@@ -109,7 +131,7 @@ class SwimCardWidget extends ConsumerWidget {
                               ),
                         ),
                         Text(
-                          '50 Free',
+                          '${(!isLoading && event != null) ? event!.toReadableString() : '-'}',
                           style: Theme.of(context).textTheme.displayMedium
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
@@ -117,27 +139,30 @@ class SwimCardWidget extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    Column(
-                      spacing: 5,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '1st Split',
-                          style: Theme.of(context).textTheme.labelSmall
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                        ),
-                        Text(
-                          '25.92s',
-                          style: Theme.of(context).textTheme.displayMedium
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ],
-                    ),
+                    if (firstSplit != null)
+                      Column(
+                        spacing: 5,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '1st Split',
+                            style: Theme.of(context).textTheme.labelSmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.secondary,
+                                ),
+                          ),
+                          Text(
+                            '${firstSplit}s',
+                            style: Theme.of(context).textTheme.displayMedium
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                        ],
+                      ),
                     Column(
                       spacing: 5,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -151,7 +176,9 @@ class SwimCardWidget extends ConsumerWidget {
                               ),
                         ),
                         Text(
-                          '9',
+                          (!isLoading && exertion != null)
+                              ? exertion.toString()
+                              : '-',
                           style: Theme.of(context).textTheme.displayMedium
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
@@ -172,7 +199,7 @@ class SwimCardWidget extends ConsumerWidget {
                               ),
                         ),
                         Text(
-                          '2',
+                          '${(!isLoading && splitsCount != null) ? splitsCount : '-'}',
                           style: Theme.of(context).textTheme.displayMedium
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
