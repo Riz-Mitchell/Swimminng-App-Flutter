@@ -1,4 +1,6 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:swimming_app_frontend/api/models/split_model.dart';
+import 'package:swimming_app_frontend/features/swims/enum/time_period_enum.dart';
 
 enum EventEnum {
   freestyle50,
@@ -44,15 +46,6 @@ extension EventEnumExtension on EventEnum {
         return '200 Fly';
     }
   }
-}
-
-enum TimePeriod {
-  day,
-  week,
-  month,
-  year,
-  all,
-  // Match your backend Enum.TimePeriod values
 }
 
 class GetSwimsQuery {
@@ -155,24 +148,51 @@ class UpdateSwimReqDTO {
 }
 
 class SwimGraphModel {
-  final List<GetSwimResDTO> pastWeek;
-  final List<GetSwimResDTO> pastMonth;
-  final List<GetSwimResDTO> pastThreeMonths;
-  final List<GetSwimResDTO> pastSixMonths;
-  final List<GetSwimResDTO> pastYear;
+  final TimePeriod timePeriod;
+  final List<GetSwimResDTO> resData;
+  final double xMin = 0;
+  late double xMax;
+  late Map<FlSpot, String> spotsDisplayTextMap;
+  late List<FlSpot> spots;
 
-  SwimGraphModel({
-    required this.pastWeek,
-    required this.pastMonth,
-    required this.pastThreeMonths,
-    required this.pastSixMonths,
-    required this.pastYear,
-  });
+  SwimGraphModel({required this.resData, required this.timePeriod}) {
+    final timeRange = getTimeRange(timePeriod);
+    final startTime = timeRange[0];
+    final endTime = timeRange[1];
 
-  // Implement methods for class
-  // ........
-  // ........
-  // ........
-  // ........
-  // ........
+    spots = [];
+    spotsDisplayTextMap = {};
+
+    for (var swim in resData) {
+      final maxSplit = swim.splits.reduce(
+        (curr, next) =>
+            next.intervalDistance > curr.intervalDistance ? next : curr,
+      );
+
+      final secondsSinceStart = swim.recordedAt
+          .difference(startTime)
+          .inSeconds
+          .toDouble();
+      final percentOffPB = maxSplit.perOffPBIntervalTime ?? 0.0;
+
+      final spot = FlSpot(secondsSinceStart, percentOffPB);
+      spots.add(spot);
+
+      final spotDateTime = startTime.add(
+        Duration(seconds: secondsSinceStart.toInt()),
+      );
+      final String displayText = DateLabelConverter.format(
+        spotDateTime,
+        timePeriod,
+      );
+
+      spotsDisplayTextMap[spot] = displayText;
+    }
+
+    spots.sort((a, b) => a.x.compareTo(b.x));
+
+    final today = DateTime.now();
+    final clampedToday = today.isAfter(endTime) ? endTime : today;
+    xMax = clampedToday.difference(startTime).inSeconds.toDouble();
+  }
 }
