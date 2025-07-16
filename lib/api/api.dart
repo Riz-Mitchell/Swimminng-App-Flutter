@@ -4,21 +4,22 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/shared/providers/auth_provider.dart';
 import 'package:swimming_app_frontend/shared/providers/storage_provider.dart';
 
 final apiClientProvider = Provider<ApiClient>((ref) {
-  final client = ApiClient(baseUrl: 'https://api.inteliswim.com');
+  final client = ApiClient(baseUrl: 'https://api.inteliswim.com', ref: ref);
   client.init();
   return client;
 });
 
 class ApiClient {
   final Dio _dio;
+  final Ref ref;
   PersistCookieJar? _cookieJar;
 
-  ApiClient({required String baseUrl})
+  ApiClient({required String baseUrl, required this.ref})
     : _dio = Dio(BaseOptions(baseUrl: baseUrl)) {
     _dio.interceptors.add(
       LogInterceptor(
@@ -35,19 +36,19 @@ class ApiClient {
     _dio.interceptors.add(
       QueuedInterceptorsWrapper(
         onError: (DioException error, ErrorInterceptorHandler handler) async {
-          final isUnauthorized = error.response?.statusCode == 401;
-          bool isExceptionEndpoint = error.requestOptions.path.contains(
+          final statusCode = error.response?.statusCode;
+          final isUnauthorized = statusCode == 401;
+          final isRefreshEndpoint = error.requestOptions.path.contains(
             '/api/Auth/refresh',
           );
 
-          if (isUnauthorized && !isExceptionEndpoint) {
+          if (isUnauthorized && !isRefreshEndpoint) {
             try {
               print('[AUTH] Attempting token refresh...');
 
               bool refreshed = false;
               // attempt to get new tokens
-              String userId = globalStorage.userId!;
-              refreshed = await _attemptRefreshTokens(userId);
+              refreshed = await _attemptRefreshTokens();
 
               if (refreshed) {
                 // Retry original request
@@ -56,7 +57,9 @@ class ApiClient {
               } else {
                 print('[AUTH] Refresh failed — clearing session');
                 if (!kIsWeb) await _cookieJar?.deleteAll();
-                // optionally force logout or show dialog
+                ref
+                    .read(authControllerProvider.notifier)
+                    .logout(); // Logout of the app. Delete stored userId
               }
             } catch (e) {
               print('[AUTH] Refresh error: $e');
@@ -104,9 +107,10 @@ class ApiClient {
     _dio.interceptors.add(CookieManager(_cookieJar!));
   }
 
-  Future<bool> _attemptRefreshTokens(String userId) async {
+  Future<bool> _attemptRefreshTokens() async {
     try {
-      final response = await _dio.post('/api/Auth/refresh$userId');
+      String? userId = ref.read(storageProvider).userId;
+      final response = await _dio.post('/api/Auth/refresh/$userId');
       return response.statusCode == 200;
     } catch (_) {
       return false;
