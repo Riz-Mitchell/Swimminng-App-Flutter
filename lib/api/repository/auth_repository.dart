@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:swimming_app_frontend/api/api.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/api/models/auth_model.dart';
 
 class AuthRepository {
