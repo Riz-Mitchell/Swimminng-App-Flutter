@@ -152,7 +152,7 @@ class SwimGraphModel {
   final List<GetSwimResDTO> resData;
   final double xMin = 0;
   late double xMax;
-  late Map<FlSpot, String> spotsDisplayTextMap;
+  late Map<double, String> spotsDisplayTextMap;
   late List<FlSpot> spots;
   late String xMinDisplayStr;
   late String xMaxDisplayStr;
@@ -162,6 +162,8 @@ class SwimGraphModel {
     final timeRange = getTimeRange(timePeriod);
     final startTime = timeRange[0];
     final endTime = timeRange[1];
+
+    print('there are ${resData.length} swims in this model');
 
     xMaxDisplayStr = DateLabelConverter.format(endTime, timePeriod);
     xMinDisplayStr = DateLabelConverter.format(startTime, timePeriod);
@@ -181,6 +183,9 @@ class SwimGraphModel {
           .toDouble();
       final percentOffPB = maxSplit.perOffPBIntervalTime ?? 0.0;
 
+      print(
+        'seconds since start in constructor SwimGraphModel; ${secondsSinceStart}',
+      );
       final spot = FlSpot(secondsSinceStart, percentOffPB);
       spots.add(spot);
 
@@ -192,7 +197,7 @@ class SwimGraphModel {
         timePeriod,
       );
 
-      spotsDisplayTextMap[spot] = displayText;
+      spotsDisplayTextMap[secondsSinceStart] = displayText;
     }
 
     spots.sort((a, b) => a.x.compareTo(b.x));
