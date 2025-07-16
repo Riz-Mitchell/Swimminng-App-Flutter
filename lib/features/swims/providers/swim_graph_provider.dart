@@ -122,7 +122,7 @@ class SwimGraphController extends AutoDisposeAsyncNotifier<SwimGraphState> {
     return currentGraph.xMin;
   }
 
-  Map<FlSpot, String> getSpotsDisplayTextMap() {
+  Map<double, String> getSpotsDisplayTextMap() {
     final current = state.valueOrNull;
     if (current == null) return {};
 
@@ -137,5 +137,38 @@ class SwimGraphController extends AutoDisposeAsyncNotifier<SwimGraphState> {
     final current = state.valueOrNull;
     if (current == null) return null;
     return current.cachedData[current.selectedPeriod];
+  }
+
+  String getStartStr() {
+    final current = state.valueOrNull;
+    if (current == null) return '';
+
+    final currentGraphModel = current.cachedData[current.selectedPeriod];
+
+    if (currentGraphModel == null) return '';
+
+    return currentGraphModel.xMinDisplayStr;
+  }
+
+  String getEndStr() {
+    final current = state.valueOrNull;
+    if (current == null) return '';
+
+    final currentGraphModel = current.cachedData[current.selectedPeriod];
+
+    if (currentGraphModel == null) return '';
+
+    return currentGraphModel.xMaxDisplayStr;
+  }
+
+  String getAverageYDisplayStr() {
+    final current = state.valueOrNull;
+    if (current == null) return '';
+
+    final currentGraphModel = current.cachedData[current.selectedPeriod];
+
+    if (currentGraphModel == null) return '';
+
+    return currentGraphModel.averageYDisplayStr;
   }
 }
