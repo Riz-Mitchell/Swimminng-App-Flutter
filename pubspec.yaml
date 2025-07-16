@@ -22,6 +22,9 @@ dependencies:
   cookie_jar: ^4.0.8
   dio_cookie_manager: ^3.2.0
   polar: ^7.7.0
+  fl_chart: ^1.0.0
+  animated_toggle_switch: ^0.8.5
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
