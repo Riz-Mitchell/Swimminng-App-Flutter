@@ -154,11 +154,16 @@ class SwimGraphModel {
   late double xMax;
   late Map<FlSpot, String> spotsDisplayTextMap;
   late List<FlSpot> spots;
+  late String xMinDisplayStr;
+  late String xMaxDisplayStr;
 
   SwimGraphModel({required this.resData, required this.timePeriod}) {
     final timeRange = getTimeRange(timePeriod);
     final startTime = timeRange[0];
     final endTime = timeRange[1];
+
+    xMaxDisplayStr = DateLabelConverter.format(endTime, timePeriod);
+    xMinDisplayStr = DateLabelConverter.format(startTime, timePeriod);
 
     spots = [];
     spotsDisplayTextMap = {};
