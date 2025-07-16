@@ -18,7 +18,6 @@ class GetSplitResDTO {
   final double? perOffGoalTime;
   final double? perOffGoalStrokeRate;
   final bool dive;
-  final DateTime recordedAt;
 
   GetSplitResDTO({
     required this.id,
@@ -32,13 +31,12 @@ class GetSplitResDTO {
     this.perOffGoalTime,
     this.perOffGoalStrokeRate,
     required this.dive,
-    required this.recordedAt,
   });
 
   factory GetSplitResDTO.fromJson(Map<String, dynamic> json) {
     return GetSplitResDTO(
       id: json['id'] as String,
-      stroke: Stroke.values.byName(json['stroke']),
+      stroke: Stroke.values.byName((json['stroke'] as String).toLowerCase()),
       intervalTime: (json['intervalTime'] as num).toDouble(),
       intervalDistance: json['intervalDistance'] as int,
       intervalStrokeRate: json['intervalStrokeRate'],
@@ -48,7 +46,6 @@ class GetSplitResDTO {
       perOffGoalTime: (json['perOffGoalTime'] as num?)?.toDouble(),
       perOffGoalStrokeRate: (json['perOffGoalStrokeRate'] as num?)?.toDouble(),
       dive: json['dive'] as bool,
-      recordedAt: DateTime.parse(json['recordedAt']),
     );
   }
 
@@ -65,7 +62,6 @@ class GetSplitResDTO {
       'perOffGoalTime': perOffGoalTime,
       'perOffGoalStrokeRate': perOffGoalStrokeRate,
       'dive': dive,
-      'recordedAt': recordedAt.toIso8601String(),
     };
   }
 }
