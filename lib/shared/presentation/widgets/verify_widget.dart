@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinput/pinput.dart';
 import 'package:swimming_app_frontend/features/signup/providers/form/login_form_provider.dart';
-import 'package:swimming_app_frontend/features/signup/providers/form/signup_form_provider.dart';
 import 'package:swimming_app_frontend/features/signup/providers/navigation/signup_navigation_provider.dart';
 
 class VerifyWidget extends ConsumerWidget {
@@ -15,7 +14,6 @@ class VerifyWidget extends ConsumerWidget {
     final signupNavigationNotifier = ref.read(
       signupNavigationProvider.notifier,
     );
-    final signupForm = ref.watch(signupFormProvider);
     final loginFormNotifier = ref.read(loginFormProvider.notifier);
 
     return Pinput(

@@ -14,7 +14,6 @@ class _DOBPickerState extends ConsumerState<DOBPickerWidget> {
   DateTime selectedDate = DateTime.now();
 
   void _showDatePicker(BuildContext context) {
-    final signupForm = ref.watch(signupFormProvider);
     final signupFormNotifier = ref.read(signupFormProvider.notifier);
 
     showCupertinoModalPopup(

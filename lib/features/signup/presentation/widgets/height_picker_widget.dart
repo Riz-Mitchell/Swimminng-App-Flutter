@@ -17,7 +17,6 @@ class _HeightPickerState extends ConsumerState<HeightPickerWidget> {
       List.generate(151, (index) => 100.0 + index); // 100.0cm to 250.0cm
 
   void _showHeightPicker(BuildContext context) {
-    final signupForm = ref.watch(signupFormProvider);
     final signupFormNotifier = ref.read(signupFormProvider.notifier);
 
     showCupertinoModalPopup(

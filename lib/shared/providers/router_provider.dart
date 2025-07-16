@@ -15,6 +15,7 @@ import 'package:swimming_app_frontend/features/signup/presentation/screens/verif
 import 'package:swimming_app_frontend/features/signup/presentation/screens/initial_screen.dart';
 import 'package:swimming_app_frontend/features/home/ui/screens/heart_rate_screen.dart';
 import 'package:swimming_app_frontend/features/home/ui/screens/home.dart';
+import 'package:swimming_app_frontend/features/swims/presentation/screens/swims_landing_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -98,6 +99,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/heart-rate',
         name: 'heartRate',
         builder: (context, state) => const HeartRateScreen(),
+      ),
+      GoRoute(
+        path: '/swims-landing',
+        name: 'swimsLanding',
+        builder: (context, state) => const SwimsLandingScreen(),
       ),
     ],
   );

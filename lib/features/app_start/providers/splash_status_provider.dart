@@ -22,7 +22,9 @@ class SplashStatusNotifier extends Notifier<SplashStatus> {
     bool isLoggedIn;
     try {
       print('attempting to check if logged in');
-      isLoggedIn = await ref.read(userServiceProvider).checkLoginStatus();
+      final userService = ref.read(userServiceProvider);
+      isLoggedIn = await userService.checkLoginStatus();
+
       print('logged in set to: $isLoggedIn, in start');
     } catch (e) {
       print('error: ${e}');

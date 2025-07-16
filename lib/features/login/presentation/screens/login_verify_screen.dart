@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/api/models/auth_model.dart';
 import 'package:swimming_app_frontend/features/login/providers/navigation/login_navigation_provider.dart';
 import 'package:swimming_app_frontend/features/signup/providers/form/login_form_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/verify_widget.dart';
-import 'package:swimming_app_frontend/shared/providers/form/verify_form_provider.dart';
-import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
 final isVerifyingProvider = StateProvider<bool>((ref) => false);
 

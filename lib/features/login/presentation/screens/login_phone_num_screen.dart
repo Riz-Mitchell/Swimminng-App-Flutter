@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/login/providers/navigation/login_navigation_provider.dart';
-import 'package:swimming_app_frontend/features/user_creation/providers/form/login_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/providers/form/login_form_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/widgets/phone_number_input_widget.dart';
 import 'package:swimming_app_frontend/shared/providers/form/verify_form_provider.dart';

@@ -9,7 +9,6 @@ class EnterTextWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final signupForm = ref.watch(signupFormProvider);
     final signupFormNotifier = ref.read(signupFormProvider.notifier);
 
     return TextField(
