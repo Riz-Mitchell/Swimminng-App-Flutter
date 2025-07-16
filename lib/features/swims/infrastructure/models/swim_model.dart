@@ -156,6 +156,7 @@ class SwimGraphModel {
   late List<FlSpot> spots;
   late String xMinDisplayStr;
   late String xMaxDisplayStr;
+  late String averageYDisplayStr;
 
   SwimGraphModel({required this.resData, required this.timePeriod}) {
     final timeRange = getTimeRange(timePeriod);
@@ -195,6 +196,14 @@ class SwimGraphModel {
     }
 
     spots.sort((a, b) => a.x.compareTo(b.x));
+
+    final averageY = spots.isEmpty
+        ? 0.0
+        : spots.map((spot) => spot.y).reduce((a, b) => a + b) / spots.length;
+
+    averageYDisplayStr = (averageY > 0)
+        ? "+${averageY.toStringAsFixed(2)}%"
+        : "${averageY.toStringAsFixed(2)}%";
 
     final today = DateTime.now();
     final clampedToday = today.isAfter(endTime) ? endTime : today;
