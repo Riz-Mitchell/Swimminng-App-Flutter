@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/swims/enum/metric_type_enum.dart';
 import 'package:swimming_app_frontend/features/swims/enum/time_period_enum.dart';
@@ -26,13 +27,13 @@ final swimGraphControllerProvider =
 
 class SwimGraphState {
   final TimePeriod selectedPeriod;
-  final Map<TimePeriod, List<GetSwimResDTO>> cachedData;
+  final Map<TimePeriod, SwimGraphModel> cachedData;
 
   SwimGraphState({required this.selectedPeriod, required this.cachedData});
 
   SwimGraphState copyWith({
     TimePeriod? selectedPeriod,
-    Map<TimePeriod, List<GetSwimResDTO>>? cachedData,
+    Map<TimePeriod, SwimGraphModel>? cachedData,
   }) {
     return SwimGraphState(
       selectedPeriod: selectedPeriod ?? this.selectedPeriod,
@@ -48,11 +49,20 @@ class SwimGraphController extends AutoDisposeAsyncNotifier<SwimGraphState> {
 
     final weekData = await service.getSwimsByTimePeriodAsync(TimePeriod.week);
 
+    final weekGraphModel = SwimGraphModel(
+      resData: weekData,
+      timePeriod: TimePeriod.week,
+    );
+
+    // Handle processing of data for what we need
+
     return SwimGraphState(
       selectedPeriod: TimePeriod.week,
-      cachedData: {TimePeriod.week: weekData},
+      cachedData: {TimePeriod.week: weekGraphModel},
     );
   }
+
+  TimePeriod? get selectedPeriod => state.valueOrNull?.selectedPeriod;
 
   Future<void> selectTimePeriod(TimePeriod timePeriod) async {
     final service = ref.read(swimServiceProvider);
@@ -71,8 +81,12 @@ class SwimGraphController extends AutoDisposeAsyncNotifier<SwimGraphState> {
     try {
       // Get next selected time period data and add to cache
       final data = await service.getSwimsByTimePeriodAsync(timePeriod);
+      final timePeriodGraphModel = SwimGraphModel(
+        resData: data,
+        timePeriod: timePeriod,
+      );
       final updatedCache = currentState.cachedData;
-      updatedCache[timePeriod] = data;
+      updatedCache[timePeriod] = timePeriodGraphModel;
 
       state = AsyncData(
         currentState.copyWith(
@@ -83,5 +97,45 @@ class SwimGraphController extends AutoDisposeAsyncNotifier<SwimGraphState> {
     } catch (error, stackTrace) {
       state = AsyncError(error, stackTrace);
     }
+  }
+
+  List<FlSpot> getGraphSpots() {
+    final current = state.valueOrNull;
+    if (current == null) return [];
+
+    final currentGraphModel = current.cachedData[current.selectedPeriod];
+
+    if (currentGraphModel == null) return [];
+
+    return currentGraphModel.spots;
+  }
+
+  double getXMax() {
+    final currentGraph = currentGraphData;
+    if (currentGraph == null) return 0.0;
+    return currentGraph.xMax;
+  }
+
+  double getXMin() {
+    final currentGraph = currentGraphData;
+    if (currentGraph == null) return 0.0;
+    return currentGraph.xMin;
+  }
+
+  Map<FlSpot, String> getSpotsDisplayTextMap() {
+    final current = state.valueOrNull;
+    if (current == null) return {};
+
+    final currentGraphModel = current.cachedData[current.selectedPeriod];
+
+    if (currentGraphModel == null) return {};
+
+    return currentGraphModel.spotsDisplayTextMap;
+  }
+
+  SwimGraphModel? get currentGraphData {
+    final current = state.valueOrNull;
+    if (current == null) return null;
+    return current.cachedData[current.selectedPeriod];
   }
 }
