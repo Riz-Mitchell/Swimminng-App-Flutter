@@ -55,4 +55,8 @@ class SwimService {
 
     return allSwims;
   }
+
+  Future<void> createSwim(CreateSwimReqDTO schema) async {
+    await _swimRepository.createSwimReq(schema);
+  }
 }
