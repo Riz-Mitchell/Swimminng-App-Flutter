@@ -1,10 +1,4 @@
-enum Stroke {
-  freestyle,
-  backstroke,
-  breaststroke,
-  butterfly,
-  // Add others based on your C# Stroke enum
-}
+import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 
 class GetSplitResDTO {
   final String id;
