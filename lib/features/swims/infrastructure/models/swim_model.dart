@@ -1,52 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:swimming_app_frontend/api/models/split_model.dart';
+import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
 import 'package:swimming_app_frontend/features/swims/enum/time_period_enum.dart';
-
-enum EventEnum {
-  freestyle50,
-  freestyle100,
-  freestyle200,
-  freestyle400,
-  freestyle800,
-  freestyle1500,
-  backstroke100,
-  backstroke200,
-  breaststroke100,
-  breaststroke200,
-  butterfly100,
-  butterfly200, // Add all your C# enum values here
-}
-
-extension EventEnumExtension on EventEnum {
-  String toReadableString() {
-    switch (this) {
-      case EventEnum.freestyle50:
-        return '50 Free';
-      case EventEnum.freestyle100:
-        return '100 Free';
-      case EventEnum.freestyle200:
-        return '200 Free';
-      case EventEnum.freestyle400:
-        return '400 Free';
-      case EventEnum.freestyle800:
-        return '800 Free';
-      case EventEnum.freestyle1500:
-        return '1500 Free';
-      case EventEnum.backstroke100:
-        return '100 Back';
-      case EventEnum.backstroke200:
-        return '200 Back';
-      case EventEnum.breaststroke100:
-        return '100 Breast';
-      case EventEnum.breaststroke200:
-        return '200 Breast';
-      case EventEnum.butterfly100:
-        return '100 Fly';
-      case EventEnum.butterfly200:
-        return '200 Fly';
-    }
-  }
-}
 
 class GetSwimsQuery {
   final String? userId;
