@@ -125,6 +125,20 @@ class CreateSwimReqDTO {
     this.goalSwim = false,
   });
 
+  CreateSwimReqDTO copyWith({
+    EventEnum? event,
+    int? perceivedExertion,
+    List<CreateSplitReqDTO>? splits,
+    bool? goalSwim,
+  }) {
+    return CreateSwimReqDTO(
+      event: event ?? this.event,
+      perceivedExertion: perceivedExertion ?? this.perceivedExertion,
+      goalSwim: goalSwim ?? this.goalSwim,
+      splits: splits ?? this.splits,
+    );
+  }
+
   Map<String, dynamic> toJson() => {
     'Event': event.name,
     'PerceivedExertion': perceivedExertion,
