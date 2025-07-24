@@ -1,1 +1,1 @@
-enum MetricType { time, exertion }
+enum MetricType { pbTime, pbRate, goalTime, goalRate }

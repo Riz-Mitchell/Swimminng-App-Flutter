@@ -48,7 +48,7 @@ class AddEventScreen extends ConsumerWidget {
                     text: 'Next',
                     onPressed: () =>
                         ref.read(addSwimNavigationProvider.notifier).next(),
-                    active: isValid,
+                    // active: isValid,
                   ),
                 ],
               ),

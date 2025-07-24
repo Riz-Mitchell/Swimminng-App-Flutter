@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/swims/domain/models/swim_model.dart';
-import 'package:swimming_app_frontend/features/home/application/providers/home_provider.dart';
+import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
 import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 
 class SwimCardWidget extends ConsumerWidget {
