@@ -41,15 +41,16 @@ final circleAnimationProvider =
       return notifier;
     });
 
-class ExpandingCircle extends ConsumerStatefulWidget {
-  const ExpandingCircle({super.key});
+class ExpandingCircleAppStartWidget extends ConsumerStatefulWidget {
+  const ExpandingCircleAppStartWidget({super.key});
 
   @override
-  ConsumerState<ExpandingCircle> createState() =>
-      _ExpandingCircleOverlayState();
+  ConsumerState<ExpandingCircleAppStartWidget> createState() =>
+      _ExpandingCircleAppStartWidgetState();
 }
 
-class _ExpandingCircleOverlayState extends ConsumerState<ExpandingCircle>
+class _ExpandingCircleAppStartWidgetState
+    extends ConsumerState<ExpandingCircleAppStartWidget>
     with SingleTickerProviderStateMixin {
   bool _hasStarted = false;
 

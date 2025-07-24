@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/app_start/providers/splash_status_provider.dart';
 
-class Welcome extends ConsumerWidget {
-  const Welcome({super.key});
+class WelcomeAppStartWidget extends ConsumerWidget {
+  const WelcomeAppStartWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

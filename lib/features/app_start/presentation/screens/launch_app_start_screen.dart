@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/app_start/providers/splash_status_provider.dart';
-import 'package:swimming_app_frontend/features/app_start/presentation/widgets/expanding_circle_widget.dart';
-import '../widgets/welcome_title_widget.dart';
+import 'package:swimming_app_frontend/features/app_start/presentation/widgets/expanding_circle_app_start_widget.dart';
+import '../widgets/welcome_app_start_widget.dart';
 
 class LaunchAppStartScreen extends ConsumerStatefulWidget {
   const LaunchAppStartScreen({super.key});
@@ -27,9 +27,9 @@ class _LaunchAppStartScreenState extends ConsumerState<LaunchAppStartScreen> {
       children: [
         Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
-          body: Center(child: Welcome()), // visual only
+          body: Center(child: WelcomeAppStartWidget()), // visual only
         ),
-        const ExpandingCircle(), // reacts to controller state
+        const ExpandingCircleAppStartWidget(), // reacts to controller state
       ],
     );
   }
