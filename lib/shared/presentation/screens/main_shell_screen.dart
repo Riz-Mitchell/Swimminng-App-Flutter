@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/shared/presentation/widgets/inteli_swim_navigation_bar.dart';
+import 'package:swimming_app_frontend/shared/presentation/widgets/inteli_swim_navigation_bar_widget.dart';
 
 class MainShellScreen extends ConsumerWidget {
   final Widget child;
@@ -15,16 +15,18 @@ class MainShellScreen extends ConsumerWidget {
         Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Theme.of(context).colorScheme.background,
-          body: Container(
-            margin: const EdgeInsets.only(
-              top: 70,
-              left: 30,
-              right: 30,
-              bottom: 0,
+          body: SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.only(
+                top: 70,
+                left: 30,
+                right: 30,
+                bottom: 0,
+              ),
+              child: child,
             ),
-            child: SingleChildScrollView(child: child),
           ),
-          bottomNavigationBar: InteliSwimNavigationBar(),
+          bottomNavigationBar: InteliSwimNavigationBarWidget(),
         ),
       ],
     );

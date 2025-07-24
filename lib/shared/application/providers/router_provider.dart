@@ -4,6 +4,7 @@ import 'package:swimming_app_frontend/features/app_start/presentation/screens/on
 import 'package:swimming_app_frontend/features/app_start/presentation/screens/launch_app_start_screen.dart';
 import 'package:swimming_app_frontend/features/home/presentation/screens/heart_rate_screen.dart';
 import 'package:swimming_app_frontend/features/home/presentation/screens/home.dart';
+import 'package:swimming_app_frontend/features/logbook/presentation/screens/landing_logbook_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/done_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/phone_num_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/verify_login_screen.dart';
@@ -15,12 +16,54 @@ import 'package:swimming_app_frontend/features/signup/presentation/screens/sex_s
 import 'package:swimming_app_frontend/features/signup/presentation/screens/verify_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/widgets/height_picker_signup_widget.dart';
 import 'package:swimming_app_frontend/features/swims/presentation/screens/swims_landing_screen.dart';
+import 'package:swimming_app_frontend/shared/presentation/screens/main_shell_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
     debugLogDiagnostics: true,
     routes: [
+      // Routes once authentication is complete and user is logged in
+      // This is the main shell screen that will be used to navigate between different features of the app.
+      // It will be used to wrap the main content of the app with a navigation bar
+      // and other common UI elements.
+      ShellRoute(
+        builder: (context, state, child) {
+          return MainShellScreen(child: child);
+        },
+        routes: [
+          GoRoute(
+            path: '/home',
+            name: 'home',
+            pageBuilder: (context, state) =>
+                NoTransitionPage(key: state.pageKey, child: const Home()),
+          ),
+          GoRoute(
+            path: '/logbook-landing',
+            name: 'logbook-landing',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const LandingLogbookScreen(), // Updated to new class name
+            ),
+          ),
+          GoRoute(
+            path: '/heart-rate',
+            name: 'heartRate',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const HeartRateScreen(),
+            ),
+          ),
+          GoRoute(
+            path: '/swims-landing',
+            name: 'swimsLanding',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const SwimsLandingScreen(),
+            ),
+          ),
+        ],
+      ),
       GoRoute(
         path: '/',
         name: 'splash',
@@ -88,21 +131,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/login-done',
         name: 'loginDone',
         builder: (context, state) => const DoneLoginScreen(),
-      ),
-      GoRoute(
-        path: '/home',
-        name: 'home',
-        builder: (context, state) => const Home(),
-      ),
-      GoRoute(
-        path: '/heart-rate',
-        name: 'heartRate',
-        builder: (context, state) => const HeartRateScreen(),
-      ),
-      GoRoute(
-        path: '/swims-landing',
-        name: 'swimsLanding',
-        builder: (context, state) => const SwimsLandingScreen(),
       ),
     ],
   );

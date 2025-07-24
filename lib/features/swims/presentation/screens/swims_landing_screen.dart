@@ -13,28 +13,13 @@ class SwimsLandingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Stack(
+    return Column(
+      spacing: 20,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Theme.of(context).colorScheme.background,
-          body: Container(
-            margin: const EdgeInsets.symmetric(vertical: 70, horizontal: 30),
-            child: SingleChildScrollView(
-              child: Column(
-                spacing: 20,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ReturnWidget(
-                    onTap: () => ref.read(routerProvider).go('/home'),
-                  ),
-                  SwimGraph(),
-                  ButtonWidget(text: 'Add Swim'),
-                ],
-              ),
-            ),
-          ),
-        ),
+        ReturnWidget(onTap: () => ref.read(routerProvider).go('/home')),
+        SwimGraph(),
+        ButtonWidget(text: 'Add Swim'),
       ],
     );
   }
