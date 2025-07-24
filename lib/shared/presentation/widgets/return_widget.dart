@@ -22,6 +22,10 @@ class ReturnWidget extends ConsumerWidget {
           'assets/svg/Return_Icon.svg',
           height: 40,
           width: 40,
+          colorFilter: ColorFilter.mode(
+            Theme.of(context).colorScheme.onBackground,
+            BlendMode.srcIn,
+          ),
         ),
       ),
     );
