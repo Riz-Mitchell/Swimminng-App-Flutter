@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/signup_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/signup_form_provider.dart';
 
-class HeightPickerWidget extends ConsumerStatefulWidget {
-  const HeightPickerWidget({super.key});
+class HeightPickerSignupWidget extends ConsumerStatefulWidget {
+  const HeightPickerSignupWidget({super.key});
 
   @override
-  ConsumerState<HeightPickerWidget> createState() => _HeightPickerState();
+  ConsumerState<HeightPickerSignupWidget> createState() => _HeightPickerState();
 }
 
-class _HeightPickerState extends ConsumerState<HeightPickerWidget> {
+class _HeightPickerState extends ConsumerState<HeightPickerSignupWidget> {
   int selectedIndex = 50; // index for 150cm (e.g. 100 + 50)
 
   List<double> get heightOptions =>

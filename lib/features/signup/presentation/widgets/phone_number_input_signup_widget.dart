@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/login_form_provider.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/signup_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/login_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/signup_form_provider.dart';
 
-class PhoneNumberInputWidget extends ConsumerWidget {
+class PhoneNumberInputSignupWidget extends ConsumerWidget {
   final void Function(String)? onChanged;
 
-  const PhoneNumberInputWidget({super.key, this.onChanged});
+  const PhoneNumberInputSignupWidget({super.key, this.onChanged});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

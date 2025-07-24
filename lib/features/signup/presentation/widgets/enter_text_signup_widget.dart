@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/signup_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/signup_form_provider.dart';
 
-class EnterTextWidget extends ConsumerWidget {
+class EnterTextSignupWidget extends ConsumerWidget {
   final String text;
 
-  const EnterTextWidget({super.key, required this.text});
+  const EnterTextSignupWidget({super.key, required this.text});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

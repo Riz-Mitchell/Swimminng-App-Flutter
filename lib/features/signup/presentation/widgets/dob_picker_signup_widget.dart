@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/signup_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/signup_form_provider.dart';
 
-class DOBPickerWidget extends ConsumerStatefulWidget {
-  const DOBPickerWidget({super.key});
+class DobPickerSignupWidget extends ConsumerStatefulWidget {
+  const DobPickerSignupWidget({super.key});
 
   @override
-  ConsumerState<DOBPickerWidget> createState() => _DOBPickerState();
+  ConsumerState<DobPickerSignupWidget> createState() => _DOBPickerState();
 }
 
-class _DOBPickerState extends ConsumerState<DOBPickerWidget> {
+class _DOBPickerState extends ConsumerState<DobPickerSignupWidget> {
   DateTime selectedDate = DateTime.now();
 
   void _showDatePicker(BuildContext context) {
