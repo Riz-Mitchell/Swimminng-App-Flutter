@@ -7,7 +7,7 @@ import 'package:swimming_app_frontend/providers/swim_service_provider.dart';
 
 final swimGraphFilterProvider =
     StateProvider<({TimePeriod range, MetricType metric})>((ref) {
-      return (range: TimePeriod.week, metric: MetricType.time);
+      return (range: TimePeriod.week, metric: MetricType.pbTime);
     });
 
 // final swimGraphDataProvider =
@@ -47,18 +47,18 @@ class SwimGraphController extends AutoDisposeAsyncNotifier<SwimGraphState> {
   Future<SwimGraphState> build() async {
     final service = ref.read(swimServiceProvider);
 
-    final weekData = await service.getSwimsByTimePeriodAsync(TimePeriod.week);
+    final dayData = await service.getSwimsByTimePeriodAsync(TimePeriod.day);
 
-    final weekGraphModel = SwimGraphModel(
-      resData: weekData,
-      timePeriod: TimePeriod.week,
+    final dayGraphModel = SwimGraphModel(
+      resData: dayData,
+      timePeriod: TimePeriod.day,
     );
 
     // Handle processing of data for what we need
 
     return SwimGraphState(
-      selectedPeriod: TimePeriod.week,
-      cachedData: {TimePeriod.week: weekGraphModel},
+      selectedPeriod: TimePeriod.day,
+      cachedData: {TimePeriod.day: dayGraphModel},
     );
   }
 
