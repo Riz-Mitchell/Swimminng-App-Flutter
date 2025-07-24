@@ -4,14 +4,15 @@ import 'package:swimming_app_frontend/features/app_start/providers/splash_status
 import 'package:swimming_app_frontend/features/app_start/presentation/widgets/expanding_circle_widget.dart';
 import '../widgets/welcome_title_widget.dart';
 
-class AppStartScreen extends ConsumerStatefulWidget {
-  const AppStartScreen({super.key});
+class LaunchAppStartScreen extends ConsumerStatefulWidget {
+  const LaunchAppStartScreen({super.key});
 
   @override
-  ConsumerState<AppStartScreen> createState() => _AppStartScreenState();
+  ConsumerState<LaunchAppStartScreen> createState() =>
+      _LaunchAppStartScreenState();
 }
 
-class _AppStartScreenState extends ConsumerState<AppStartScreen> {
+class _LaunchAppStartScreenState extends ConsumerState<LaunchAppStartScreen> {
   @override
   void initState() {
     super.initState();
