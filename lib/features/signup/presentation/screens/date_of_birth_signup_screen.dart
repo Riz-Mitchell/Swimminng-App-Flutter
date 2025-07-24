@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/signup/presentation/widgets/dob_picker_widget.dart';
+import 'package:swimming_app_frontend/features/signup/presentation/widgets/dob_picker_signup_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
 
 class DateOfBirthSignupScreen extends ConsumerWidget {
@@ -34,7 +34,7 @@ class DateOfBirthSignupScreen extends ConsumerWidget {
                               ),
                         ),
                       ),
-                      DOBPickerWidget(),
+                      DobPickerSignupWidget(),
                     ],
                   ),
                 ),

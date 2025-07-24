@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
-import 'package:swimming_app_frontend/features/signup/presentation/widgets/height_picker_widget.dart';
+import 'package:swimming_app_frontend/features/signup/presentation/widgets/height_picker_signup_widget.dart';
 
 class HeightSignupScreen extends ConsumerWidget {
   const HeightSignupScreen({super.key});
@@ -34,7 +34,7 @@ class HeightSignupScreen extends ConsumerWidget {
                               ),
                         ),
                       ),
-                      HeightPickerWidget(),
+                      HeightPickerSignupWidget(),
                     ],
                   ),
                 ),
