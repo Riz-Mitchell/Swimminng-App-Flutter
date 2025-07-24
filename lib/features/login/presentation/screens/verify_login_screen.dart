@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/navigation/login_navigation_provider.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/login_form_provider.dart';
+import 'package:swimming_app_frontend/features/login/application/providers/navigation/login_navigation_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/login_form_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/verify_widget.dart';
 
 final isVerifyingProvider = StateProvider<bool>((ref) => false);
 
-class LoginVerifyScreen extends ConsumerWidget {
-  const LoginVerifyScreen({super.key});
+class VerifyLoginScreen extends ConsumerWidget {
+  const VerifyLoginScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
