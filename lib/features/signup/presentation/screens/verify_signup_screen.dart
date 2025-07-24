@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
-import 'package:swimming_app_frontend/features/auth/presentation/widgets/dob_picker_widget.dart';
+import 'package:swimming_app_frontend/shared/presentation/widgets/verify_widget.dart';
 
-class CreateAccAddDOB extends ConsumerWidget {
-  const CreateAccAddDOB({super.key});
+class VerifySignupScreen extends ConsumerWidget {
+  const VerifySignupScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +24,7 @@ class CreateAccAddDOB extends ConsumerWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'How old are you?',
+                          'Check your messages',
                           style: Theme.of(context).textTheme.displayLarge
                               ?.copyWith(
                                 color: Theme.of(
@@ -34,11 +33,10 @@ class CreateAccAddDOB extends ConsumerWidget {
                               ),
                         ),
                       ),
-                      DOBPickerWidget(),
+                      VerifyWidget(),
                     ],
                   ),
                 ),
-                ButtonWidget(text: 'Next'),
               ],
             ),
           ),

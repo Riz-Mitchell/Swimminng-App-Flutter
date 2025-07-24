@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/signup/presentation/widgets/enter_text_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
-import 'package:swimming_app_frontend/features/auth/presentation/widgets/enter_text_widget.dart';
 
-class CreateAccAddName extends ConsumerWidget {
-  const CreateAccAddName({super.key});
+class NameSignupScreen extends ConsumerWidget {
+  const NameSignupScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

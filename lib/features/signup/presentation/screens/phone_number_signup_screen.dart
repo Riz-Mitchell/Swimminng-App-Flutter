@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/signup/presentation/widgets/phone_number_input_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
-import 'package:swimming_app_frontend/features/auth/presentation/widgets/phone_number_input_widget.dart';
 
-class CreateAccAddPhoneNumber extends ConsumerWidget {
-  const CreateAccAddPhoneNumber({super.key});
+class PhoneNumberSignupScreen extends ConsumerWidget {
+  const PhoneNumberSignupScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

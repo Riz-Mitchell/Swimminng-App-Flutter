@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/widgets/height_picker_widget.dart';
 
-class CreateAccAddHeight extends ConsumerWidget {
-  const CreateAccAddHeight({super.key});
+class HeightSignupScreen extends ConsumerWidget {
+  const HeightSignupScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
