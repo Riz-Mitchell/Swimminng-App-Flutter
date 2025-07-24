@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swimming_app_frontend/features/auth/presentation/screens/login_done_screen.dart';
-import 'package:swimming_app_frontend/features/app_start/presentation/screens/login_or_signup_screen.dart';
+import 'package:swimming_app_frontend/features/app_start/presentation/screens/onboard_app_start_screen.dart';
 import 'package:swimming_app_frontend/features/auth/presentation/screens/login_phone_num_screen.dart';
 import 'package:swimming_app_frontend/features/auth/presentation/screens/login_verify_screen.dart';
-import 'package:swimming_app_frontend/features/app_start/presentation/screens/splash_screen.dart';
+import 'package:swimming_app_frontend/features/app_start/presentation/screens/launch_app_start_screen.dart';
 import 'package:swimming_app_frontend/features/auth/presentation/screens/add_height_screen.dart';
 import 'package:swimming_app_frontend/features/auth/presentation/screens/add_name_screen.dart';
 import 'package:swimming_app_frontend/features/auth/presentation/screens/add_dob_screen.dart';
@@ -78,17 +78,17 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/login-phonenumber',
         name: 'login',
         builder: (context, state) =>
-            const LoginPhoneNumScreen(), // Replace with DoneScreen
+            const PhoneNumLoginScreen(), // Replace with DoneScreen
       ),
       GoRoute(
         path: '/login-verify',
         name: 'loginVerify',
-        builder: (context, state) => const LoginVerifyScreen(),
+        builder: (context, state) => const VerifyLoginScreen(),
       ),
       GoRoute(
         path: '/login-done',
         name: 'loginDone',
-        builder: (context, state) => const LoginDoneScreen(),
+        builder: (context, state) => const DoneLoginScreen(),
       ),
       GoRoute(
         path: '/home',
