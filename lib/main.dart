@@ -35,17 +35,26 @@ class MyApp extends ConsumerWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: const Color(0xFFF5F5F5),
           colorScheme: const ColorScheme(
-            brightness: Brightness.light,
-            primary: Color(0xFF000000),
-            onPrimary: Color(0xFFFFFFFF),
-            secondary: Color(0xFF999999),
-            onSecondary: Color(0xFFFFFFFF),
-            background: Color(0xFFEDEDED),
-            onBackground: Color(0xFF212121),
-            surface: Color(0xFFFBFBFB),
-            onSurface: Color(0xFF212121),
-            error: Color(0xFFB00020),
+            brightness: Brightness.dark,
+
+            primary: Color(0xFFFFFFFF), // White for text/icons/buttons
+            onPrimary: Color(0xFF000000),
+
+            background: Color(0xFF0A0A0A), // Deep black background
+            onBackground: Color(0xFFEDEDED), // Light text
+
+            surface: Color(
+              0xFF131313,
+            ), // Slightly lighter than background for cards
+            onSurface: Color(0xFFFFFFFF),
+
+            // Use this for error states only
+            error: Color(0xFFFF3B30),
             onError: Color(0xFFFFFFFF),
+
+            // UNUSED — you can repurpose secondary if you like
+            secondary: Color(0xFF888888),
+            onSecondary: Color(0xFFFFFFFF),
           ),
           textTheme: const TextTheme(
             displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
