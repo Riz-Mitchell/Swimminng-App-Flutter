@@ -39,6 +39,8 @@ class TimePeriodButton extends ConsumerWidget {
 
   String _timePeriodLabel(TimePeriod timePeriod) {
     switch (timePeriod) {
+      case TimePeriod.day:
+        return "D";
       case TimePeriod.week:
         return "W";
       case TimePeriod.month:
