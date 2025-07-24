@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/shared/presentation/widgets/inteli_swim_navigation_bar.dart';
 
 class MainShellScreen extends ConsumerWidget {
-  final List<Widget> children;
+  final Widget child;
 
-  const MainShellScreen({super.key, required this.children});
+  const MainShellScreen({super.key, required this.child});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,15 +16,15 @@ class MainShellScreen extends ConsumerWidget {
           resizeToAvoidBottomInset: false,
           backgroundColor: Theme.of(context).colorScheme.background,
           body: Container(
-            margin: const EdgeInsets.symmetric(vertical: 70, horizontal: 30),
-            child: SingleChildScrollView(
-              child: Column(
-                spacing: 20,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: children,
-              ),
+            margin: const EdgeInsets.only(
+              top: 70,
+              left: 30,
+              right: 30,
+              bottom: 0,
             ),
+            child: SingleChildScrollView(child: child),
           ),
+          bottomNavigationBar: InteliSwimNavigationBar(),
         ),
       ],
     );
