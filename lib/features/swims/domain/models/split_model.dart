@@ -98,4 +98,22 @@ class CreateSplitReqDTO {
       dive: json['dive'] as bool,
     );
   }
+
+  CreateSplitReqDTO copyWith({
+    Stroke? stroke,
+    double? intervalTime,
+    int? intervalDistance,
+    int? intervalStrokeRate,
+    int? intervalStrokeCount,
+    bool? dive,
+  }) {
+    return CreateSplitReqDTO(
+      stroke: stroke ?? this.stroke,
+      intervalTime: intervalTime ?? this.intervalTime,
+      intervalDistance: intervalDistance ?? this.intervalDistance,
+      intervalStrokeRate: intervalStrokeRate ?? this.intervalStrokeRate,
+      intervalStrokeCount: intervalStrokeCount ?? this.intervalStrokeCount,
+      dive: dive ?? this.dive,
+    );
+  }
 }
