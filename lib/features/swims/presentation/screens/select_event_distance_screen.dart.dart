@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/swims/presentation/widgets/distance_card_widget.dart';
-import 'package:swimming_app_frontend/features/swims/providers/event_selection_provider.dart.dart';
-import 'package:swimming_app_frontend/features/swims/providers/navigation/add_swim_navigation_provider.dart';
+import 'package:swimming_app_frontend/features/swims/application/providers/event_selection_provider.dart.dart';
+import 'package:swimming_app_frontend/features/swims/application/providers/navigation/add_swim_navigation_provider.dart';
 import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/return_widget.dart';
-import 'package:swimming_app_frontend/shared/providers/router_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 
 class SelectEventDistanceScreen extends ConsumerWidget {
   const SelectEventDistanceScreen({super.key});

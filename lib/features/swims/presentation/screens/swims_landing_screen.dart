@@ -1,12 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/home/ui/widgets/swim_card_widget.dart';
+import 'package:swimming_app_frontend/features/home/presentation/widgets/swim_card_widget.dart';
 import 'package:swimming_app_frontend/features/swims/presentation/widgets/slider_widget.dart';
 import 'package:swimming_app_frontend/features/swims/presentation/widgets/swim_graph.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/return_widget.dart';
-import 'package:swimming_app_frontend/shared/providers/router_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 
 class SwimsLandingScreen extends ConsumerWidget {
   const SwimsLandingScreen({super.key});

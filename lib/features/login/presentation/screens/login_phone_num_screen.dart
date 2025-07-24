@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/login/providers/navigation/login_navigation_provider.dart';
-import 'package:swimming_app_frontend/features/signup/providers/form/login_form_provider.dart';
+import 'package:swimming_app_frontend/features/login/application/providers/navigation/login_navigation_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/login_form_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/widgets/phone_number_input_widget.dart';
-import 'package:swimming_app_frontend/shared/providers/form/verify_form_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/form/verify_form_provider.dart';
 
 class LoginPhoneNumScreen extends ConsumerWidget {
   const LoginPhoneNumScreen({super.key});

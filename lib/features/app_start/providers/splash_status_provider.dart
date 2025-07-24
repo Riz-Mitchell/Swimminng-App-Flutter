@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/shared/providers/router_provider.dart';
-import 'package:swimming_app_frontend/shared/providers/form/verify_form_provider.dart';
-import 'package:swimming_app_frontend/shared/providers/auth_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/form/verify_form_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/auth_provider.dart';
 import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
 enum SplashStatus {

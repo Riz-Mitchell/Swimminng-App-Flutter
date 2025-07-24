@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/signup/providers/navigation/signup_navigation_provider.dart';
-import 'package:swimming_app_frontend/features/signup/providers/form/signup_form_provider.dart';
+import 'package:swimming_app_frontend/features/auth/application/providers/navigation/signup_navigation_provider.dart';
+import 'package:swimming_app_frontend/features/auth/application/providers/form/signup_form_provider.dart';
 
 class ButtonWidget extends ConsumerWidget {
   final String text;

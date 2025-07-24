@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:swimming_app_frontend/api/api.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/api.dart';
 import 'package:swimming_app_frontend/shared/presentation/extensions/custom_theme.dart';
-import 'package:swimming_app_frontend/shared/providers/auth_provider.dart';
-import 'package:swimming_app_frontend/shared/providers/router_provider.dart';
-import 'package:swimming_app_frontend/shared/providers/storage_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/auth_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/storage_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

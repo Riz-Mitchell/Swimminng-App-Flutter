@@ -1,4 +1,4 @@
-import 'package:swimming_app_frontend/features/swims/infrastructure/models/swim_model.dart';
+import 'package:swimming_app_frontend/features/swims/domain/models/swim_model.dart';
 
 class HomeModel {
   final GetSwimResDTO latestSwimData;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/signup/providers/form/signup_form_provider.dart';
+import 'package:swimming_app_frontend/features/auth/application/providers/form/signup_form_provider.dart';
 
 class EnterTextWidget extends ConsumerWidget {
   final String text;
