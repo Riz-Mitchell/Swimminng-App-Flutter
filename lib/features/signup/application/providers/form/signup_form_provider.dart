@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/selected_sex_status_provider.dart';
 import 'package:swimming_app_frontend/shared/domain/models/user_model.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/selected_sex_status_provider.dart';
 
 class SignupForm extends Notifier<CreateUserReqDTO> {
   @override
