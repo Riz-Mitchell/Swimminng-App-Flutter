@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/shared/presentation/widgets/phone_number_input_signup_widget.dart';
+import 'package:swimming_app_frontend/shared/presentation/widgets/phone_number_input_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/button_widget.dart';
 
 class PhoneNumberSignupScreen extends ConsumerWidget {

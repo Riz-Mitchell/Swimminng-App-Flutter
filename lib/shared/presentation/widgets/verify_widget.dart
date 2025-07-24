@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pinput/pinput.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/login_form_provider.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/navigation/signup_navigation_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/login_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/navigation/signup_navigation_provider.dart';
 
 class VerifyWidget extends ConsumerWidget {
   final Function(String)? onCompleted;

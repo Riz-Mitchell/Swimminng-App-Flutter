@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/app_start/providers/splash_status_provider.dart';
+import 'package:swimming_app_frontend/features/app_start/application/providers/splash_status_provider.dart';
 
 // Animation controller class
 class ExpandingCircleAnimationNotifier extends ChangeNotifier {

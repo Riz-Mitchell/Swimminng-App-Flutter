@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/app_start/providers/splash_status_provider.dart';
+import 'package:swimming_app_frontend/features/app_start/application/providers/splash_status_provider.dart';
 import 'package:swimming_app_frontend/features/app_start/presentation/widgets/expanding_circle_app_start_widget.dart';
 import '../widgets/welcome_app_start_widget.dart';
 

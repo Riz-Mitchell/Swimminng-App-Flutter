@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/login_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/login_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/providers/form/signup_form_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/form/verify_form_provider.dart';
-import 'package:swimming_app_frontend/features/auth/application/providers/form/signup_form_provider.dart';
 import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/storage_provider.dart';
 
