@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:swimming_app_frontend/features/swims/domain/models/swim_model.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
 
 class BasicCardSquadWidget extends ConsumerWidget {
   BasicCardSquadWidget({super.key});
@@ -26,7 +24,7 @@ class BasicCardSquadWidget extends ConsumerWidget {
       //   borderRadius: BorderRadius.circular(20),
       //   color: colorScheme.surface,
       // ),
-      child: (squad == null)
+      child: (squad.isNotEmpty)
           ? SizedBox.shrink()
           : Column(
               spacing: 20,
