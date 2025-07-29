@@ -57,9 +57,15 @@ class MyApp extends ConsumerWidget {
             onSecondary: Color(0xFFFFFFFF),
           ),
           textTheme: const TextTheme(
-            displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            displayMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            displaySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            displayLarge: TextStyle(fontSize: 57, fontWeight: FontWeight.bold),
+            displayMedium: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+            displaySmall: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+            headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            headlineMedium: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            headlineSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
             bodyMedium: TextStyle(fontSize: 16, height: 1.5),
             labelSmall: TextStyle(fontSize: 12, letterSpacing: 1.2),
           ),
