@@ -59,9 +59,9 @@ class NavIconWidget extends ConsumerWidget {
         // ref.read(routerProvider).go('/statistics');
         print('Navigating to statistics');
         break;
-      case NavigationItem.social:
-        ref.read(routerProvider).go('/social-landing');
-        print('Navigating to social');
+      case NavigationItem.squad:
+        ref.read(routerProvider).go('/squad-landing');
+        print('Navigating to squad');
         break;
       case NavigationItem.profile:
         // ref.read(routerProvider).go('/profile');

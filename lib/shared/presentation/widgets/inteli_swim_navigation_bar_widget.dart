@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/nav_icon_widget.dart';
 
-enum NavigationItem { logbook, statistics, social, profile }
+enum NavigationItem { logbook, statistics, squad, profile }
 
 final navigationItemProvider = StateProvider<NavigationItem>((ref) {
   return NavigationItem.profile; // Default navigation item
@@ -37,7 +37,7 @@ class InteliSwimNavigationBarWidget extends ConsumerWidget {
           ),
           NavIconWidget(
             asset: 'assets/svg/group.svg',
-            pageItem: NavigationItem.social,
+            pageItem: NavigationItem.squad,
           ),
           NavIconWidget(
             asset: 'assets/svg/user_placeholder.svg',
