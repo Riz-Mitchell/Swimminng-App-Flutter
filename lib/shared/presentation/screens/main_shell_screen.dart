@@ -18,9 +18,9 @@ class MainShellScreen extends ConsumerWidget {
           body: SingleChildScrollView(
             child: Container(
               margin: const EdgeInsets.only(
-                top: 70,
-                left: 30,
-                right: 30,
+                top: 80,
+                left: 12,
+                right: 12,
                 bottom: 0,
               ),
               child: child,
