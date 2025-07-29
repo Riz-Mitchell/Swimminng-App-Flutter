@@ -15,6 +15,7 @@ import 'package:swimming_app_frontend/features/signup/presentation/screens/phone
 import 'package:swimming_app_frontend/features/signup/presentation/screens/sex_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/verify_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/widgets/height_picker_signup_widget.dart';
+import 'package:swimming_app_frontend/features/social/presentation/screens/landing_social_screen.dart';
 import 'package:swimming_app_frontend/features/swims/presentation/screens/swims_landing_screen.dart';
 import 'package:swimming_app_frontend/shared/presentation/screens/main_shell_screen.dart';
 
@@ -44,6 +45,14 @@ final routerProvider = Provider<GoRouter>((ref) {
             pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
               child: const LandingLogbookScreen(), // Updated to new class name
+            ),
+          ),
+          GoRoute(
+            path: '/social-landing',
+            name: 'social-landing',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const LandingSocialScreen(),
             ),
           ),
           GoRoute(
