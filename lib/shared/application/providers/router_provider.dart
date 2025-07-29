@@ -56,6 +56,14 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
+            path: '/profile-landing',
+            name: 'profile-landing',
+            pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const LandingProfileScreen(),
+            ),
+          ),
+          GoRoute(
             path: '/heart-rate',
             name: 'heartRate',
             pageBuilder: (context, state) => NoTransitionPage(

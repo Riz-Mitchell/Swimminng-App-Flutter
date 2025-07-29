@@ -11,7 +11,7 @@ class LandingLogbookScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-      spacing: 200,
+      spacing: 50,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         CarouselLogbookWidget(),

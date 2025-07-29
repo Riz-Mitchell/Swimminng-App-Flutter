@@ -51,7 +51,7 @@ class SessionSummarySquadWidget extends ConsumerWidget {
                   width: 25,
                   height: 25,
                   colorFilter: ColorFilter.mode(
-                    colorScheme.primary,
+                    Colors.transparent,
                     BlendMode.srcIn,
                   ),
                 ),
