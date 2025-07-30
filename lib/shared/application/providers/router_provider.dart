@@ -8,6 +8,7 @@ import 'package:swimming_app_frontend/features/logbook/presentation/screens/land
 import 'package:swimming_app_frontend/features/login/presentation/screens/done_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/phone_num_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/verify_login_screen.dart';
+import 'package:swimming_app_frontend/features/profile/presentation/screens/landing_profile_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/date_of_birth_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/initial_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/name_signup_screen.dart';
@@ -30,6 +31,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       // and other common UI elements.
       ShellRoute(
         builder: (context, state, child) {
+          final routeName = state.matchedLocation;
+
+          if (routeName == '/profile-landing')
+            return MainShellScreen(profileOverride: true, child: child);
+
           return MainShellScreen(child: child);
         },
         routes: [
