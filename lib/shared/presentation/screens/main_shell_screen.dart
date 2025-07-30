@@ -4,8 +4,13 @@ import 'package:swimming_app_frontend/shared/presentation/widgets/inteli_swim_na
 
 class MainShellScreen extends ConsumerWidget {
   final Widget child;
+  final bool profileOverride;
 
-  const MainShellScreen({super.key, required this.child});
+  const MainShellScreen({
+    super.key,
+    this.profileOverride = false,
+    required this.child,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,12 +22,19 @@ class MainShellScreen extends ConsumerWidget {
           backgroundColor: Theme.of(context).colorScheme.background,
           body: SingleChildScrollView(
             child: Container(
-              margin: const EdgeInsets.only(
-                top: 80,
-                left: 12,
-                right: 12,
-                bottom: 0,
-              ),
+              margin: (profileOverride)
+                  ? const EdgeInsets.only(
+                      top: 0,
+                      left: 12,
+                      right: 12,
+                      bottom: 0,
+                    )
+                  : const EdgeInsets.only(
+                      top: 80,
+                      left: 12,
+                      right: 12,
+                      bottom: 0,
+                    ),
               child: child,
             ),
           ),
