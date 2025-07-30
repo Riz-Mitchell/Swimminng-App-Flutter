@@ -25,38 +25,33 @@ class SessionSummarySquadWidget extends ConsumerWidget {
 
     return Container(
       width: screenWidth,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.transparent,
-      ),
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
       child: Column(
         spacing: 20,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Sessions',
-                style: textTheme.headlineMedium?.copyWith(
-                  color: colorScheme.primary,
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Upcoming Sessions',
+                  style: textTheme.headlineMedium?.copyWith(
+                    color: colorScheme.primary,
+                  ),
                 ),
-              ),
-              RotatedBox(
-                quarterTurns: 2,
-                child: SvgPicture.asset(
-                  'assets/svg/Return_Icon.svg',
+                SvgPicture.asset(
+                  'assets/svg/whistle.svg',
                   width: 25,
                   height: 25,
                   colorFilter: ColorFilter.mode(
-                    Colors.transparent,
+                    colorScheme.primary,
                     BlendMode.srcIn,
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           EasyDateTimeLinePicker(
             firstDate: DateTime.now(),
