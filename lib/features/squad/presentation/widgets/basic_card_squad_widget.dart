@@ -24,7 +24,7 @@ class BasicCardSquadWidget extends ConsumerWidget {
       //   borderRadius: BorderRadius.circular(20),
       //   color: colorScheme.surface,
       // ),
-      child: (squad.isNotEmpty)
+      child: (squad.isEmpty)
           ? SizedBox.shrink()
           : Column(
               spacing: 20,

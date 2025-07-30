@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:swimming_app_frontend/features/swims/domain/models/swim_model.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
 class PbCardProfileWidget extends ConsumerWidget {

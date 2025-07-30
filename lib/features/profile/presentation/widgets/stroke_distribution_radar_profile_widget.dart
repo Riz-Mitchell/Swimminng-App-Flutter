@@ -44,7 +44,10 @@ class StrokeDistributionRadarProfileWidget extends ConsumerWidget {
               'Breaststroke',
               'Butterfly',
             ];
-            return RadarChartTitle(text: titles[index]);
+            return RadarChartTitle(
+              text: titles[index],
+              positionPercentageOffset: 0.5,
+            );
           },
           titleTextStyle: textTheme.bodyMedium?.copyWith(
             color: colorScheme.primary,

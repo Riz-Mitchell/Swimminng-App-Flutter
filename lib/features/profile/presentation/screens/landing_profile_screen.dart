@@ -25,7 +25,7 @@ class LandingProfileScreen extends ConsumerWidget {
           joinedDate: DateTime(2025, 1, 1),
           friends: 231,
         ),
-        StrokeDistributionRadarProfileWidget(),
+        // StrokeDistributionRadarProfileWidget(),
         CarouselProfileWidget(),
       ],
     );
