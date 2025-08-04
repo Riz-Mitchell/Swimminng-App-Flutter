@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class DataLogbookWidget extends ConsumerWidget {
+class DataProfileWidget extends ConsumerWidget {
   final dynamic data;
   final String text;
   final String asset;
 
-  const DataLogbookWidget({
+  const DataProfileWidget({
     super.key,
     required this.data,
     required this.text,

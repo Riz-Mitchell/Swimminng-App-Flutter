@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:swimming_app_frontend/features/profile/presentation/widgets/data_container_profile_widget.dart';
 import 'package:swimming_app_frontend/features/profile/presentation/widgets/carousel_profile_widget.dart';
 import 'package:swimming_app_frontend/features/profile/presentation/widgets/header_profile_widget.dart';
 import 'package:swimming_app_frontend/features/profile/presentation/widgets/stroke_distribution_radar_profile_widget.dart';
@@ -27,6 +28,8 @@ class LandingProfileScreen extends ConsumerWidget {
         ),
         // StrokeDistributionRadarProfileWidget(),
         CarouselProfileWidget(),
+
+        DataContainerProfileWidget(),
       ],
     );
   }

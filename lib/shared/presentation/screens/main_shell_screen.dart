@@ -30,7 +30,7 @@ class MainShellScreen extends ConsumerWidget {
                       bottom: 0,
                     )
                   : const EdgeInsets.only(
-                      top: 80,
+                      top: 70,
                       left: 12,
                       right: 12,
                       bottom: 0,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/logbook/presentation/widgets/data_logbook_widget.dart';
+import 'package:swimming_app_frontend/features/profile/presentation/widgets/data_profile_widget.dart';
 
-class DataContainerLogbookWidget extends ConsumerWidget {
-  const DataContainerLogbookWidget({Key? key}) : super(key: key);
+class DataContainerProfileWidget extends ConsumerWidget {
+  const DataContainerProfileWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,14 +18,14 @@ class DataContainerLogbookWidget extends ConsumerWidget {
             spacing: 5,
             children: [
               Expanded(
-                child: DataLogbookWidget(
+                child: DataProfileWidget(
                   data: '72',
                   text: 'Swims Logged',
                   asset: 'assets/svg/swimmer_icon.svg',
                 ),
               ),
               Expanded(
-                child: DataLogbookWidget(
+                child: DataProfileWidget(
                   data: '417',
                   text: 'Races',
                   asset: 'assets/svg/races.svg',
@@ -41,7 +41,7 @@ class DataContainerLogbookWidget extends ConsumerWidget {
             spacing: 5,
             children: [
               Expanded(
-                child: DataLogbookWidget(
+                child: DataProfileWidget(
                   data: '7',
                   text: 'Focuses',
                   asset: 'assets/svg/focuses.svg',
@@ -49,14 +49,14 @@ class DataContainerLogbookWidget extends ConsumerWidget {
               ),
 
               Expanded(
-                child: DataLogbookWidget(
+                child: DataProfileWidget(
                   data: '45',
                   text: 'Pbs',
                   asset: 'assets/svg/rocket.svg',
                 ),
               ),
               Expanded(
-                child: DataLogbookWidget(
+                child: DataProfileWidget(
                   data: '5',
                   text: 'Check Ins',
                   asset: 'assets/svg/clip_board.svg',
