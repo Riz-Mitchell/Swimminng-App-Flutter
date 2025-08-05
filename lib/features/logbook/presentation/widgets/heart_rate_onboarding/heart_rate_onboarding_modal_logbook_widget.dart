@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/logbook/presentation/widgets/heart_rate_onboarding/heart_rate_done_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/heart_rate_onboarding/heart_rate_intro_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/heart_rate_onboarding/heart_rate_permissions_logbook_widget.dart';
+import 'package:swimming_app_frontend/features/logbook/presentation/widgets/heart_rate_onboarding/heart_rate_results_logbook_widget.dart';
+import 'package:swimming_app_frontend/features/logbook/presentation/widgets/heart_rate_onboarding/heart_rate_searching_logbook_widget.dart';
 
 enum HeartRateOnBoardingState { intro, permissions, searching, results, done }
 
@@ -18,6 +21,8 @@ class HeartRateOnboardingModalLogbookWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final step = ref.watch(heartRateOnBoardingStateProvider);
+
+    print('step: $step');
 
     return Container(
       height: 500,
@@ -42,10 +47,10 @@ class HeartRateOnboardingModalLogbookWidget extends ConsumerWidget {
           HeartRateOnBoardingState.permissions =>
             const HeartRatePermissionsLogbookWidget(),
           HeartRateOnBoardingState.searching =>
-            const HeartRateIntroLogbookWidget(),
+            const HeartRateSearchingLogbookWidget(),
           HeartRateOnBoardingState.results =>
-            const HeartRateIntroLogbookWidget(),
-          HeartRateOnBoardingState.done => const HeartRateIntroLogbookWidget(),
+            const HeartRateResultsLogbookWidget(),
+          HeartRateOnBoardingState.done => const HeartRateDoneLogbookWidget(),
         },
       ),
     );
