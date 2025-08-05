@@ -4,15 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
 class GraphLogbookWidget extends ConsumerWidget {
-  const GraphLogbookWidget({super.key});
+  final double graphHeight;
+
+  const GraphLogbookWidget({super.key, required this.graphHeight});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 300,
+      height: graphHeight,
       child: LineChart(
         LineChartData(
           backgroundColor: Colors.transparent,
@@ -69,19 +72,9 @@ class GraphLogbookWidget extends ConsumerWidget {
           titlesData: FlTitlesData(
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
-                showTitles: true,
+                showTitles: false,
                 reservedSize: 28, // Try 24–32 depending on your font size
                 interval: 4,
-                // getTitlesWidget: (value, meta) {
-                //   return Padding(
-                //     padding: const EdgeInsets.only(right: 8),
-                //     child: Text(
-                //       value.toString(),
-                //       style: const TextStyle(fontSize: 10),
-                //       textAlign: TextAlign.right,
-                //     ),
-                //   );
-                // },
               ),
             ),
             bottomTitles: AxisTitles(
@@ -99,6 +92,24 @@ class GraphLogbookWidget extends ConsumerWidget {
             ),
           ),
           lineTouchData: LineTouchData(
+            handleBuiltInTouches: true,
+            touchTooltipData: LineTouchTooltipData(
+              getTooltipColor: (touchedSpot) => colorScheme.primary,
+              fitInsideHorizontally: true,
+              fitInsideVertically: true,
+              getTooltipItems: (touchedSpots) {
+                return touchedSpots.map((spot) {
+                  return LineTooltipItem(
+                    (spot.y == 0 || spot.y < 0)
+                        ? '${spot.y.toStringAsFixed(2)}%'
+                        : '+${spot.y.toStringAsFixed(2)}%',
+                    textTheme.headlineSmall!.copyWith(
+                      color: colorScheme.onPrimary,
+                    ),
+                  );
+                }).toList();
+              },
+            ),
             enabled: true,
             getTouchedSpotIndicator: (barData, spotIndexes) {
               return spotIndexes.map((index) {
