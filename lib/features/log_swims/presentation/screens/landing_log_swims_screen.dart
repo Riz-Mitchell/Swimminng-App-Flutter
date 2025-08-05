@@ -8,14 +8,21 @@ class LandingLogSwimsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return LogSwimsShellScreen(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        spacing: 50,
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: ProgressBarLogSwimsWidget(),
+          ProgressBarLogSwimsWidget(),
+          Text(
+            'Pool Type?',
+            style: textTheme.displayMedium?.copyWith(
+              color: colorScheme.primary,
+            ),
           ),
         ],
       ),
