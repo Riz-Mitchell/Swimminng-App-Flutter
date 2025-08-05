@@ -5,6 +5,7 @@ import 'package:swimming_app_frontend/features/app_start/presentation/screens/on
 import 'package:swimming_app_frontend/features/app_start/presentation/screens/launch_app_start_screen.dart';
 import 'package:swimming_app_frontend/features/home/presentation/screens/heart_rate_screen.dart';
 import 'package:swimming_app_frontend/features/home/presentation/screens/home.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/screens/landing_add_swims_screen.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/screens/landing_logbook_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/done_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/phone_num_login_screen.dart';
@@ -19,7 +20,9 @@ import 'package:swimming_app_frontend/features/signup/presentation/screens/verif
 import 'package:swimming_app_frontend/features/signup/presentation/widgets/height_picker_signup_widget.dart';
 import 'package:swimming_app_frontend/features/squad/presentation/screens/landing_squad_screen.dart';
 import 'package:swimming_app_frontend/features/swims/presentation/screens/swims_landing_screen.dart';
+import 'package:swimming_app_frontend/shared/application/nav_direction_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/screens/main_shell_screen.dart';
+import 'package:swimming_app_frontend/shared/presentation/transitions/directional_page_transition.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -91,6 +94,18 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
+      GoRoute(
+        path: '/add-swim-landing',
+        name: 'addSwimLanding',
+        pageBuilder: (context, state) {
+          final direction = ref.watch(navDirectionProvider);
+          return buildPageWithDirectionalSlide(
+            child: const LandingAddSwimsScreen(),
+            direction: direction,
+          );
+        },
+      ),
+
       GoRoute(
         path: '/',
         name: 'splash',
