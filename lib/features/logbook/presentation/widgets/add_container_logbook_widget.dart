@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/add_child_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/profile/presentation/widgets/data_profile_widget.dart';
+import 'package:swimming_app_frontend/shared/application/nav_direction_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 
 class AddContainerLogbookWidget extends ConsumerWidget {
   const AddContainerLogbookWidget({super.key});
@@ -51,9 +53,16 @@ class AddContainerLogbookWidget extends ConsumerWidget {
               spacing: 10,
               children: [
                 Expanded(
-                  child: AddChildLogbookWidget(
-                    text: 'Swim',
-                    asset: 'assets/svg/swimmer_icon.svg',
+                  child: GestureDetector(
+                    onTap: () {
+                      ref.read(navDirectionProvider.notifier).state =
+                          NavigationDirection.forward;
+                      ref.read(routerProvider).go('/add-swim-landing');
+                    },
+                    child: AddChildLogbookWidget(
+                      text: 'Swim',
+                      asset: 'assets/svg/swimmer_icon.svg',
+                    ),
                   ),
                 ),
                 Expanded(
