@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/logbook/presentation/widgets/add_container_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/carousel_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/day_by_day_graph_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/date_selector_logbook_widget.dart';
@@ -40,6 +41,7 @@ class LandingLogbookScreen extends ConsumerWidget {
         ),
         DayByDayGraphLogbookWidget(colorScheme: colorScheme),
         CarouselLogbookWidget(),
+        AddContainerLogbookWidget(),
       ],
     );
   }
