@@ -43,6 +43,7 @@ class LandingLogbookScreen extends ConsumerWidget {
         GraphContainerLogbookWidget(),
         CarouselLogbookWidget(),
         AddContainerLogbookWidget(),
+        SizedBox(height: 50),
       ],
     );
   }
