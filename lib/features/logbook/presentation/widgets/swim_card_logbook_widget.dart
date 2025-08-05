@@ -50,7 +50,7 @@ class SwimCardLogbookWidget extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Today · 2:15pm',
+                      '2:15pm',
                       style: textTheme.headlineMedium?.copyWith(
                         color: colorScheme.secondary,
                       ),
@@ -141,13 +141,13 @@ class SwimCardLogbookWidget extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '1st Split',
+                              'Pool',
                               style: textTheme.bodyMedium?.copyWith(
                                 color: colorScheme.secondary,
                               ),
                             ),
                             Text(
-                              '11.1s',
+                              'SC',
                               style: textTheme.headlineMedium?.copyWith(
                                 color: colorScheme.onPrimary,
                               ),
@@ -160,13 +160,13 @@ class SwimCardLogbookWidget extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Exertion',
+                              'Reflection',
                               style: textTheme.bodyMedium?.copyWith(
                                 color: colorScheme.secondary,
                               ),
                             ),
                             Text(
-                              '8/10',
+                              'Incomplete',
                               style: textTheme.headlineMedium?.copyWith(
                                 color: colorScheme.onPrimary,
                               ),
