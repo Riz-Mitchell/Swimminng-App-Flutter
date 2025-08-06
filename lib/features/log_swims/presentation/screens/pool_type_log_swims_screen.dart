@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/pool_type_log_swims_provider.dart';
-import 'package:swimming_app_frontend/features/log_swims/application/progress_bar_status_log_swims_provider.dart';
-import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/log_swims_shell_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/pool_type_selector_log_swims_widget.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/header_log_swims_widget.dart';
-import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/metric_button_widget.dart';
-import 'package:swimming_app_frontend/shared/presentation/widgets/primary_button_widget.dart';
 
 class PoolTypeLogSwimsScreen extends ConsumerWidget {
   const PoolTypeLogSwimsScreen({super.key});
@@ -23,18 +20,13 @@ class PoolTypeLogSwimsScreen extends ConsumerWidget {
 
     final isNextEnabled = selectedPoolType != SelectedPoolTypeEnum.unselected;
 
-    final progressBarStatus = ref.read(progressBarStatusLogSwimsProvider);
-    final progressBarStatusNotifier = ref.read(
-      progressBarStatusLogSwimsProvider.notifier,
-    );
-
     return LogSwimsShellScreen(
       child: Column(
         spacing: 40,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          HeaderLogSwimsWidget(progressBarStatus: progressBarStatus),
+          HeaderLogSwimsWidget(),
           Column(
             children: [
               Text(
@@ -57,10 +49,7 @@ class PoolTypeLogSwimsScreen extends ConsumerWidget {
             isEnabled: isNextEnabled,
             onPressed: () {
               if (isNextEnabled) {
-                progressBarStatusNotifier.state =
-                    StatusLogSwimsEnum.selectStroke;
-
-                ref.read(routerProvider).go('/add-swim-stroke');
+                ref.read(logSwimProvider.notifier).navigateToNextStep();
               }
             },
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/progress_icon_log_swims_widget.dart';
 import 'package:swimming_app_frontend/shared/application/nav_direction_provider.dart';
@@ -7,12 +8,14 @@ import 'package:swimming_app_frontend/shared/application/providers/router_provid
 import 'package:swimming_app_frontend/shared/presentation/widgets/return_widget.dart';
 
 class HeaderLogSwimsWidget extends ConsumerWidget {
-  final StatusLogSwimsEnum progressBarStatus;
-
-  const HeaderLogSwimsWidget({super.key, required this.progressBarStatus});
+  const HeaderLogSwimsWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final progressBarStatus = ref
+        .read(logSwimProvider.notifier)
+        .getCurrentPageStatus();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
