@@ -26,8 +26,8 @@ class DateSelectorLogbookWidget extends ConsumerWidget {
         selectedDate.month != finalDate.month ||
         selectedDate.year != finalDate.year;
 
-    print('forwardIsActive: $forwardIsActive');
-    print('backIsActive: $backIsActive');
+    // print('forwardIsActive: $forwardIsActive');
+    // print('backIsActive: $backIsActive');
 
     return Row(
       spacing: 10,

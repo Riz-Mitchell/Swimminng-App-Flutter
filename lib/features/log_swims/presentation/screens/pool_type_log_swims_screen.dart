@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/pool_type_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/log_swims_shell_screen.dart';
-import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/progress_bar_log_swims_widget.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/pool_type_selector_log_swims_widget.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/header_log_swims_widget.dart';
+import 'package:swimming_app_frontend/shared/presentation/widgets/metric_button_widget.dart';
+import 'package:swimming_app_frontend/shared/presentation/widgets/primary_button_widget.dart';
 
 class PoolTypeLogSwimsScreen extends ConsumerWidget {
   const PoolTypeLogSwimsScreen({super.key});
@@ -11,19 +16,35 @@ class PoolTypeLogSwimsScreen extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
+    final selectedPoolType = ref.watch(selectedPoolTypeProvider);
+
+    final isNextEnabled = selectedPoolType != SelectedPoolTypeEnum.unselected;
+
     return LogSwimsShellScreen(
       child: Column(
-        spacing: 50,
+        spacing: 40,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ProgressBarLogSwimsWidget(),
-          Text(
-            'Pool Type?',
-            style: textTheme.displayMedium?.copyWith(
-              color: colorScheme.primary,
-            ),
+          HeaderLogSwimsWidget(),
+          Column(
+            children: [
+              Text(
+                'Pool Type?',
+                style: textTheme.displayMedium?.copyWith(
+                  color: colorScheme.primary,
+                ),
+              ),
+              Text(
+                'Please select the type of pool you swam in.',
+                style: textTheme.bodyMedium?.copyWith(
+                  color: colorScheme.secondary,
+                ),
+              ),
+            ],
           ),
+          PoolTypeSelectorLogSwimsWidget(),
+          MetricButtonWidget(text: 'Next', isEnabled: isNextEnabled),
         ],
       ),
     );

@@ -35,10 +35,10 @@ class GraphFooterLogbookWidget extends ConsumerWidget {
               ),
             ),
             Text(
-              'Worse',
+              'Bad',
               style: TextTheme.of(
                 context,
-              ).headlineMedium!.copyWith(color: colorScheme.primary),
+              ).headlineMedium!.copyWith(color: colorScheme.secondary),
             ),
           ],
         ),
@@ -47,10 +47,10 @@ class GraphFooterLogbookWidget extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Better',
+              'Good',
               style: TextTheme.of(
                 context,
-              ).headlineMedium!.copyWith(color: colorScheme.primary),
+              ).headlineMedium!.copyWith(color: colorScheme.secondary),
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),

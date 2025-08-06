@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/log_swims_shell_screen.dart';
-import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/progress_bar_log_swims_widget.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/header_log_swims_widget.dart';
 
 class QuestionaireLogSwimsScreen extends ConsumerWidget {
   const QuestionaireLogSwimsScreen({super.key});
@@ -17,7 +17,7 @@ class QuestionaireLogSwimsScreen extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          ProgressBarLogSwimsWidget(),
+          HeaderLogSwimsWidget(),
           Text(
             'Pool Type?',
             style: textTheme.displayMedium?.copyWith(

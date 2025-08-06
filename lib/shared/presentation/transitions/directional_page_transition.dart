@@ -7,7 +7,7 @@ CustomTransitionPage<T> buildPageWithDirectionalSlide<T>({
   required NavigationDirection direction,
 }) {
   return CustomTransitionPage<T>(
-    transitionDuration: const Duration(milliseconds: 300),
+    transitionDuration: const Duration(milliseconds: 1000),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       final offset = direction == NavigationDirection.forward
           ? const Offset(1.0, 0.0) // from right

@@ -5,7 +5,7 @@ import 'package:swimming_app_frontend/features/app_start/presentation/screens/on
 import 'package:swimming_app_frontend/features/app_start/presentation/screens/launch_app_start_screen.dart';
 import 'package:swimming_app_frontend/features/home/presentation/screens/heart_rate_screen.dart';
 import 'package:swimming_app_frontend/features/home/presentation/screens/home.dart';
-import 'package:swimming_app_frontend/features/log_swims/presentation/screens/landing_add_swims_screen.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/screens/pool_type_log_swims_screen.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/screens/landing_logbook_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/done_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/phone_num_login_screen.dart';
@@ -55,10 +55,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/logbook-landing',
             name: 'logbook-landing',
-            pageBuilder: (context, state) => NoTransitionPage(
-              key: state.pageKey,
-              child: const LandingLogbookScreen(), // Updated to new class name
-            ),
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                key: state.pageKey,
+                child: const LandingLogbookScreen(),
+              );
+            },
           ),
           GoRoute(
             path: '/squad-landing',
@@ -87,23 +89,19 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/swims-landing',
             name: 'swimsLanding',
-            pageBuilder: (context, state) => NoTransitionPage(
-              key: state.pageKey,
-              child: const SwimsLandingScreen(),
-            ),
+            pageBuilder: (context, state) {
+              return NoTransitionPage(
+                key: state.pageKey,
+                child: const SwimsLandingScreen(),
+              );
+            },
           ),
         ],
       ),
       GoRoute(
         path: '/add-swim-landing',
         name: 'addSwimLanding',
-        pageBuilder: (context, state) {
-          final direction = ref.watch(navDirectionProvider);
-          return buildPageWithDirectionalSlide(
-            child: const LandingAddSwimsScreen(),
-            direction: direction,
-          );
-        },
+        builder: (context, state) => const PoolTypeLogSwimsScreen(),
       ),
 
       GoRoute(

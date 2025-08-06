@@ -33,7 +33,11 @@ class GraphLogbookWidget extends ConsumerWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [metricRed, metricYellow, metricPurple],
+                colors: [
+                  metricRed.withOpacity(1),
+                  metricYellow.withOpacity(1),
+                  metricPurple.withOpacity(1),
+                ],
               ),
               spots: [
                 FlSpot(0, 2.3),
