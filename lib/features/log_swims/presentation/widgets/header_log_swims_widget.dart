@@ -7,7 +7,9 @@ import 'package:swimming_app_frontend/shared/application/providers/router_provid
 import 'package:swimming_app_frontend/shared/presentation/widgets/return_widget.dart';
 
 class HeaderLogSwimsWidget extends ConsumerWidget {
-  const HeaderLogSwimsWidget({super.key});
+  final ProgressBarStatusEnum progressBarStatus;
+
+  const HeaderLogSwimsWidget({super.key, required this.progressBarStatus});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,28 +35,49 @@ class HeaderLogSwimsWidget extends ConsumerWidget {
           children: [
             ProgressIconLogSwimsWidget(
               status: ProgressBarStatusEnum.selectPoolType,
-              completed: false,
-              isUsing: true,
+              completed:
+                  progressBarStatus.index >
+                  ProgressBarStatusEnum.selectPoolType.index,
+              isUsing:
+                  progressBarStatus == ProgressBarStatusEnum.selectPoolType,
             ),
             ProgressIconLogSwimsWidget(
               status: ProgressBarStatusEnum.selectStroke,
-              completed: false,
+              completed:
+                  progressBarStatus.index >
+                  ProgressBarStatusEnum.selectStroke.index,
+              isUsing: progressBarStatus == ProgressBarStatusEnum.selectStroke,
             ),
             ProgressIconLogSwimsWidget(
               status: ProgressBarStatusEnum.selectDistance,
-              completed: false,
+              completed:
+                  progressBarStatus.index >
+                  ProgressBarStatusEnum.selectDistance.index,
+              isUsing:
+                  progressBarStatus == ProgressBarStatusEnum.selectDistance,
             ),
             ProgressIconLogSwimsWidget(
               status: ProgressBarStatusEnum.addSplits,
-              completed: false,
+              completed:
+                  progressBarStatus.index >
+                  ProgressBarStatusEnum.addSplits.index,
+              isUsing: progressBarStatus == ProgressBarStatusEnum.addSplits,
             ),
             ProgressIconLogSwimsWidget(
               status: ProgressBarStatusEnum.completeQuestionnaire,
-              completed: false,
+              completed:
+                  progressBarStatus.index >
+                  ProgressBarStatusEnum.completeQuestionnaire.index,
+              isUsing:
+                  progressBarStatus ==
+                  ProgressBarStatusEnum.completeQuestionnaire,
             ),
             ProgressIconLogSwimsWidget(
               status: ProgressBarStatusEnum.complete,
-              completed: false,
+              completed:
+                  progressBarStatus.index >
+                  ProgressBarStatusEnum.complete.index,
+              isUsing: progressBarStatus == ProgressBarStatusEnum.complete,
             ),
           ],
         ),
