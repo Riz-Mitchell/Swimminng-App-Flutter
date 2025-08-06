@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:swimming_app_frontend/features/log_swims/domain/enum/progress_bar_status_enum.dart';
+import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
 class ProgressIconLogSwimsWidget extends ConsumerWidget {
   final bool completed;
   final bool isUsing;
-  final ProgressBarStatusEnum status;
+  final StatusLogSwimsEnum status;
 
   const ProgressIconLogSwimsWidget({
     super.key,
@@ -43,22 +43,22 @@ class ProgressIconLogSwimsWidget extends ConsumerWidget {
   Widget _getStatusIcon() {
     String assetPath;
     switch (status) {
-      case ProgressBarStatusEnum.selectPoolType:
+      case StatusLogSwimsEnum.selectPoolType:
         assetPath = 'assets/svg/pool_type.svg';
         break;
-      case ProgressBarStatusEnum.selectStroke:
+      case StatusLogSwimsEnum.selectStroke:
         assetPath = 'assets/svg/swimmer_icon.svg';
         break;
-      case ProgressBarStatusEnum.selectDistance:
+      case StatusLogSwimsEnum.selectDistance:
         assetPath = 'assets/svg/ruler.svg';
         break;
-      case ProgressBarStatusEnum.addSplits:
+      case StatusLogSwimsEnum.addSplits:
         assetPath = 'assets/svg/splits_icon.svg';
         break;
-      case ProgressBarStatusEnum.completeQuestionnaire:
+      case StatusLogSwimsEnum.completeQuestionnaire:
         assetPath = 'assets/svg/clip_board.svg';
         break;
-      case ProgressBarStatusEnum.complete:
+      case StatusLogSwimsEnum.complete:
         assetPath = 'assets/svg/tick.svg';
         break;
     }

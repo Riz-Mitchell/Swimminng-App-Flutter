@@ -5,7 +5,12 @@ import 'package:swimming_app_frontend/features/app_start/presentation/screens/on
 import 'package:swimming_app_frontend/features/app_start/presentation/screens/launch_app_start_screen.dart';
 import 'package:swimming_app_frontend/features/home/presentation/screens/heart_rate_screen.dart';
 import 'package:swimming_app_frontend/features/home/presentation/screens/home.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/screens/complete_log_swims_screen.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/screens/distance_log_swims_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/pool_type_log_swims_screen.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/screens/questionaire_log_swims_screen.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/screens/splits_log_swims_screen.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/screens/stroke_log_swims_screen.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/screens/landing_logbook_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/done_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/phone_num_login_screen.dart';
@@ -102,6 +107,31 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/add-swim-landing',
         name: 'addSwimLanding',
         builder: (context, state) => const PoolTypeLogSwimsScreen(),
+      ),
+      GoRoute(
+        path: '/add-swim-stroke',
+        name: 'addSwimStroke',
+        builder: (context, state) => const StrokeLogSwimsScreen(),
+      ),
+      GoRoute(
+        path: '/add-swim-distance',
+        name: 'addSwimDistance',
+        builder: (context, state) => const DistanceLogSwimsScreen(),
+      ),
+      GoRoute(
+        path: '/add-swim-splits',
+        name: 'addSwimSplits',
+        builder: (context, state) => const SplitsLogSwimsScreen(),
+      ),
+      GoRoute(
+        path: '/add-swim-questionnaire',
+        name: 'addSwimQuestionnaire',
+        builder: (context, state) => const QuestionnaireLogSwimsScreen(),
+      ),
+      GoRoute(
+        path: '/add-swim-complete',
+        name: 'addSwimComplete',
+        builder: (context, state) => const CompleteLogSwimsScreen(),
       ),
 
       GoRoute(
