@@ -3,12 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/progress_icon_log_swims_widget.dart';
-import 'package:swimming_app_frontend/shared/application/nav_direction_provider.dart';
-import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/return_widget.dart';
 
 class HeaderLogSwimsWidget extends ConsumerWidget {
-  const HeaderLogSwimsWidget({super.key});
+  final bool donePage;
+
+  const HeaderLogSwimsWidget({super.key, this.donePage = false});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,18 +19,14 @@ class HeaderLogSwimsWidget extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ReturnWidget(
-          onTap: () {
-            ref.read(navDirectionProvider.notifier).state =
-                NavigationDirection.backward;
-
-            print(
-              'navigating to logbook landing with direction: ${ref.read(navDirectionProvider)}',
-            );
-
-            ref.read(routerProvider).go('/logbook-landing');
-          },
-        ),
+        // If done make invisible to go back
+        (donePage)
+            ? SizedBox(width: 40, height: 40)
+            : ReturnWidget(
+                onTap: () {
+                  ref.read(logSwimProvider.notifier).navigateToPrevStep();
+                },
+              ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
