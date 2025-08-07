@@ -17,4 +17,32 @@ class SelectedEventStrokeLogSwimsProvider
       ...{stroke: !state[stroke]!},
     };
   }
+
+  bool isStrokeSelected(StrokeEnum stroke) {
+    return state[stroke] ?? false;
+  }
+
+  bool isValidSelection() {
+    int selectedCount = state.values.where((v) => v).length;
+    return selectedCount == 1 || selectedCount == 4;
+  }
+
+  bool isIndividualMedleySelected() {
+    int selectedCount = state.values.where((v) => v).length;
+    return selectedCount == 4;
+  }
+
+  bool isFreestyleSelected() {
+    if (!isValidSelection()) {
+      return false;
+    }
+
+    return state[StrokeEnum.freestyle] ?? false;
+  }
 }
+
+final selectedEventStrokeLogSwimsProvider =
+    NotifierProvider<
+      SelectedEventStrokeLogSwimsProvider,
+      Map<StrokeEnum, bool>
+    >(SelectedEventStrokeLogSwimsProvider.new);
