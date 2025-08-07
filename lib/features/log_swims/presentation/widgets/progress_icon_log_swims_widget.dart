@@ -53,7 +53,7 @@ class ProgressIconLogSwimsWidget extends ConsumerWidget {
         assetPath = 'assets/svg/ruler.svg';
         break;
       case StatusLogSwimsEnum.addSplits:
-        assetPath = 'assets/svg/splits_icon.svg';
+        assetPath = 'assets/svg/personal_best.svg';
         break;
       case StatusLogSwimsEnum.completeQuestionnaire:
         assetPath = 'assets/svg/clip_board.svg';
