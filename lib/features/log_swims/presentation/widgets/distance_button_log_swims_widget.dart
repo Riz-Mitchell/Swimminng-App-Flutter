@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/pool_type_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/selected_distance_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_distance_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
 class DistanceButtonLogSwimsWidget extends ConsumerWidget {
   final bool isSelected;
-  final DistanceEnum distanceEnum;
+  final SelectedDistanceEnum selectedDistanceEnum;
 
   const DistanceButtonLogSwimsWidget({
     super.key,
-    required this.distanceEnum,
+    required this.selectedDistanceEnum,
     this.isSelected = false,
   });
 
@@ -44,7 +45,11 @@ class DistanceButtonLogSwimsWidget extends ConsumerWidget {
     );
   }
 
-  void _handleOnTap(WidgetRef ref) {}
+  void _handleOnTap(WidgetRef ref) {
+    ref
+        .read(selectedDistanceLogSwimsProvider.notifier)
+        .selectDistance(selectedDistanceEnum);
+  }
 
   String _getDistanceText(SelectedPoolTypeEnum poolType) {
     String text = '';
@@ -60,18 +65,20 @@ class DistanceButtonLogSwimsWidget extends ConsumerWidget {
         return '';
     }
 
-    switch (distanceEnum) {
-      case DistanceEnum.fifty:
+    switch (selectedDistanceEnum) {
+      case SelectedDistanceEnum.unselected:
+        return '';
+      case SelectedDistanceEnum.fifty:
         return '50$text';
-      case DistanceEnum.oneHundred:
+      case SelectedDistanceEnum.oneHundred:
         return '100$text';
-      case DistanceEnum.twoHundred:
+      case SelectedDistanceEnum.twoHundred:
         return '200$text';
-      case DistanceEnum.fourHundred:
+      case SelectedDistanceEnum.fourHundred:
         return '400$text';
-      case DistanceEnum.eightHundred:
+      case SelectedDistanceEnum.eightHundred:
         return '800$text';
-      case DistanceEnum.oneThousandFiveHundred:
+      case SelectedDistanceEnum.oneThousandFiveHundred:
         return '1500$text';
     }
   }
