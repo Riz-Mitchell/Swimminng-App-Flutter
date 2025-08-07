@@ -6,73 +6,38 @@ import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.da
 
 class PoolTypeButtonLogSwimsWidget extends ConsumerWidget {
   final SelectedPoolTypeEnum type;
+  final bool isSelected;
 
-  final Duration animationDuration = const Duration(milliseconds: 500);
-
-  const PoolTypeButtonLogSwimsWidget({super.key, required this.type});
+  const PoolTypeButtonLogSwimsWidget({
+    super.key,
+    this.isSelected = false,
+    required this.type,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    final screenWidth = MediaQuery.of(context).size.width;
 
-    final selectedPoolType = ref.watch(selectedPoolTypeProvider);
-
-    final isSelected = selectedPoolType == type;
+    final currColor = isSelected ? metricBlue : colorScheme.secondary;
 
     return GestureDetector(
-      onTap: () {
-        ref.read(selectedPoolTypeProvider.notifier).state = type;
-      },
+      onTap: () => _handleOnTap(ref),
       child: AnimatedContainer(
-        width: isSelected ? screenWidth : screenWidth * 0.8,
-        duration: animationDuration,
-        curve: Curves.easeInOut,
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+        duration: const Duration(milliseconds: 300),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? metricBlue : colorScheme.secondary,
-            width: 2,
-          ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: currColor, width: 2),
         ),
-        child: Column(
-          children: [
-            AnimatedDefaultTextStyle(
-              duration: animationDuration,
-              curve: Curves.easeInOut,
-              style: textTheme.displaySmall!.copyWith(
-                color: isSelected ? metricBlue : colorScheme.secondary,
-              ),
-              child: Text(_getReadableTitle(), textAlign: TextAlign.center),
-            ),
-            AnimatedDefaultTextStyle(
-              duration: animationDuration,
-              curve: Curves.easeInOut,
-              style: textTheme.bodyMedium!.copyWith(
-                color: isSelected ? metricBlue : colorScheme.secondary,
-              ),
-              child: Text(_getReadableSubtext(), textAlign: TextAlign.center),
-            ),
-          ],
+        child: AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 300),
+          style: textTheme.bodyMedium!.copyWith(color: (currColor)),
+          child: Text(_getReadableTitle()),
         ),
       ),
     );
-  }
-
-  String _getReadableSubtext() {
-    switch (type) {
-      case SelectedPoolTypeEnum.shortCourseMeters:
-        return 'Short Course Meters';
-      case SelectedPoolTypeEnum.longCourseMeters:
-        return 'Long Course Meters';
-      case SelectedPoolTypeEnum.shortCourseYards:
-        return 'Short Course Yards';
-      case SelectedPoolTypeEnum.unselected:
-        return 'Unselected';
-    }
   }
 
   String _getReadableTitle() {
@@ -86,5 +51,9 @@ class PoolTypeButtonLogSwimsWidget extends ConsumerWidget {
       case SelectedPoolTypeEnum.unselected:
         return 'Unselected';
     }
+  }
+
+  void _handleOnTap(WidgetRef ref) {
+    ref.read(selectedPoolTypeProvider.notifier).state = type;
   }
 }
