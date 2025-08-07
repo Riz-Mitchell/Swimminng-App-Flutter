@@ -6,6 +6,10 @@ class SelectedDistanceLogSwimsProvider extends Notifier<SelectedDistanceEnum> {
   @override
   SelectedDistanceEnum build() => SelectedDistanceEnum.unselected;
 
+  void resetSelectedDistance() {
+    state = SelectedDistanceEnum.unselected;
+  }
+
   void selectDistance(SelectedDistanceEnum distance) {
     state = distance;
   }
@@ -34,3 +38,8 @@ class SelectedDistanceLogSwimsProvider extends Notifier<SelectedDistanceEnum> {
     }
   }
 }
+
+final selectedDistanceLogSwimsProvider =
+    NotifierProvider<SelectedDistanceLogSwimsProvider, SelectedDistanceEnum>(
+      SelectedDistanceLogSwimsProvider.new,
+    );
