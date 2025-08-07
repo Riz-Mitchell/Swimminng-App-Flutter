@@ -24,7 +24,8 @@ class MetricButtonWidget extends ConsumerWidget {
 
     return GestureDetector(
       onTap: isEnabled ? _handleOnPressed : null,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
         alignment: Alignment.center,
         width: screenWidth,
         decoration: BoxDecoration(
