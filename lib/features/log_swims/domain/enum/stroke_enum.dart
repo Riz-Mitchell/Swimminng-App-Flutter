@@ -1,7 +1,1 @@
-enum EventStrokeEnum {
-  backstroke,
-  butterfly,
-  breaststroke,
-  freestyle,
-  individualMedley,
-}
+enum StrokeEnum { backstroke, butterfly, breaststroke, freestyle }
