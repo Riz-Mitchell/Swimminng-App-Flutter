@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/log_swims_shell_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/header_log_swims_widget.dart';
+import 'package:swimming_app_frontend/shared/presentation/widgets/metric_button_widget.dart';
 
 class QuestionnaireLogSwimsScreen extends ConsumerWidget {
   const QuestionnaireLogSwimsScreen({super.key});
@@ -19,10 +21,18 @@ class QuestionnaireLogSwimsScreen extends ConsumerWidget {
         children: [
           HeaderLogSwimsWidget(),
           Text(
-            'Pool Type?',
+            'Notes',
             style: textTheme.displayMedium?.copyWith(
               color: colorScheme.primary,
             ),
+          ),
+          MetricButtonWidget(
+            text: 'Next',
+            onPressed: () {
+              if (true) {
+                ref.read(logSwimProvider.notifier).navigateToNextStep();
+              }
+            },
           ),
         ],
       ),
