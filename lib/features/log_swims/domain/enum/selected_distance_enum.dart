@@ -1,4 +1,4 @@
-enum DistanceEnum {
+enum SelectedDistanceEnum {
   unselected,
   fifty,
   oneHundred,
