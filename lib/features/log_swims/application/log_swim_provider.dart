@@ -8,6 +8,41 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
   LogSwimStateModel build() =>
       LogSwimStateModel(status: StatusLogSwimsEnum.selectPoolType);
 
+  void navigateToPrevStep() {
+    final currentStatus = state.status;
+    final prevStatusIndex = currentStatus.index - 1;
+
+    // Override the attempted change to status if it is complete
+    if (currentStatus == StatusLogSwimsEnum.complete) {
+      ref.read(routerProvider).go('/logbook-landing');
+      _reset();
+      return;
+    }
+
+    if (prevStatusIndex >= 0) {
+      final prevStatus = StatusLogSwimsEnum.values[prevStatusIndex];
+      _updatePageStatus(prevStatus);
+      switch (prevStatus) {
+        case StatusLogSwimsEnum.selectPoolType:
+          ref.read(routerProvider).go('/add-swim-landing');
+        case StatusLogSwimsEnum.selectStroke:
+          ref.read(routerProvider).go('/add-swim-stroke');
+        case StatusLogSwimsEnum.selectDistance:
+          ref.read(routerProvider).go('/add-swim-distance');
+        case StatusLogSwimsEnum.addSplits:
+          ref.read(routerProvider).go('/add-swim-splits');
+        case StatusLogSwimsEnum.completeQuestionnaire:
+          ref.read(routerProvider).go('/add-swim-questionnaire');
+        default:
+          break;
+      }
+    } else {
+      ref.read(routerProvider).go('/logbook-landing');
+      _reset();
+      return;
+    }
+  }
+
   void navigateToNextStep() {
     final currentStatus = state.status;
     final nextStatusIndex = currentStatus.index + 1;
@@ -31,6 +66,8 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
       }
     } else {
       ref.read(routerProvider).go('/logbook-landing');
+      _reset();
+      return;
     }
   }
 
@@ -43,7 +80,7 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
   }
 
   void _reset() {
-    state = LogSwimStateModel(status: StatusLogSwimsEnum.selectPoolType);
+    state = state.copyWith(status: StatusLogSwimsEnum.selectPoolType);
   }
 }
 
