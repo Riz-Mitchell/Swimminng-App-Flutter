@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/log_swims_shell_screen.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/event_distance_selector_log_swims_widget.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/header_log_swims_widget.dart';
+import 'package:swimming_app_frontend/shared/presentation/widgets/metric_button_widget.dart';
 
 class DistanceLogSwimsScreen extends ConsumerWidget {
   const DistanceLogSwimsScreen({super.key});
@@ -22,6 +25,15 @@ class DistanceLogSwimsScreen extends ConsumerWidget {
             style: textTheme.displayMedium?.copyWith(
               color: colorScheme.primary,
             ),
+          ),
+          EventDistanceSelectorLogSwimsWidget(),
+          MetricButtonWidget(
+            text: 'Next',
+            onPressed: () {
+              if (true) {
+                ref.read(logSwimProvider.notifier).navigateToNextStep();
+              }
+            },
           ),
         ],
       ),
