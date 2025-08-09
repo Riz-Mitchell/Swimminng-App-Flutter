@@ -38,7 +38,7 @@ class PbCardProfileWidget extends ConsumerWidget {
                   children: [
                     Text(
                       '50m · Race',
-                      style: textTheme.headlineMedium?.copyWith(
+                      style: textTheme.headlineSmall?.copyWith(
                         color: metricPurpleSecondary,
                       ),
                     ),
@@ -97,7 +97,7 @@ class PbCardProfileWidget extends ConsumerWidget {
                             ),
                             Text(
                               '50m',
-                              style: textTheme.headlineMedium?.copyWith(
+                              style: textTheme.headlineSmall?.copyWith(
                                 color: colorScheme.primary,
                               ),
                             ),
@@ -116,7 +116,7 @@ class PbCardProfileWidget extends ConsumerWidget {
                             ),
                             Text(
                               '783',
-                              style: textTheme.headlineMedium?.copyWith(
+                              style: textTheme.headlineSmall?.copyWith(
                                 color: colorScheme.primary,
                               ),
                             ),
@@ -135,7 +135,7 @@ class PbCardProfileWidget extends ConsumerWidget {
                             ),
                             Text(
                               '0.24s',
-                              style: textTheme.headlineMedium?.copyWith(
+                              style: textTheme.headlineSmall?.copyWith(
                                 color: colorScheme.primary,
                               ),
                             ),

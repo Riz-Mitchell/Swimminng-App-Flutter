@@ -28,9 +28,7 @@ class CarouselProfileWidget extends ConsumerWidget {
               children: [
                 Text(
                   'Personal Bests',
-                  style: textTheme.headlineMedium?.copyWith(
-                    color: metricPurple,
-                  ),
+                  style: textTheme.headlineSmall?.copyWith(color: metricPurple),
                 ),
                 SvgPicture.asset(
                   'assets/svg/personal_best.svg',

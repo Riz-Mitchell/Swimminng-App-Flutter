@@ -29,7 +29,7 @@ class LeaderboardSummarySquadWidget extends ConsumerWidget {
             children: [
               Text(
                 'Squad Leaderboards',
-                style: textTheme.headlineMedium?.copyWith(
+                style: textTheme.headlineSmall?.copyWith(
                   color: colorScheme.primary,
                 ),
               ),

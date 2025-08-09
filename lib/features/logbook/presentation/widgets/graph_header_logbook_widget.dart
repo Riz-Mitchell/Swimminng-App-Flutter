@@ -70,13 +70,13 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
                 children: [
                   Text(
                     '+4.10%',
-                    style: textTheme.headlineMedium!.copyWith(
+                    style: textTheme.headlineSmall!.copyWith(
                       color: colorScheme.primary,
                     ),
                   ),
                   Text(
                     '-4.35%',
-                    style: textTheme.headlineMedium!.copyWith(
+                    style: textTheme.headlineSmall!.copyWith(
                       color: colorScheme.primary,
                     ),
                   ),

@@ -36,7 +36,7 @@ class BasicCardSquadWidget extends ConsumerWidget {
                   children: [
                     Text(
                       'National Open · Nunawading',
-                      style: textTheme.headlineMedium?.copyWith(
+                      style: textTheme.headlineSmall?.copyWith(
                         color: colorScheme.secondary,
                       ),
                     ),

@@ -47,7 +47,7 @@ class RankingListItemSquadWidget extends ConsumerWidget {
                     ? textTheme.displaySmall?.copyWith(
                         color: colorScheme.primary,
                       )
-                    : textTheme.headlineMedium?.copyWith(
+                    : textTheme.headlineSmall?.copyWith(
                         color: colorScheme.primary,
                       ),
               ),
@@ -75,7 +75,7 @@ class RankingListItemSquadWidget extends ConsumerWidget {
           ),
           Text(
             result,
-            style: textTheme.headlineMedium?.copyWith(
+            style: textTheme.headlineSmall?.copyWith(
               color: colorScheme.primary,
             ),
           ),

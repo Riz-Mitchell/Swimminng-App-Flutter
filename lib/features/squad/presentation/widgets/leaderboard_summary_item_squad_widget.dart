@@ -37,7 +37,7 @@ class LeaderboardSummaryItemSquadWidget extends ConsumerWidget {
             children: [
               Text(
                 leaderboardName,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                 ),
               ),

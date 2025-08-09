@@ -38,7 +38,7 @@ class GraphFooterLogbookWidget extends ConsumerWidget {
               'Bad',
               style: TextTheme.of(
                 context,
-              ).headlineMedium!.copyWith(color: colorScheme.secondary),
+              ).headlineSmall!.copyWith(color: colorScheme.secondary),
             ),
           ],
         ),
@@ -50,7 +50,7 @@ class GraphFooterLogbookWidget extends ConsumerWidget {
               'Good',
               style: TextTheme.of(
                 context,
-              ).headlineMedium!.copyWith(color: colorScheme.secondary),
+              ).headlineSmall!.copyWith(color: colorScheme.secondary),
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),

@@ -50,7 +50,7 @@ class HeaderProfileWidget extends ConsumerWidget {
             children: [
               Text(
                 'Rizzle',
-                style: textTheme.headlineMedium?.copyWith(
+                style: textTheme.headlineSmall?.copyWith(
                   color: colorScheme.primary,
                 ),
               ),
@@ -68,7 +68,7 @@ class HeaderProfileWidget extends ConsumerWidget {
                       ),
                       Text(
                         '$swims',
-                        style: textTheme.headlineMedium?.copyWith(
+                        style: textTheme.headlineSmall?.copyWith(
                           color: colorScheme.primary,
                         ),
                       ),
@@ -84,7 +84,7 @@ class HeaderProfileWidget extends ConsumerWidget {
                       ),
                       Text(
                         'Jan 2025',
-                        style: textTheme.headlineMedium?.copyWith(
+                        style: textTheme.headlineSmall?.copyWith(
                           color: colorScheme.primary,
                         ),
                       ),
@@ -100,7 +100,7 @@ class HeaderProfileWidget extends ConsumerWidget {
                       ),
                       Text(
                         '$friends',
-                        style: textTheme.headlineMedium?.copyWith(
+                        style: textTheme.headlineSmall?.copyWith(
                           color: colorScheme.primary,
                         ),
                       ),

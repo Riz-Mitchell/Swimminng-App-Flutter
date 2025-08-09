@@ -51,7 +51,7 @@ class SwimCardLogbookWidget extends ConsumerWidget {
                   children: [
                     Text(
                       '2:15pm',
-                      style: textTheme.headlineMedium?.copyWith(
+                      style: textTheme.headlineSmall?.copyWith(
                         color: colorScheme.secondary,
                       ),
                     ),
@@ -110,7 +110,7 @@ class SwimCardLogbookWidget extends ConsumerWidget {
                             ),
                             Text(
                               '50m',
-                              style: textTheme.headlineMedium?.copyWith(
+                              style: textTheme.headlineSmall?.copyWith(
                                 color: colorScheme.onPrimary,
                               ),
                             ),
@@ -129,7 +129,7 @@ class SwimCardLogbookWidget extends ConsumerWidget {
                             ),
                             Text(
                               '100',
-                              style: textTheme.headlineMedium?.copyWith(
+                              style: textTheme.headlineSmall?.copyWith(
                                 color: colorScheme.onPrimary,
                               ),
                             ),
@@ -148,7 +148,7 @@ class SwimCardLogbookWidget extends ConsumerWidget {
                             ),
                             Text(
                               'SC',
-                              style: textTheme.headlineMedium?.copyWith(
+                              style: textTheme.headlineSmall?.copyWith(
                                 color: colorScheme.onPrimary,
                               ),
                             ),
@@ -167,7 +167,7 @@ class SwimCardLogbookWidget extends ConsumerWidget {
                             ),
                             Text(
                               'Incomplete',
-                              style: textTheme.headlineMedium?.copyWith(
+                              style: textTheme.headlineSmall?.copyWith(
                                 color: colorScheme.onPrimary,
                               ),
                             ),
