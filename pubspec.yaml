@@ -39,4 +39,16 @@ flutter:
   uses-material-design: true
   assets:
       - assets/svg/
-      - assets/images/
+      - assets/svg/self_talk/
+      - assets/svg/nerves/
+      - assets/svg/energy_level/
+      - assets/svg/breathing/
+      - assets/svg/catch_feel/
+      - assets/svg/stroke_length/
+      - assets/svg/kick_technique/
+      - assets/svg/kick_throughout/
+      - assets/svg/head_position/
+      - assets/svg/turn/
+      
+
+      - assets/images/..
