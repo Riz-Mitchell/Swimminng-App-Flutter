@@ -21,6 +21,16 @@ class SelectedEventStrokeLogSwimsProvider
     ref.read(selectedDistanceLogSwimsProvider.notifier).resetSelectedDistance();
   }
 
+  void resetSelectedEventStroke() {
+    state = {
+      StrokeEnum.freestyle: false,
+      StrokeEnum.backstroke: false,
+      StrokeEnum.breaststroke: false,
+      StrokeEnum.butterfly: false,
+    };
+    ref.read(selectedDistanceLogSwimsProvider.notifier).resetSelectedDistance();
+  }
+
   bool isStrokeSelected(StrokeEnum stroke) {
     return state[stroke] ?? false;
   }
