@@ -1,4 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/pool_type_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/post_swim_questionnaire_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/selected_distance_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/selected_event_stroke_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_swim_state_model.dart';
 import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
@@ -81,6 +86,11 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
 
   void _reset() {
     state = state.copyWith(status: StatusLogSwimsEnum.selectPoolType);
+    ref.invalidate(selectedPoolTypeProvider);
+    ref.invalidate(selectedEventStrokeLogSwimsProvider);
+    ref.invalidate(selectedDistanceLogSwimsProvider);
+    ref.invalidate(postSwimQuestionnaireLogSwimsProvider);
+    ref.invalidateSelf();
   }
 }
 
