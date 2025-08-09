@@ -14,3 +14,5 @@ const metricRedSecondary = Color(0xFF8B0F0F);
 
 const metricPurple = Color(0xFFB388FF);
 const metricPurpleSecondary = Color(0xFF7A1EA1);
+
+const metricOrange = Color(0xFFFF6F00);
