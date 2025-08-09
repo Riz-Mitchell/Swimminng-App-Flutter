@@ -68,7 +68,7 @@ class DateSelectorLogbookWidget extends ConsumerWidget {
             child: Center(
               child: Text(
                 _customDateFormatter(selectedDate),
-                style: textTheme.headlineMedium!.copyWith(
+                style: textTheme.headlineSmall!.copyWith(
                   color: colorScheme.primary,
                 ),
               ),
