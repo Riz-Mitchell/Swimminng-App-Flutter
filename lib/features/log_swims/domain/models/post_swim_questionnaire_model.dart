@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
 
 class PostSwimQuestionnaireModel {
@@ -48,7 +50,6 @@ class PostSwimQuestionnaireModel {
     },
     this.catchFeel = const {
       CatchFeelOptionsEnum.unselected: true,
-      CatchFeelOptionsEnum.good: false,
       CatchFeelOptionsEnum.strong: false,
       CatchFeelOptionsEnum.weak: false,
       CatchFeelOptionsEnum.slipping: false,
@@ -59,7 +60,6 @@ class PostSwimQuestionnaireModel {
       StrokeLengthOptionsEnum.unselected: true,
       StrokeLengthOptionsEnum.longer: false,
       StrokeLengthOptionsEnum.shorter: false,
-      StrokeLengthOptionsEnum.same: false,
     },
     this.kickTechnique = const {
       KickTechniqueOptionsEnum.unselected: true,
@@ -133,6 +133,7 @@ class PostSwimQuestionnaireModel {
     } else {
       // Multi select: toggle selected
       updatedMap = Map<T, bool>.from(currentMap);
+      print('Toggling option: $option, was selected: ${!isSelected}');
       updatedMap[option] = !isSelected;
     }
 
@@ -142,43 +143,76 @@ class PostSwimQuestionnaireModel {
       updatedMap[firstKey] = true;
     }
 
-    switch (T) {
-      case SelfTalkOptionsEnum _:
-        return copyWith(selfTalk: updatedMap as Map<SelfTalkOptionsEnum, bool>);
-      case NervesOptionsEnum _:
-        return copyWith(nerves: updatedMap as Map<NervesOptionsEnum, bool>);
-      case EnergyLevelOptionsEnum _:
-        return copyWith(
-          energyLevel: updatedMap as Map<EnergyLevelOptionsEnum, bool>,
-        );
-      case BreathingOptionsEnum _:
-        return copyWith(
-          breathing: updatedMap as Map<BreathingOptionsEnum, bool>,
-        );
-      case CatchFeelOptionsEnum _:
-        return copyWith(
-          catchFeel: updatedMap as Map<CatchFeelOptionsEnum, bool>,
-        );
-      case StrokeLengthOptionsEnum _:
-        return copyWith(
-          strokeLength: updatedMap as Map<StrokeLengthOptionsEnum, bool>,
-        );
-      case KickTechniqueOptionsEnum _:
-        return copyWith(
-          kickTechnique: updatedMap as Map<KickTechniqueOptionsEnum, bool>,
-        );
-      case KickThroughoutOptionsEnum _:
-        return copyWith(
-          kickThroughout: updatedMap as Map<KickThroughoutOptionsEnum, bool>,
-        );
-      case HeadPositionOptionsEnum _:
-        return copyWith(
-          headPosition: updatedMap as Map<HeadPositionOptionsEnum, bool>,
-        );
-      case TurnOptionsEnum _:
-        return copyWith(turn: updatedMap as Map<TurnOptionsEnum, bool>);
-      default:
-        throw Exception('Unknown enum type: $T');
+    if (option is SelfTalkOptionsEnum) {
+      return copyWith(selfTalk: updatedMap as Map<SelfTalkOptionsEnum, bool>);
+    } else if (option is NervesOptionsEnum) {
+      return copyWith(nerves: updatedMap as Map<NervesOptionsEnum, bool>);
+    } else if (option is EnergyLevelOptionsEnum) {
+      return copyWith(
+        energyLevel: updatedMap as Map<EnergyLevelOptionsEnum, bool>,
+      );
+    } else if (option is BreathingOptionsEnum) {
+      return copyWith(breathing: updatedMap as Map<BreathingOptionsEnum, bool>);
+    } else if (option is CatchFeelOptionsEnum) {
+      return copyWith(catchFeel: updatedMap as Map<CatchFeelOptionsEnum, bool>);
+    } else if (option is StrokeLengthOptionsEnum) {
+      return copyWith(
+        strokeLength: updatedMap as Map<StrokeLengthOptionsEnum, bool>,
+      );
+    } else if (option is KickTechniqueOptionsEnum) {
+      return copyWith(
+        kickTechnique: updatedMap as Map<KickTechniqueOptionsEnum, bool>,
+      );
+    } else if (option is KickThroughoutOptionsEnum) {
+      return copyWith(
+        kickThroughout: updatedMap as Map<KickThroughoutOptionsEnum, bool>,
+      );
+    } else if (option is HeadPositionOptionsEnum) {
+      return copyWith(
+        headPosition: updatedMap as Map<HeadPositionOptionsEnum, bool>,
+      );
+    } else if (option is TurnOptionsEnum) {
+      return copyWith(turn: updatedMap as Map<TurnOptionsEnum, bool>);
+    } else {
+      throw Exception('Unknown enum type: ${option.runtimeType}');
+    }
+  }
+
+  List<T> getSelectedOptions<T extends Enum>(Type questionnaireType) {
+    Map<T, bool>? map;
+
+    if (questionnaireType == SelfTalkOptionsEnum) {
+      map = selfTalk as Map<T, bool>?;
+    } else if (questionnaireType == NervesOptionsEnum) {
+      map = nerves as Map<T, bool>?;
+    } else if (questionnaireType == EnergyLevelOptionsEnum) {
+      map = energyLevel as Map<T, bool>?;
+    } else if (questionnaireType == BreathingOptionsEnum) {
+      map = breathing as Map<T, bool>?;
+    } else if (questionnaireType == CatchFeelOptionsEnum) {
+      map = catchFeel as Map<T, bool>?;
+    } else if (questionnaireType == StrokeLengthOptionsEnum) {
+      map = strokeLength as Map<T, bool>?;
+    } else if (questionnaireType == KickTechniqueOptionsEnum) {
+      map = kickTechnique as Map<T, bool>?;
+    } else if (questionnaireType == KickThroughoutOptionsEnum) {
+      map = kickThroughout as Map<T, bool>?;
+    } else if (questionnaireType == HeadPositionOptionsEnum) {
+      map = headPosition as Map<T, bool>?;
+    } else if (questionnaireType == TurnOptionsEnum) {
+      map = turn as Map<T, bool>?;
+    } else {
+      throw Exception('Unknown questionnaire type: $questionnaireType');
+    }
+
+    if (map == null) {
+      throw Exception('No options found for type: $questionnaireType');
+    }
+
+    try {
+      return map.entries.where((e) => e.value).map((e) => e.key).toList();
+    } catch (_) {
+      throw Exception('No selected option found for $questionnaireType');
     }
   }
 }
