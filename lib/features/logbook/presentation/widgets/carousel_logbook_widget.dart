@@ -25,7 +25,7 @@ class CarouselLogbookWidget extends ConsumerWidget {
             children: [
               Text(
                 'Swipe For Today\'s Swims',
-                style: textTheme.headlineMedium?.copyWith(
+                style: textTheme.headlineSmall?.copyWith(
                   color: colorScheme.primary,
                 ),
               ),
