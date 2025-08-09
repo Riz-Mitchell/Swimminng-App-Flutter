@@ -62,11 +62,11 @@ class MyApp extends ConsumerWidget {
             displaySmall: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
             headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             headlineMedium: TextStyle(
-              fontSize: 16,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
-            headlineSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-            bodyMedium: TextStyle(fontSize: 16, height: 1.5),
+            headlineSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            bodyMedium: TextStyle(fontSize: 16),
             labelSmall: TextStyle(fontSize: 12, letterSpacing: 1.2),
           ),
           extensions: <ThemeExtension<dynamic>>[
