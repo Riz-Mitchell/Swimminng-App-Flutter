@@ -1,4 +1,8 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
+import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
 String getSubtitle(Enum option) {
   switch (option) {
@@ -90,5 +94,63 @@ String getSubtitle(Enum option) {
       return 'Felt Fast';
     default:
       return 'Unknown';
+  }
+}
+
+Color getBackGroundColor(
+  Enum option,
+  bool isSelected,
+  ColorScheme colorScheme,
+) {
+  if (option is SelfTalkOptionsEnum ||
+      option is NervesOptionsEnum ||
+      option is EnergyLevelOptionsEnum) {
+    return isSelected ? metricGreen : colorScheme.background;
+  } else if (option is BreathingOptionsEnum) {
+    return isSelected ? metricYellow : colorScheme.background;
+  } else if (option is StrokeLengthOptionsEnum ||
+      option is CatchFeelOptionsEnum) {
+    return isSelected ? metricRed : colorScheme.background;
+  } else if (option is KickTechniqueOptionsEnum ||
+      option is KickThroughoutOptionsEnum) {
+    return isSelected ? metricOrange : colorScheme.background;
+  } else {
+    return isSelected ? metricPurple : colorScheme.background;
+  }
+}
+
+Color getSvgColor(Enum option, bool isSelected, ColorScheme colorScheme) {
+  if (option is SelfTalkOptionsEnum ||
+      option is NervesOptionsEnum ||
+      option is EnergyLevelOptionsEnum) {
+    return isSelected ? colorScheme.background : metricGreen;
+  } else if (option is BreathingOptionsEnum) {
+    return isSelected ? colorScheme.background : metricYellow;
+  } else if (option is StrokeLengthOptionsEnum ||
+      option is CatchFeelOptionsEnum) {
+    return isSelected ? colorScheme.background : metricRed;
+  } else if (option is KickTechniqueOptionsEnum ||
+      option is KickThroughoutOptionsEnum) {
+    return isSelected ? colorScheme.background : metricOrange;
+  } else {
+    return isSelected ? colorScheme.background : metricPurple;
+  }
+}
+
+Color getBorderColor(Enum option) {
+  if (option is SelfTalkOptionsEnum ||
+      option is NervesOptionsEnum ||
+      option is EnergyLevelOptionsEnum) {
+    return metricGreen;
+  } else if (option is BreathingOptionsEnum) {
+    return metricYellow;
+  } else if (option is StrokeLengthOptionsEnum ||
+      option is CatchFeelOptionsEnum) {
+    return metricRed;
+  } else if (option is KickTechniqueOptionsEnum ||
+      option is KickThroughoutOptionsEnum) {
+    return metricOrange;
+  } else {
+    return metricPurple;
   }
 }
