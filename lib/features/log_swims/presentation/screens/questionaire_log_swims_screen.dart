@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/log_swims_shell_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/header_log_swims_widget.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/questionnaire_selector_log_swims_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/metric_button_widget.dart';
 
 class QuestionnaireLogSwimsScreen extends ConsumerWidget {
@@ -15,7 +17,7 @@ class QuestionnaireLogSwimsScreen extends ConsumerWidget {
 
     return LogSwimsShellScreen(
       child: Column(
-        spacing: 50,
+        spacing: 10,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -26,6 +28,37 @@ class QuestionnaireLogSwimsScreen extends ConsumerWidget {
               color: colorScheme.primary,
             ),
           ),
+          QuestionnaireSelectorLogSwimsWidget<SelfTalkOptionsEnum>(
+            questionnaireType: SelfTalkOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<NervesOptionsEnum>(
+            questionnaireType: NervesOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<EnergyLevelOptionsEnum>(
+            questionnaireType: EnergyLevelOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<BreathingOptionsEnum>(
+            questionnaireType: BreathingOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<CatchFeelOptionsEnum>(
+            questionnaireType: CatchFeelOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<StrokeLengthOptionsEnum>(
+            questionnaireType: StrokeLengthOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<KickTechniqueOptionsEnum>(
+            questionnaireType: KickTechniqueOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<KickThroughoutOptionsEnum>(
+            questionnaireType: KickThroughoutOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<HeadPositionOptionsEnum>(
+            questionnaireType: HeadPositionOptionsEnum,
+          ),
+          QuestionnaireSelectorLogSwimsWidget<TurnOptionsEnum>(
+            questionnaireType: TurnOptionsEnum,
+          ),
+          SizedBox(height: 50),
           MetricButtonWidget(
             text: 'Next',
             onPressed: () {
@@ -34,6 +67,7 @@ class QuestionnaireLogSwimsScreen extends ConsumerWidget {
               }
             },
           ),
+          SizedBox(height: 50),
         ],
       ),
     );
