@@ -1,6 +1,7 @@
 import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 
 enum EventEnum {
+  none,
   freestyle50,
   freestyle100,
   freestyle200,
@@ -69,7 +70,7 @@ extension EventEnumExtension on EventEnum {
         }
     }
 
-    throw ('Invalid stroke distance combination');
+    return EventEnum.none;
   }
 
   String toReadableString() {
@@ -102,6 +103,8 @@ extension EventEnumExtension on EventEnum {
         return '200 IM';
       case EventEnum.individualMedley400:
         return '400 IM';
+      case EventEnum.none:
+        return 'None';
     }
   }
 }
