@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/log_split_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_split_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/distance_split_selector_log_swims_widget.dart';
@@ -38,16 +39,45 @@ class SplitModalLogSwimsWidget extends ConsumerWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       padding: const EdgeInsets.only(top: 40, left: 12, right: 12, bottom: 40),
-      child: switch (logSplitStatus) {
-        StatusLogSplitEnum.selectDistance =>
-          DistanceSplitSelectorLogSwimsWidget(),
-        StatusLogSplitEnum.selectTime => TimeSplitSelectorLogSwimsWidget(),
-        StatusLogSplitEnum.selectStrokeRate =>
-          StrokeRateSplitSelectorLogSwimsWidget(),
-        StatusLogSplitEnum.selectStrokeCount =>
-          StrokeCountSplitSelectorLogSwimsWidget(),
-      },
+      child: Navigator(
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (_) => _buildStepWidget(logSplitStatus),
+          );
+        },
+      ),
     );
+  }
+
+  Widget _buildStepWidget(StatusLogSplitEnum status) {
+    switch (status) {
+      case StatusLogSplitEnum.selectDistance:
+        return DistanceSplitSelectorLogSwimsWidget(
+          navigateToStep: _navigateToStep,
+          key: const ValueKey('distance'),
+        );
+      case StatusLogSplitEnum.selectTime:
+        return TimeSplitSelectorLogSwimsWidget(
+          navigateToStep: _navigateToStep,
+          key: ValueKey('time'),
+        );
+      case StatusLogSplitEnum.selectStrokeRate:
+        return StrokeRateSplitSelectorLogSwimsWidget(
+          navigateToStep: _navigateToStep,
+          key: const ValueKey('rate'),
+        );
+      case StatusLogSplitEnum.selectStrokeCount:
+        return StrokeCountSplitSelectorLogSwimsWidget(
+          navigateToStep: _navigateToStep,
+          key: ValueKey('count'),
+        );
+    }
+  }
+
+  void _navigateToStep(BuildContext context, StatusLogSplitEnum status) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => _buildStepWidget(status)));
   }
 
   void _tapToShowModal(
@@ -55,11 +85,11 @@ class SplitModalLogSwimsWidget extends ConsumerWidget {
     WidgetRef ref,
     StatusLogSplitEnum logSplitStatus,
   ) async {
-    await showModalBottomSheet(
+    await showCupertinoModalBottomSheet(
       context: rootNavigatorKey.currentContext!,
-      isScrollControlled: true,
-      useSafeArea: false,
+      expand: false, // keep at natural height (like your 500px)
       barrierColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
       builder: (context) => _handleModal(context, ref, logSplitStatus),
     );
 
