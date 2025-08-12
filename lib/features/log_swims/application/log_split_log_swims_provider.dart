@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/selected_event_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_split_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_split_state_model.dart';
 
 class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
   @override
   LogSplitStateModel build() {
-    return LogSplitStateModel(status: StatusLogSplitEnum.selectDistance);
+    final selectedEventState = ref.watch(selectedEventProvider);
+
+    return LogSplitStateModel(
+      event: selectedEventState,
+      status: StatusLogSplitEnum.selectDistance,
+    );
   }
 
   void navigateToPrevStep(BuildContext context) {
@@ -23,7 +29,9 @@ class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
       }
     } else {
       // No previous step: close modal and reset state
-      Navigator.of(context).pop();
+      print('closing modal and resetting state');
+      Navigator.of(context, rootNavigator: true).pop();
+      // Navigator.of(context).pop();
       _reset();
     }
   }
@@ -45,7 +53,7 @@ class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
       // Logic to handle the case when there is no next step
 
       // Add split to the swim model
-      Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
       _reset();
       return;
     }
