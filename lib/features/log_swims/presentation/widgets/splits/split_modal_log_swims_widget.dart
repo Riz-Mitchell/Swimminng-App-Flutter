@@ -38,13 +38,35 @@ class SplitModalLogSwimsWidget extends ConsumerWidget {
         color: colorScheme.primary,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      padding: const EdgeInsets.only(top: 40, left: 12, right: 12, bottom: 40),
-      child: Navigator(
-        onGenerateRoute: (settings) {
-          return MaterialPageRoute(
-            builder: (_) => _buildStepWidget(logSplitStatus),
-          );
-        },
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 12),
+            height: 4,
+            width: 40,
+            decoration: BoxDecoration(
+              color: colorScheme.secondary,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 20,
+                left: 12,
+                right: 12,
+                bottom: 40,
+              ),
+              child: Navigator(
+                onGenerateRoute: (settings) {
+                  return MaterialPageRoute(
+                    builder: (_) => _buildStepWidget(logSplitStatus),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -85,12 +107,12 @@ class SplitModalLogSwimsWidget extends ConsumerWidget {
     WidgetRef ref,
     StatusLogSplitEnum logSplitStatus,
   ) async {
-    await showCupertinoModalBottomSheet(
+    await showModalBottomSheet(
       context: rootNavigatorKey.currentContext!,
-      expand: false, // keep at natural height (like your 500px)
       barrierColor: Colors.transparent,
       backgroundColor: Colors.transparent,
-      builder: (context) => _handleModal(context, ref, logSplitStatus),
+      builder: (context) =>
+          Material(child: _handleModal(context, ref, logSplitStatus)),
     );
 
     ref.invalidate(logSplitProvider);
