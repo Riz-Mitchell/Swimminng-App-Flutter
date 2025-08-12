@@ -1,3 +1,4 @@
+import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 
 enum EventEnum {
@@ -20,7 +21,7 @@ enum EventEnum {
 
 extension EventEnumExtension on EventEnum {
   static EventEnum getEventByStrokeAndDistance({
-    Stroke? stroke,
+    StrokeEnum? stroke,
     required int distance,
   }) {
     print('stroke: ${stroke} distance: ${distance}');
@@ -32,7 +33,7 @@ extension EventEnumExtension on EventEnum {
           case 400:
             return EventEnum.individualMedley400;
         }
-      case Stroke.freestyle:
+      case StrokeEnum.freestyle:
         switch (distance) {
           case 50:
             return EventEnum.freestyle50;
@@ -47,21 +48,21 @@ extension EventEnumExtension on EventEnum {
           case 1500:
             return EventEnum.freestyle1500;
         }
-      case Stroke.backstroke:
+      case StrokeEnum.backstroke:
         switch (distance) {
           case 100:
             return EventEnum.backstroke100;
           case 200:
             return EventEnum.backstroke200;
         }
-      case Stroke.breaststroke:
+      case StrokeEnum.breaststroke:
         switch (distance) {
           case 100:
             return EventEnum.breaststroke100;
           case 200:
             return EventEnum.breaststroke200;
         }
-      case Stroke.butterfly:
+      case StrokeEnum.butterfly:
         switch (distance) {
           case 100:
             return EventEnum.butterfly100;
