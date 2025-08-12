@@ -1,4 +1,4 @@
-enum StatusLogSwimsEnum {
+enum StatusLogSplitEnum {
   selectDistance,
   selectTime,
   selectStrokeRate,
