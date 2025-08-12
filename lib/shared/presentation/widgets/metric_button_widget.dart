@@ -27,10 +27,10 @@ class MetricButtonWidget extends ConsumerWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         alignment: Alignment.center,
-        width: screenWidth,
+        width: 300,
         decoration: BoxDecoration(
           color: isEnabled ? metricColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isEnabled ? metricBlue : colorScheme.secondary,
             width: 2,
