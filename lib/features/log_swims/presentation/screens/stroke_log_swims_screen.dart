@@ -20,16 +20,14 @@ class StrokeLogSwimsScreen extends ConsumerWidget {
 
     return LogSwimsShellScreen(
       child: Column(
-        spacing: 50,
+        spacing: 40,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           HeaderLogSwimsWidget(),
           Text(
             'Event Stroke',
-            style: textTheme.displayMedium?.copyWith(
-              color: colorScheme.primary,
-            ),
+            style: textTheme.displaySmall?.copyWith(color: colorScheme.primary),
           ),
           StrokeSelectorLogSwimsWidget(),
           MetricButtonWidget(
