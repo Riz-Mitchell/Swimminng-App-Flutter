@@ -15,16 +15,14 @@ class CompleteLogSwimsScreen extends ConsumerWidget {
 
     return LogSwimsShellScreen(
       child: Column(
-        spacing: 50,
+        spacing: 40,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           HeaderLogSwimsWidget(donePage: true),
           Text(
             'All Done!',
-            style: textTheme.displayMedium?.copyWith(
-              color: colorScheme.primary,
-            ),
+            style: textTheme.displaySmall?.copyWith(color: colorScheme.primary),
           ),
           MetricButtonWidget(
             text: 'Complete',
