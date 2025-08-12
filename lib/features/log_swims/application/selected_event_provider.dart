@@ -47,3 +47,8 @@ class SelectedEventNotifier extends Notifier<EventEnum> {
     }
   }
 }
+
+final selectedEventProvider =
+    NotifierProvider<SelectedEventNotifier, EventEnum>(
+      SelectedEventNotifier.new,
+    );
