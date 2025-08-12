@@ -15,16 +15,14 @@ class DistanceLogSwimsScreen extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return LogSwimsShellScreen(
       child: Column(
-        spacing: 50,
+        spacing: 40,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           HeaderLogSwimsWidget(),
           Text(
             'Event Distance?',
-            style: textTheme.displayMedium?.copyWith(
-              color: colorScheme.primary,
-            ),
+            style: textTheme.displaySmall?.copyWith(color: colorScheme.primary),
           ),
           EventDistanceSelectorLogSwimsWidget(),
           MetricButtonWidget(
