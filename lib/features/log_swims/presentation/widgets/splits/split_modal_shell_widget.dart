@@ -9,7 +9,6 @@ class SplitModalShellWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-      spacing: 20,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: children,
     );
