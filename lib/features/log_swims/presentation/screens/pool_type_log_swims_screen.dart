@@ -27,21 +27,10 @@ class PoolTypeLogSwimsScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           HeaderLogSwimsWidget(),
-          Column(
-            children: [
-              Text(
-                'Pool Type?',
-                style: textTheme.displayMedium?.copyWith(
-                  color: colorScheme.primary,
-                ),
-              ),
-              Text(
-                'Please select the type of pool you swam in.',
-                style: textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.secondary,
-                ),
-              ),
-            ],
+
+          Text(
+            'Pool Type?',
+            style: textTheme.displaySmall?.copyWith(color: colorScheme.primary),
           ),
           PoolTypeSelectorLogSwimsWidget(),
           MetricButtonWidget(
