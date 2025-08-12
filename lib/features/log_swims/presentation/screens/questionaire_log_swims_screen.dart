@@ -17,16 +17,14 @@ class QuestionnaireLogSwimsScreen extends ConsumerWidget {
 
     return LogSwimsShellScreen(
       child: Column(
-        spacing: 10,
+        spacing: 40,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           HeaderLogSwimsWidget(),
           Text(
             'Notes',
-            style: textTheme.displayMedium?.copyWith(
-              color: colorScheme.primary,
-            ),
+            style: textTheme.displaySmall?.copyWith(color: colorScheme.primary),
           ),
           QuestionnaireSelectorLogSwimsWidget<SelfTalkOptionsEnum>(
             questionnaireType: SelfTalkOptionsEnum,
