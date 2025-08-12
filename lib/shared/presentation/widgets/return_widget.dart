@@ -4,9 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ReturnWidget extends ConsumerWidget {
-  const ReturnWidget({super.key, this.onTap});
-
+  final Color? colorOverride;
   final VoidCallback? onTap;
+
+  const ReturnWidget({super.key, this.onTap, this.colorOverride});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +22,9 @@ class ReturnWidget extends ConsumerWidget {
         height: 40,
         width: 40,
         colorFilter: ColorFilter.mode(
-          Theme.of(context).colorScheme.onBackground,
+          (colorOverride == null)
+              ? Theme.of(context).colorScheme.onBackground
+              : colorOverride!,
           BlendMode.srcIn,
         ),
       ),

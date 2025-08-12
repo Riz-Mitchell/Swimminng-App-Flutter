@@ -39,6 +39,7 @@ class MyApp extends ConsumerWidget {
 
             primary: Color(0xFFFFFFFF), // White for text/icons/buttons
             onPrimary: Color(0xFF000000),
+            onPrimaryContainer: Color(0xFFE0E0E0),
 
             background: Color(0xFF0A0A0A), // Deep black background
             onBackground: Color(0xFFEDEDED), // Light text
