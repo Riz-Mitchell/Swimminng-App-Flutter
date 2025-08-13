@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
 
 class PostSwimQuestionnaireModel {
