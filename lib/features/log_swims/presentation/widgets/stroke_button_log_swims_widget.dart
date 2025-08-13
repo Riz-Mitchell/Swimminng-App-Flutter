@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/selected_event_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_event_stroke_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
@@ -65,6 +67,10 @@ class StrokeButtonLogSwimsWidget extends ConsumerWidget {
         selectedEventStrokeNotifier.handleTappedStroke(StrokeEnum.butterfly);
         break;
     }
+
+    final eventState = ref.watch(selectedEventProvider);
+
+    ref.read(logSwimProvider.notifier).updateEvent(eventState);
   }
 
   String _getSvgPath() {
