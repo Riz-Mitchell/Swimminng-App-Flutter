@@ -1,39 +1,54 @@
+import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
+import 'package:swimming_app_frontend/features/log_swims/domain/models/post_swim_questionnaire_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/split_model.dart';
 import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
 
 class LogSwimStateModel {
+  final SelectedPoolTypeEnum poolType;
   final EventEnum event;
   final StatusLogSwimsEnum status;
   final List<SplitModel> splits;
+  final PostSwimQuestionnaireModel questionnaire;
 
   LogSwimStateModel({
+    required this.poolType,
     required this.event,
     required this.status,
+    required this.questionnaire,
     List<SplitModel>? splits,
   }) : splits = splits ?? [];
 
   LogSwimStateModel copyWith({
+    SelectedPoolTypeEnum? poolType,
     EventEnum? event,
     StatusLogSwimsEnum? status,
+    PostSwimQuestionnaireModel? questionnaire,
     List<SplitModel>? splits,
   }) {
     return LogSwimStateModel(
+      poolType: poolType ?? this.poolType,
       event: event ?? this.event,
       status: status ?? this.status,
       splits: splits ?? this.splits,
+      questionnaire: questionnaire ?? this.questionnaire,
     );
   }
 
   List<int> getAvailableSplitDistances() {
+    print('Getting available split distances for event: $event');
     List<int> usedDistances = getUsedDistances();
+    print('Printing used distances: $usedDistances');
+    for (var split in splits) {
+      print('Split distance: ${split.intervalDistance}');
+    }
     List<int> availableDistances = [];
 
     switch (event) {
       case EventEnum.none:
         availableDistances = [];
       case EventEnum.freestyle50:
-        return [15, 20, 25, 30, 35, 40, 45, 50];
+        availableDistances = [15, 20, 25, 30, 35, 40, 45, 50];
       case EventEnum.butterfly100:
       case EventEnum.backstroke100:
       case EventEnum.breaststroke100:
@@ -141,6 +156,10 @@ class LogSwimStateModel {
     availableDistances.removeWhere(
       (distance) => usedDistances.contains(distance),
     );
+    print('Available distances after filtering: $availableDistances');
+    for (var distance in availableDistances) {
+      print('Available distance: $distance');
+    }
 
     return availableDistances;
   }
