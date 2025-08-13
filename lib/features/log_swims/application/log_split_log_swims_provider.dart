@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_event_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/selected_split_distance_index_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_split_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_split_state_model.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/stroke_count_input_log_swims_widget.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/stroke_rate_input_log_swims_widget.dart';
+import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/time_input_log_swims_widget.dart';
+import 'package:swimming_app_frontend/features/swims/presentation/widgets/add_split/select_interval_time_widget.dart';
 
 class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
   @override
   LogSplitStateModel build() {
     final selectedEventState = ref.watch(selectedEventProvider);
+
+    print('LogSplitLogSwimsProvider: $selectedEventState');
 
     return LogSplitStateModel(
       event: selectedEventState,
@@ -32,7 +40,7 @@ class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
       print('closing modal and resetting state');
       Navigator.of(context, rootNavigator: true).pop();
       // Navigator.of(context).pop();
-      _reset();
+      reset();
     }
   }
 
@@ -44,6 +52,11 @@ class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
     final currentStatus = state.status;
     final nextStatusIndex = currentStatus.index + 1;
 
+    print('Current time: ${state.time}');
+    print('Current count: ${state.count}');
+    print('Current rate: ${state.rate}');
+    print('Current distance: ${state.distance}');
+
     if (nextStatusIndex < StatusLogSplitEnum.values.length) {
       final nextStatus = StatusLogSplitEnum.values[nextStatusIndex];
       _updatePageStatus(nextStatus);
@@ -53,8 +66,9 @@ class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
       // Logic to handle the case when there is no next step
 
       // Add split to the swim model
+      ref.read(logSwimProvider.notifier).addSplit(state);
       Navigator.of(context, rootNavigator: true).pop();
-      _reset();
+      reset();
       return;
     }
   }
@@ -63,8 +77,30 @@ class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
     state = state.copyWith(status: status);
   }
 
+  void updateRate(int rate) {
+    state = state.copyWith(rate: rate);
+  }
+
+  void updateCount(int count) {
+    state = state.copyWith(count: count);
+  }
+
+  void updateDistance(int distance) {
+    state = state.copyWith(distance: distance);
+  }
+
+  void updateTime(double time) {
+    state = state.copyWith(time: time);
+  }
+
   /// Resets all dependent states and resets self
-  void _reset() {
+  void reset() {
+    ref.invalidate(minuteProvider);
+    ref.invalidate(secondsProvider);
+    ref.invalidate(hundredthsProvider);
+    ref.invalidate(selectedSplitDistanceIndexProvider);
+    ref.invalidate(strokeCountProvider);
+    ref.invalidate(strokeRateProvider);
     ref.invalidateSelf();
   }
 }
