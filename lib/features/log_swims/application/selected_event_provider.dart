@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_distance_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_event_stroke_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_distance_enum.dart';
@@ -8,6 +10,8 @@ import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
 class SelectedEventNotifier extends Notifier<EventEnum> {
   @override
   EventEnum build() {
+    EventEnum event;
+
     final eventStrokeMap = ref.watch(selectedEventStrokeLogSwimsProvider);
     final eventDistance = ref.watch(selectedDistanceLogSwimsProvider);
 
@@ -17,14 +21,14 @@ class SelectedEventNotifier extends Notifier<EventEnum> {
 
     if (eventStrokeProvider.isValidSelection()) {
       if (eventStrokeProvider.isIndividualMedleySelected()) {
-        return EventEnumExtension.getEventByStrokeAndDistance(
+        event = EventEnumExtension.getEventByStrokeAndDistance(
           stroke: null,
           distance: SelectedDistanceEnumExtension.getIntDistanceByEnum(
             eventDistance,
           ),
         );
       } else if (eventStrokeProvider.isFreestyleSelected()) {
-        return EventEnumExtension.getEventByStrokeAndDistance(
+        event = EventEnumExtension.getEventByStrokeAndDistance(
           stroke: StrokeEnum.freestyle,
           distance: SelectedDistanceEnumExtension.getIntDistanceByEnum(
             eventDistance,
@@ -35,7 +39,7 @@ class SelectedEventNotifier extends Notifier<EventEnum> {
         final selectedStroke = eventStrokeMap.keys.firstWhere(
           (stroke) => eventStrokeMap[stroke] == true,
         );
-        return EventEnumExtension.getEventByStrokeAndDistance(
+        event = EventEnumExtension.getEventByStrokeAndDistance(
           stroke: selectedStroke,
           distance: SelectedDistanceEnumExtension.getIntDistanceByEnum(
             eventDistance,
@@ -43,8 +47,10 @@ class SelectedEventNotifier extends Notifier<EventEnum> {
         );
       }
     } else {
-      return EventEnum.none;
+      event = EventEnum.none;
     }
+
+    return event;
   }
 }
 
