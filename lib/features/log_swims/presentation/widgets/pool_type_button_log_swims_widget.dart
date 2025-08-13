@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/log_swims/application/pool_type_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
@@ -54,6 +54,6 @@ class PoolTypeButtonLogSwimsWidget extends ConsumerWidget {
   }
 
   void _handleOnTap(WidgetRef ref) {
-    ref.read(selectedPoolTypeProvider.notifier).state = type;
+    ref.read(logSwimProvider.notifier).updatePoolType(type);
   }
 }
