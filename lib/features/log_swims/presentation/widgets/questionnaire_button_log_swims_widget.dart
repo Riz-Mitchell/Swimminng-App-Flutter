@@ -66,7 +66,6 @@ class QuestionnaireButtonLogSwimsWidget<T extends Enum> extends ConsumerWidget {
   }
 
   void _handleOnTap(WidgetRef ref) {
-    print('Tapped option: $option, type: ${option.runtimeType}');
     ref
         .read(postSwimQuestionnaireLogSwimsProvider.notifier)
         .handleSelectedOption(option);
