@@ -61,6 +61,7 @@ class QuestionnaireLogSwimsScreen extends ConsumerWidget {
             text: 'Next',
             onPressed: () {
               if (true) {
+                ref.read(logSwimProvider.notifier).printState();
                 ref.read(logSwimProvider.notifier).navigateToNextStep();
               }
             },
