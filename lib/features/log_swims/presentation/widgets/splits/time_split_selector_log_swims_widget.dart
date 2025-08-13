@@ -60,7 +60,7 @@ class TimeSplitSelectorLogSwimsWidget extends ConsumerWidget {
         ),
         MetricButtonWidget(
           text: 'Next',
-          isEnabled: true,
+          isEnabled: logSplitState.isValid(),
           onPressed: () {
             if (true) {
               ref
