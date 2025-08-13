@@ -16,8 +16,8 @@ class LogSwimStateModel {
     required this.event,
     required this.status,
     required this.questionnaire,
-    List<SplitModel>? splits,
-  }) : splits = splits ?? [];
+    required this.splits,
+  });
 
   LogSwimStateModel copyWith({
     SelectedPoolTypeEnum? poolType,
