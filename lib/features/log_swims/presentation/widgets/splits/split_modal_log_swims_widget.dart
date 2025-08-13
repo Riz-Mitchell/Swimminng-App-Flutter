@@ -18,9 +18,22 @@ class SplitModalLogSwimsWidget extends ConsumerWidget {
     final logSplitStatus = ref.watch(logSplitProvider).status;
     print('SplitModalLogSwimsWidget: $logSplitStatus');
 
-    return IconButtonWidget(
-      path: 'assets/svg/swimmer_icon.svg',
-      onTapped: () => _tapToShowModal(context, ref, logSplitStatus),
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Added Splits',
+          style: textTheme.headlineSmall?.copyWith(color: colorScheme.primary),
+        ),
+        IconButtonWidget(
+          path: 'assets/svg/add.svg',
+          onTapped: () => _tapToShowModal(context, ref, logSplitStatus),
+        ),
+      ],
     );
   }
 
@@ -109,13 +122,27 @@ class SplitModalLogSwimsWidget extends ConsumerWidget {
   ) async {
     await showModalBottomSheet(
       context: rootNavigatorKey.currentContext!,
+      isScrollControlled: true,
       barrierColor: Colors.transparent,
       backgroundColor: Colors.transparent,
-      builder: (context) =>
-          Material(child: _handleModal(context, ref, logSplitStatus)),
+      builder: (context) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque, // ✅ allows taps on empty space
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: _handleModal(context, ref, logSplitStatus),
+            ),
+          ),
+        );
+      },
     );
 
-    ref.invalidate(logSplitProvider);
+    ref.read(logSplitProvider.notifier).reset();
     print('SplitModalLogSwimsWidget tapped: $logSplitStatus');
   }
 }
