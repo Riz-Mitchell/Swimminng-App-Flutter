@@ -16,7 +16,6 @@ class SplitModalLogSwimsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final logSplitStatus = ref.watch(logSplitProvider).status;
-    print('SplitModalLogSwimsWidget: $logSplitStatus');
 
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
