@@ -30,38 +30,45 @@ class LogSplitStateModel {
     return LogSplitStateModel(
       status: status ?? this.status,
       event: event ?? this.event,
-      distance: distance,
-      time: time,
-      rate: rate,
-      count: count,
+      distance: distance ?? this.distance,
+      time: time ?? this.time,
+      rate: rate ?? this.rate,
+      count: count ?? this.count,
     );
   }
 
-  bool isDistanceValid() {
+  bool _isDistanceValid() {
     if (distance == null || distance! <= 0) {
       return false;
     }
     return true;
   }
 
-  bool isTimeValid() {
+  bool _isTimeValid() {
     if (time == null || time! <= 0) {
       return false;
     }
     return true;
   }
 
-  bool isRateValid() {
-    if (rate == null || rate! <= 0) {
-      return false;
-    }
+  bool _isRateValid() {
     return true;
   }
 
-  bool isCountValid() {
-    if (count == null || count! <= 0) {
-      return false;
-    }
+  bool _isCountValid() {
     return true;
+  }
+
+  bool isValid() {
+    switch (status) {
+      case StatusLogSplitEnum.selectDistance:
+        return _isDistanceValid();
+      case StatusLogSplitEnum.selectTime:
+        return _isTimeValid();
+      case StatusLogSplitEnum.selectStrokeRate:
+        return _isRateValid();
+      case StatusLogSplitEnum.selectStrokeCount:
+        return _isCountValid();
+    }
   }
 }
