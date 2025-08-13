@@ -16,6 +16,7 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
   @override
   LogSwimStateModel build() {
     return LogSwimStateModel(
+      splits: [],
       poolType: SelectedPoolTypeEnum.unselected,
       event: EventEnum.none,
       status: StatusLogSwimsEnum.selectPoolType,
@@ -59,11 +60,17 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
   }
 
   void navigateToNextStep() {
+    print('Navigating to next step with state:');
+    printState();
+    print('--------------------------------');
     final currentStatus = state.status;
     final nextStatusIndex = currentStatus.index + 1;
 
     if (nextStatusIndex < StatusLogSwimsEnum.values.length) {
+      print('inside navigateToNextStep');
+      print('Current status: $currentStatus, next index: $nextStatusIndex');
       final nextStatus = StatusLogSwimsEnum.values[nextStatusIndex];
+      print('Next status: $nextStatus');
       _updatePageStatus(nextStatus);
       switch (nextStatus) {
         case StatusLogSwimsEnum.selectStroke:
@@ -92,9 +99,14 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
 
   void _updatePageStatus(StatusLogSwimsEnum newStatus) {
     state = state.copyWith(status: newStatus);
+
+    print('Updated page status to: $newStatus');
   }
 
   void _reset() {
+    print('Resting LogSwimProvider');
+    final stackTrace = StackTrace.current;
+    print('Reset called from:\n$stackTrace');
     state = state.copyWith(status: StatusLogSwimsEnum.selectPoolType);
     ref.invalidate(selectedEventStrokeLogSwimsProvider);
     ref.invalidate(selectedDistanceLogSwimsProvider);
@@ -151,8 +163,12 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
 
   // Automatically updates the questionnaire when questionnaire is changes
   void updateQuestionnaire() {
+    print('Updating questionnaire in LogSwimProvider');
+    print('\n\n\nCurrent state before update:');
+    printState();
+    print('-' * 50 + '\n\n\n');
     print('questionnaire updated');
-    final questionnaire = ref.watch(postSwimQuestionnaireLogSwimsProvider);
+    final questionnaire = ref.read(postSwimQuestionnaireLogSwimsProvider);
 
     state = state.copyWith(questionnaire: questionnaire);
   }
