@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_split_log_swims_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
 final strokeCountProvider = StateProvider<int>((ref) => 0);
@@ -50,8 +51,7 @@ class StrokeCountInputLogSwimsWidget extends ConsumerWidget {
                 color: colorScheme.secondary,
               ),
             ),
-            onChanged: (value) => ref.read(strokeCountProvider.notifier).state =
-                int.tryParse(value) ?? 0,
+            onChanged: (value) => _onChanged(ref, value),
           ),
         ),
         Text(
@@ -63,6 +63,11 @@ class StrokeCountInputLogSwimsWidget extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  void _onChanged(WidgetRef ref, String value) {
+    ref.read(strokeCountProvider.notifier).state = int.tryParse(value) ?? 0;
+    ref.read(logSplitProvider.notifier).updateCount(int.tryParse(value) ?? 0);
   }
 
   String formatTime(int time) {
