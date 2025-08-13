@@ -27,3 +27,21 @@ class GetSplitEntity {
     required this.dive,
   });
 }
+
+class CreateSplitEntity {
+  final StrokeEnum stroke; // Stroke type for this split
+  final double intervalTime; // Time for this split in seconds
+  final int intervalDistance; // Distance for this split in meters
+  final int? intervalStrokeRate; // Stroke rate for this split
+  final int? intervalStrokeCount; // Stroke count for this split
+  final bool dive; // Indicates if from dive start
+
+  CreateSplitEntity({
+    required this.stroke,
+    required this.intervalTime,
+    required this.intervalDistance,
+    this.intervalStrokeRate,
+    this.intervalStrokeCount,
+    required this.dive,
+  });
+}

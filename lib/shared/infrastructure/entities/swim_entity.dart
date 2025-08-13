@@ -8,7 +8,7 @@ class GetSwimEntity {
   EventEnum event;
   SelectedPoolTypeEnum poolType;
   List<GetSplitEntity> splits;
-  PostSwimQuestionnaireModel questionnaire;
+  GetSwimQuestionnaireEntity questionnaire;
   DateTime recordedAt;
 
   GetSwimEntity({
@@ -21,6 +21,20 @@ class GetSwimEntity {
   });
 }
 
-class CreateSwimEntity {}
+class CreateSwimEntity {
+  final EventEnum event; // Event type
+  final List<CreateSplitEntity> splits; // Splits for this swim
+  final bool goalSwim; // Whether this is a goal swim
+  final SelectedPoolTypeEnum poolType; // Pool type
+  final CreateSwimQuestionnaireEntity questionnaire;
+
+  CreateSwimEntity({
+    required this.event,
+    required this.splits,
+    this.goalSwim = false,
+    required this.poolType,
+    required this.questionnaire,
+  });
+}
 
 class UpdateSwimEntity {}
