@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/log_split_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_split_distance_index_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_split_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/split_modal_header_log_swims_widget.dart';
@@ -25,12 +26,13 @@ class DistanceSplitSelectorLogSwimsWidget extends ConsumerWidget {
     final logSplitState = ref.watch(logSplitProvider);
     final logSplitNotifier = ref.read(logSplitProvider.notifier);
 
-    final selectedDistanceIndex = ref.watch(selectedSplitDistanceIndexProvider);
-
-    final List<int> availableDistances = logSplitState
+    final List<int> availableDistances = ref
+        .watch(logSwimProvider)
         .getAvailableSplitDistances();
-    // = logSplitState
-    //     .getAvailableSplitDistances();
+
+    print(availableDistances.length);
+
+    final selectedDistanceIndex = ref.watch(selectedSplitDistanceIndexProvider);
 
     return SplitModalShellWidget(
       children: [
@@ -43,8 +45,12 @@ class DistanceSplitSelectorLogSwimsWidget extends ConsumerWidget {
             scrollController: FixedExtentScrollController(
               initialItem: selectedDistanceIndex,
             ),
-            onSelectedItemChanged: (index) =>
-                _onItemChanged(logSplitNotifier, ref, index),
+            onSelectedItemChanged: (index) => _onItemChanged(
+              logSplitNotifier,
+              ref,
+              index,
+              availableDistances,
+            ),
             children: availableDistances.map((distance) {
               return Center(
                 child: Text(
@@ -62,6 +68,12 @@ class DistanceSplitSelectorLogSwimsWidget extends ConsumerWidget {
           isEnabled: true,
           onPressed: () {
             if (true) {
+              _onItemChanged(
+                logSplitNotifier,
+                ref,
+                selectedDistanceIndex,
+                availableDistances,
+              );
               logSplitNotifier.navigateToNextStep(context, navigateToStep);
             }
           },
@@ -74,8 +86,13 @@ class DistanceSplitSelectorLogSwimsWidget extends ConsumerWidget {
     LogSplitLogSwimsProvider logSplitNotifier,
     WidgetRef ref,
     int index,
+    List<int> availableDistances,
   ) {
     ref.read(selectedSplitDistanceIndexProvider.notifier).state = index;
     // logSplitNotifier.selectSplitDistance(availableDistances[index]);
+
+    ref
+        .read(logSplitProvider.notifier)
+        .updateDistance(availableDistances[index]);
   }
 }
