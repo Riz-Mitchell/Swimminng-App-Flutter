@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_distance_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
 
@@ -13,6 +14,7 @@ class SelectedEventStrokeLogSwimsProvider
   };
 
   void handleTappedStroke(StrokeEnum stroke) {
+    ref.read(logSwimProvider.notifier).resetSplitsOnEventChange();
     state = {
       ...state,
       ...{stroke: !state[stroke]!},
@@ -22,6 +24,7 @@ class SelectedEventStrokeLogSwimsProvider
   }
 
   void resetSelectedEventStroke() {
+    ref.read(logSwimProvider.notifier).resetSplitsOnEventChange();
     state = {
       StrokeEnum.freestyle: false,
       StrokeEnum.backstroke: false,
