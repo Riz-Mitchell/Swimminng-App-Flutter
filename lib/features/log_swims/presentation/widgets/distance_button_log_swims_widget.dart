@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/log_swims/application/pool_type_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_distance_log_swims_provider.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/selected_event_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_distance_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
@@ -24,7 +25,7 @@ class DistanceButtonLogSwimsWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final currColor = isSelected ? metricBlue : colorScheme.secondary;
 
-    final poolTypeState = ref.watch(selectedPoolTypeProvider);
+    final poolTypeState = ref.watch(logSwimProvider).poolType;
 
     return GestureDetector(
       onTap: () => _handleOnTap(ref),
@@ -49,6 +50,10 @@ class DistanceButtonLogSwimsWidget extends ConsumerWidget {
     ref
         .read(selectedDistanceLogSwimsProvider.notifier)
         .selectDistance(selectedDistanceEnum);
+
+    final eventState = ref.watch(selectedEventProvider);
+
+    ref.read(logSwimProvider.notifier).updateEvent(eventState);
   }
 
   String _getDistanceText(SelectedPoolTypeEnum poolType) {
