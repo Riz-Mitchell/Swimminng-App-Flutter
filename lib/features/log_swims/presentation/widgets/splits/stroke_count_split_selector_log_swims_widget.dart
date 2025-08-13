@@ -6,7 +6,6 @@ import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/sp
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/split_modal_shell_widget.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/stroke_count_input_log_swims_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/metric_button_widget.dart';
-import 'package:swimming_app_frontend/shared/presentation/widgets/return_widget.dart';
 
 class StrokeCountSplitSelectorLogSwimsWidget extends ConsumerWidget {
   final void Function(BuildContext context, StatusLogSplitEnum nextStep)
@@ -47,8 +46,8 @@ class StrokeCountSplitSelectorLogSwimsWidget extends ConsumerWidget {
           ),
         ),
         MetricButtonWidget(
-          text: 'Next',
-          isEnabled: true,
+          text: 'Add Split',
+          isEnabled: logSplitState.isValid(),
           onPressed: () {
             if (true) {
               ref
