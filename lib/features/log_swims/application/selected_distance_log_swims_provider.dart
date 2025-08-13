@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_event_stroke_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_distance_enum.dart';
 
@@ -7,10 +8,12 @@ class SelectedDistanceLogSwimsProvider extends Notifier<SelectedDistanceEnum> {
   SelectedDistanceEnum build() => SelectedDistanceEnum.unselected;
 
   void resetSelectedDistance() {
+    ref.read(logSwimProvider.notifier).resetSplitsOnEventChange();
     state = SelectedDistanceEnum.unselected;
   }
 
   void selectDistance(SelectedDistanceEnum distance) {
+    ref.read(logSwimProvider.notifier).resetSplitsOnEventChange();
     state = distance;
   }
 
