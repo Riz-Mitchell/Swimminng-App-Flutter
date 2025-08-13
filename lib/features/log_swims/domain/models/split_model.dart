@@ -1,8 +1,8 @@
 class SplitModel {
-  final double intervalDistance;
+  final int intervalDistance;
   final double intervalTime;
-  final double intervalStrokeRate;
-  final double intervalStrokeCount;
+  final int? intervalStrokeRate;
+  final int? intervalStrokeCount;
 
   SplitModel({
     required this.intervalDistance,
@@ -12,10 +12,10 @@ class SplitModel {
   });
 
   SplitModel copyWith({
-    double? intervalDistance,
+    int? intervalDistance,
     double? intervalTime,
-    double? intervalStrokeRate,
-    double? intervalStrokeCount,
+    int? intervalStrokeRate,
+    int? intervalStrokeCount,
   }) {
     return SplitModel(
       intervalDistance: intervalDistance ?? this.intervalDistance,
