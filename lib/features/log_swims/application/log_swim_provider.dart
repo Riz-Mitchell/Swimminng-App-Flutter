@@ -5,12 +5,17 @@ import 'package:swimming_app_frontend/features/log_swims/application/selected_ev
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
+import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_split_state_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_swim_state_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/post_swim_questionnaire_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/split_model.dart';
 import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
+import 'package:swimming_app_frontend/providers/swim_service_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/split_entity.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_questionnaire_entity.dart';
 
 class LogSwimProvider extends Notifier<LogSwimStateModel> {
   @override
@@ -20,7 +25,7 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
       poolType: SelectedPoolTypeEnum.unselected,
       event: EventEnum.none,
       status: StatusLogSwimsEnum.selectPoolType,
-      questionnaire: PostSwimQuestionnaireModel(),
+      questionnaire: CreateSwimQuestionnaireModel(),
     );
   }
 
@@ -41,14 +46,19 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
       switch (prevStatus) {
         case StatusLogSwimsEnum.selectPoolType:
           ref.read(routerProvider).go('/add-swim-landing');
+          break;
         case StatusLogSwimsEnum.selectStroke:
           ref.read(routerProvider).go('/add-swim-stroke');
+          break;
         case StatusLogSwimsEnum.selectDistance:
           ref.read(routerProvider).go('/add-swim-distance');
+          break;
         case StatusLogSwimsEnum.addSplits:
           ref.read(routerProvider).go('/add-swim-splits');
+          break;
         case StatusLogSwimsEnum.completeQuestionnaire:
           ref.read(routerProvider).go('/add-swim-questionnaire');
+          break;
         default:
           break;
       }
@@ -59,7 +69,7 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
     }
   }
 
-  void navigateToNextStep() {
+  Future<void> navigateToNextStep() async {
     print('Navigating to next step with state:');
     printState();
     print('--------------------------------');
@@ -75,14 +85,20 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
       switch (nextStatus) {
         case StatusLogSwimsEnum.selectStroke:
           ref.read(routerProvider).go('/add-swim-stroke');
+          break;
         case StatusLogSwimsEnum.selectDistance:
           ref.read(routerProvider).go('/add-swim-distance');
+          break;
         case StatusLogSwimsEnum.addSplits:
           ref.read(routerProvider).go('/add-swim-splits');
+          break;
         case StatusLogSwimsEnum.completeQuestionnaire:
+          _submitSwimAsync();
           ref.read(routerProvider).go('/add-swim-questionnaire');
+          break;
         case StatusLogSwimsEnum.complete:
           ref.read(routerProvider).go('/add-swim-complete');
+          break;
         default:
           break;
       }
@@ -91,6 +107,23 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
       _reset();
       return;
     }
+  }
+
+  Future<void> _submitSwimAsync() async {
+    final questionnaire = SwimQuestionnaireMapper.fromModelToEntity(
+      state.questionnaire,
+    );
+
+    final swim = CreateSwimEntity(
+      event: state.event,
+      splits: state.splits
+          .map((split) => SplitMapper.fromModelToEntity(split))
+          .toList(),
+      poolType: state.poolType,
+      questionnaire: questionnaire,
+    );
+
+    await ref.read(swimServiceProvider).createSwim(swim);
   }
 
   StatusLogSwimsEnum getCurrentPageStatus() {
@@ -127,6 +160,7 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
 
     final currentSplits = state.splits;
     final SplitModel newSplit = SplitModel(
+      stroke: getDefaultStrokeByEvent(state.event),
       intervalDistance: splitState.distance!,
       intervalTime: splitState.time!,
       intervalStrokeRate: splitState.rate,
