@@ -1,13 +1,13 @@
 import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity.dart';
 
 class DayLogModel {
-  final DateTime date;
+  final int dayOfMonth;
   final List<GetSwimEntity> swims;
   final double avPercentOffPb;
   final double lowPercentOffPb;
   final double highPercentOffPb;
 
-  DayLogModel({required this.date, required this.swims})
+  DayLogModel({required this.dayOfMonth, required this.swims})
     : avPercentOffPb = _calculateAveragePercentOffPb(swims),
       lowPercentOffPb = _calculateLowPercentOffPb(swims),
       highPercentOffPb = _calculateHighPercentOffPb(swims);
