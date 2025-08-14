@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
+import 'package:swimming_app_frontend/features/logbook/application/logbook_provider.dart';
+import 'package:swimming_app_frontend/features/logbook/domain/models/logbook_state_model.dart';
 
 class GraphHeaderLogbookWidget extends ConsumerWidget {
   const GraphHeaderLogbookWidget({super.key});
@@ -10,6 +10,11 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    final logbookState = ref.watch(logbookProvider);
+
+    // Replace with current date being looked at
+    final now = DateTime.now();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -20,7 +25,7 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '-0.52%',
+              _getAverageString(logbookState, now),
               style: textTheme.displayMedium!.copyWith(
                 color: colorScheme.primary,
               ),
@@ -69,13 +74,13 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '+4.10%',
+                    _getHighString(logbookState, now),
                     style: textTheme.headlineSmall!.copyWith(
                       color: colorScheme.primary,
                     ),
                   ),
                   Text(
-                    '-4.35%',
+                    _getLowString(logbookState, now),
                     style: textTheme.headlineSmall!.copyWith(
                       color: colorScheme.primary,
                     ),
@@ -86,6 +91,63 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  String _getHighString(
+    AsyncValue<LogbookStateModel> logbookState,
+    DateTime time,
+  ) {
+    return logbookState.when(
+      data: (data) {
+        final dayData = data.getDayData(time.year, time.month, time.day);
+
+        if (dayData != null) {
+          return '${dayData.highPercentOffPb.toStringAsFixed(2)}%';
+        } else {
+          return '';
+        }
+      },
+      loading: () => 'Loading...',
+      error: (error, stack) => 'err',
+    );
+  }
+
+  String _getLowString(
+    AsyncValue<LogbookStateModel> logbookState,
+    DateTime time,
+  ) {
+    return logbookState.when(
+      data: (data) {
+        final dayData = data.getDayData(time.year, time.month, time.day);
+
+        if (dayData != null) {
+          return '${dayData.lowPercentOffPb.toStringAsFixed(2)}%';
+        } else {
+          return '';
+        }
+      },
+      loading: () => 'Loading...',
+      error: (error, stack) => 'err',
+    );
+  }
+
+  String _getAverageString(
+    AsyncValue<LogbookStateModel> logbookState,
+    DateTime time,
+  ) {
+    return logbookState.when(
+      data: (data) {
+        final dayData = data.getDayData(time.year, time.month, time.day);
+
+        if (dayData != null) {
+          return '${dayData.avPercentOffPb.toStringAsFixed(2)}%';
+        } else {
+          return '';
+        }
+      },
+      loading: () => 'Loading...',
+      error: (error, stack) => 'err',
     );
   }
 }
