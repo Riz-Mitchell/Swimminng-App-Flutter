@@ -16,15 +16,15 @@ class WelcomeAppStartWidget extends ConsumerWidget {
         ? 1.0
         : 0.0;
 
-    return Column(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AnimatedOpacity(
           opacity: firstOpacity,
           duration: const Duration(seconds: 2),
           child: Text(
-            'Welcome to',
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            'Inteli',
+            style: Theme.of(context).textTheme.displayLarge?.copyWith(
               color: Theme.of(context).colorScheme.onBackground,
             ),
           ),
@@ -33,7 +33,7 @@ class WelcomeAppStartWidget extends ConsumerWidget {
           opacity: secondOpacity,
           duration: const Duration(seconds: 2),
           child: Text(
-            'Splashbook',
+            'Swim',
             style: Theme.of(context).textTheme.displayLarge?.copyWith(
               color: Theme.of(context).colorScheme.onBackground,
             ),
