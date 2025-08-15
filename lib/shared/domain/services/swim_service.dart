@@ -115,6 +115,10 @@ class SwimService {
     return allSwims;
   }
 
+  List<GetSwimEntity> _reverseSwims(List<GetSwimEntity> swims) {
+    return swims.reversed.toList();
+  }
+
   Future<void> createSwim(CreateSwimEntity schema) async {
     await _swimRepository.createSwimReq(schema);
   }
