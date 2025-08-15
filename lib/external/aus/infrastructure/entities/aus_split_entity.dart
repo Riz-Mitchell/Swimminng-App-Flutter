@@ -13,19 +13,19 @@ class QueryReqAusSplitEntity {
 
 @immutable
 class GetAusSplitEntity {
-  final String raceResultId;
+  final String raceResultSplitId;
   final int calculatedSplitDistance;
   final int cumulativeSplitTimeMilliseconds;
 
   const GetAusSplitEntity({
-    required this.raceResultId,
+    required this.raceResultSplitId,
     required this.calculatedSplitDistance,
     required this.cumulativeSplitTimeMilliseconds,
   });
 
   factory GetAusSplitEntity.fromJson(Map<String, dynamic> json) {
     return GetAusSplitEntity(
-      raceResultId: json['raceResultId'] as String,
+      raceResultSplitId: json['raceResultId'] as String,
       calculatedSplitDistance: json['calculatedSplitDistance'] as int,
       cumulativeSplitTimeMilliseconds:
           json['cumulativeSplitTimeMilliseconds'] as int,
