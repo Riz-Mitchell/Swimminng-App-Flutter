@@ -60,9 +60,9 @@ class SplitsLogSwimsScreen extends ConsumerWidget {
                 ? 'Tap the \'+\' button to get started!'
                 : 'Next',
             isEnabled: currentSplits.isNotEmpty,
-            onPressed: () {
+            onPressed: () async {
               if (true) {
-                ref.read(logSwimProvider.notifier).navigateToNextStep();
+                await ref.read(logSwimProvider.notifier).navigateToNextStep();
               }
             },
           ),

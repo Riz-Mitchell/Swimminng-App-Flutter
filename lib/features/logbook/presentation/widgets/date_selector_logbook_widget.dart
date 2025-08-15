@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:swimming_app_frontend/features/logbook/application/selected_day_logbook_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/icon_button_widget.dart';
-
-final selectedDateProvider = StateProvider<DateTime>((ref) => DateTime.now());
 
 class DateSelectorLogbookWidget extends ConsumerWidget {
   const DateSelectorLogbookWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final finalDate = DateTime.now();
-    final firstDate = DateTime(2010);
-
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
-    final selectedDate = ref.watch(selectedDateProvider);
+    final selectedDate = ref.watch(selectedDayLogbookProvider);
+    final selectedDateNotifier = ref.read(selectedDayLogbookProvider.notifier);
 
     final backIsActive =
         selectedDate.day != firstDate.day ||
         selectedDate.month != firstDate.month ||
         selectedDate.year != firstDate.year;
     final forwardIsActive =
-        selectedDate.day != finalDate.day ||
-        selectedDate.month != finalDate.month ||
-        selectedDate.year != finalDate.year;
+        selectedDate.day != lastDate.day ||
+        selectedDate.month != lastDate.month ||
+        selectedDate.year != lastDate.year;
 
     // print('forwardIsActive: $forwardIsActive');
     // print('backIsActive: $backIsActive');
@@ -35,13 +32,8 @@ class DateSelectorLogbookWidget extends ConsumerWidget {
       children: [
         IconButtonWidget(
           isActive: backIsActive,
-          onTapped: () {
-            ref.read(selectedDateProvider.notifier).state = _validateDate(
-              date: selectedDate.subtract(Duration(days: 1)),
-              firstDate: firstDate,
-              lastDate: finalDate,
-            );
-          },
+          onTapped: () async =>
+              await selectedDateNotifier.decrementSelectedDay(),
           path: 'assets/svg/Return_Icon.svg',
         ),
         GestureDetector(
@@ -60,8 +52,9 @@ class DateSelectorLogbookWidget extends ConsumerWidget {
               firstDate: DateTime(2000),
               lastDate: DateTime.now(),
             );
-            if (picked != null && picked != selectedDate)
-              ref.read(selectedDateProvider.notifier).state = picked;
+            if (picked != null && picked != selectedDate) {
+              await selectedDateNotifier.setSelectedDay(picked);
+            }
           },
           child: SizedBox(
             width: 140,
@@ -79,28 +72,14 @@ class DateSelectorLogbookWidget extends ConsumerWidget {
           quarterTurns: 2,
           child: IconButtonWidget(
             isActive: forwardIsActive,
-            onTapped: () {
-              ref.read(selectedDateProvider.notifier).state = _validateDate(
-                date: selectedDate.add(Duration(days: 1)),
-                firstDate: firstDate,
-                lastDate: finalDate,
-              );
+            onTapped: () async {
+              await selectedDateNotifier.incrementSelectedDay();
             },
             path: 'assets/svg/Return_Icon.svg',
           ),
         ),
       ],
     );
-  }
-
-  DateTime _validateDate({
-    required DateTime date,
-    required DateTime firstDate,
-    required DateTime lastDate,
-  }) {
-    if (date.isBefore(firstDate)) return firstDate;
-    if (date.isAfter(lastDate)) return lastDate;
-    return date;
   }
 
   String _customDateFormatter(DateTime date) {

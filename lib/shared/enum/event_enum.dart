@@ -1,4 +1,3 @@
-import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 
 enum EventEnum {

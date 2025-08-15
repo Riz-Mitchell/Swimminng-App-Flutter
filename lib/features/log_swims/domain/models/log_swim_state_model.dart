@@ -2,14 +2,14 @@ import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_po
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/post_swim_questionnaire_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/split_model.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
 
 class LogSwimStateModel {
   final SelectedPoolTypeEnum poolType;
   final EventEnum event;
   final StatusLogSwimsEnum status;
   final List<SplitModel> splits;
-  final PostSwimQuestionnaireModel questionnaire;
+  final CreateSwimQuestionnaireModel questionnaire;
 
   LogSwimStateModel({
     required this.poolType,
@@ -23,7 +23,7 @@ class LogSwimStateModel {
     SelectedPoolTypeEnum? poolType,
     EventEnum? event,
     StatusLogSwimsEnum? status,
-    PostSwimQuestionnaireModel? questionnaire,
+    CreateSwimQuestionnaireModel? questionnaire,
     List<SplitModel>? splits,
   }) {
     return LogSwimStateModel(

@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
-import 'package:swimming_app_frontend/features/swims/enum/time_period_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/time_period_enum.dart';
 import 'package:swimming_app_frontend/shared/helper/json_formatting.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/split_entity.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_questionnaire_entity.dart';
@@ -12,7 +12,7 @@ class GetSwimEntity {
   final EventEnum event;
   final SelectedPoolTypeEnum poolType;
   final List<GetSplitEntity> splits;
-  final GetSwimQuestionnaireEntity questionnaire;
+  final GetSwimQuestionnaireEntity swimQuestionnaire;
   final DateTime recordedAt;
 
   const GetSwimEntity({
@@ -20,7 +20,7 @@ class GetSwimEntity {
     required this.event,
     required this.poolType,
     required this.splits,
-    required this.questionnaire,
+    required this.swimQuestionnaire,
     required this.recordedAt,
   });
 
@@ -32,7 +32,7 @@ class GetSwimEntity {
       splits: (json['splits'] as List<dynamic>)
           .map((e) => GetSplitEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      questionnaire: GetSwimQuestionnaireEntity.fromJson(
+      swimQuestionnaire: GetSwimQuestionnaireEntity.fromJson(
         json['swimQuestionnaire'] as Map<String, dynamic>,
       ),
       recordedAt: DateTime.parse(json['recordedAt'] as String),
@@ -58,14 +58,14 @@ class CreateSwimEntity {
   final List<CreateSplitEntity> splits; // Splits for this swim
   final bool goalSwim; // Whether this is a goal swim
   final SelectedPoolTypeEnum poolType; // Pool type
-  final CreateSwimQuestionnaireEntity questionnaire;
+  final CreateSwimQuestionnaireEntity swimQuestionnaire;
 
   const CreateSwimEntity({
     required this.event,
     required this.splits,
     this.goalSwim = false,
     required this.poolType,
-    required this.questionnaire,
+    required this.swimQuestionnaire,
   });
 
   Map<String, dynamic> toJson() {
@@ -74,7 +74,7 @@ class CreateSwimEntity {
       'splits': splits.map((e) => e.toJson()).toList(),
       'goalSwim': goalSwim,
       'poolType': poolType.name,
-      'questionnaire': questionnaire.toJson(),
+      'swimQuestionnaire': swimQuestionnaire.toJson(),
     };
   }
 }
@@ -88,7 +88,10 @@ class QuerySwimEntity {
   final bool onlyPersonalBest;
   final bool onlyGoalSwim;
   final bool onlyDive;
-  final TimePeriodEnum timePeriodEnum;
+  final TimePeriodEnum timePeriod;
+  final int? year;
+  final int? month;
+  final int? day;
   final int page;
   final int pageSize;
 
@@ -98,7 +101,10 @@ class QuerySwimEntity {
     this.onlyPersonalBest = false,
     this.onlyGoalSwim = false,
     this.onlyDive = false,
-    this.timePeriodEnum = TimePeriodEnum.week,
+    this.timePeriod = TimePeriodEnum.week,
+    this.year,
+    this.month,
+    this.day,
     this.page = 1,
     this.pageSize = 10,
   });
@@ -109,7 +115,10 @@ class QuerySwimEntity {
     'OnlyPersonalBest': onlyPersonalBest,
     'OnlyGoalSwim': onlyGoalSwim,
     'OnlyDive': onlyDive,
-    'TimePeriodEnum': timePeriodEnum.name,
+    'TimePeriodEnum': timePeriod.name,
+    if (year != null) 'Year': year,
+    if (month != null) 'Month': month,
+    if (day != null) 'Day': day,
     'Page': page,
     'PageSize': pageSize,
   };

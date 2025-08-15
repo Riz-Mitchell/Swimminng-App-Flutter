@@ -35,9 +35,9 @@ class PoolTypeLogSwimsScreen extends ConsumerWidget {
           MetricButtonWidget(
             text: 'Next',
             isEnabled: isNextEnabled,
-            onPressed: () {
+            onPressed: () async {
               if (isNextEnabled) {
-                ref.read(logSwimProvider.notifier).navigateToNextStep();
+                await ref.read(logSwimProvider.notifier).navigateToNextStep();
               }
             },
           ),

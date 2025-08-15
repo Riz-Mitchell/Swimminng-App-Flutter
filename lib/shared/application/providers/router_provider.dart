@@ -15,6 +15,7 @@ import 'package:swimming_app_frontend/features/login/presentation/screens/phone_
 import 'package:swimming_app_frontend/features/login/presentation/screens/verify_login_screen.dart';
 import 'package:swimming_app_frontend/features/profile/presentation/screens/landing_profile_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/date_of_birth_signup_screen.dart';
+import 'package:swimming_app_frontend/features/signup/presentation/screens/height_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/initial_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/name_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/phone_number_signup_screen.dart';
@@ -132,7 +133,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/ca-add-height',
         name: 'addHeightCA',
         builder: (context, state) =>
-            const HeightPickerSignupWidget(), // Replace with AddHeightScreen
+            const HeightSignupScreen(), // Replace with AddHeightScreen
       ),
       GoRoute(
         path: '/ca-add-sex',

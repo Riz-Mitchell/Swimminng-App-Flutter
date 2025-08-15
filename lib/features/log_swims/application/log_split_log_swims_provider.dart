@@ -8,7 +8,6 @@ import 'package:swimming_app_frontend/features/log_swims/domain/models/log_split
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/stroke_count_input_log_swims_widget.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/stroke_rate_input_log_swims_widget.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/time_input_log_swims_widget.dart';
-import 'package:swimming_app_frontend/features/swims/presentation/widgets/add_split/select_interval_time_widget.dart';
 
 class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
   @override
@@ -95,7 +94,7 @@ class LogSplitLogSwimsProvider extends Notifier<LogSplitStateModel> {
 
   /// Resets all dependent states and resets self
   void reset() {
-    ref.invalidate(minuteProvider);
+    ref.invalidate(minutesProvider);
     ref.invalidate(secondsProvider);
     ref.invalidate(hundredthsProvider);
     ref.invalidate(selectedSplitDistanceIndexProvider);

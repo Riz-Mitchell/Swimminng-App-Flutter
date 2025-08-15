@@ -42,6 +42,7 @@ class SignupNavigationController extends Notifier<SignupPage> {
       case SignupPage.addPhoneNumber:
         await ref.read(authControllerProvider.notifier).signup();
         state = SignupPage.verifyPhoneNumber;
+        ref.read(routerProvider).go('/ca-verify-phone-number');
         break;
       case SignupPage.verifyPhoneNumber:
         await ref.read(authControllerProvider.notifier).login();

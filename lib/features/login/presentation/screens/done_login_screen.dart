@@ -41,7 +41,7 @@ class DoneLoginScreen extends ConsumerWidget {
                 ButtonWidget(
                   text: 'Signup',
                   onPressed: () {
-                    ref.read(routerProvider).go('/home');
+                    ref.read(routerProvider).go('/logbook-landing');
                   },
                 ),
               ],

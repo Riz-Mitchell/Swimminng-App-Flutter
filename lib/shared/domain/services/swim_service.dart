@@ -1,4 +1,4 @@
-import 'package:swimming_app_frontend/features/swims/enum/time_period_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/time_period_enum.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/repository/swim_repository.dart';
 
@@ -41,6 +41,63 @@ class SwimService {
     while (true) {
       final query = QuerySwimEntity(
         timePeriod: timePeriod,
+        page: currentPage,
+        pageSize: maxPageSize,
+      );
+
+      final swims = await _swimRepository.getAllSwimsReq(query);
+
+      if (swims.isEmpty) {
+        break; // No more data
+      }
+
+      allSwims.addAll(swims);
+      currentPage++;
+    }
+
+    return allSwims;
+  }
+
+  Future<List<GetSwimEntity>> getSwimsByMonthAsync(int year, int month) async {
+    const int maxPageSize = 20;
+    int currentPage = 1;
+    List<GetSwimEntity> allSwims = [];
+
+    while (true) {
+      final query = QuerySwimEntity(
+        year: year,
+        month: month,
+        page: currentPage,
+        pageSize: maxPageSize,
+      );
+
+      final swims = await _swimRepository.getAllSwimsReq(query);
+
+      if (swims.isEmpty) {
+        break; // No more data
+      }
+
+      allSwims.addAll(swims);
+      currentPage++;
+    }
+
+    return allSwims;
+  }
+
+  Future<List<GetSwimEntity>> getSwimsByDayAsync(
+    int year,
+    int month,
+    int day,
+  ) async {
+    const int maxPageSize = 20;
+    int currentPage = 1;
+    List<GetSwimEntity> allSwims = [];
+
+    while (true) {
+      final query = QuerySwimEntity(
+        year: year,
+        month: month,
+        day: day,
         page: currentPage,
         pageSize: maxPageSize,
       );

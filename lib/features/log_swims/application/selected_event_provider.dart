@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_distance_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_event_stroke_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_distance_enum.dart';
-import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
 
 class SelectedEventNotifier extends Notifier<EventEnum> {
   @override

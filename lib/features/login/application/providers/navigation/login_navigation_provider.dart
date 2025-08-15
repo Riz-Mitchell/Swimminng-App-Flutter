@@ -22,7 +22,7 @@ class LoginNavigationController extends Notifier<LoginStatus> {
         break;
       case LoginStatus.done:
         // For when home page is implemented
-        // ref.read(routerProvider).go('/home');
+        // ref.read(routerProvider).go('/logbook-landing');
         break;
     }
   }

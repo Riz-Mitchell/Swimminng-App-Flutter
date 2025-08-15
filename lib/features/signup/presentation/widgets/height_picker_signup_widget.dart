@@ -19,11 +19,14 @@ class _HeightPickerState extends ConsumerState<HeightPickerSignupWidget> {
   void _showHeightPicker(BuildContext context) {
     final signupFormNotifier = ref.read(signupFormProvider.notifier);
 
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     showCupertinoModalPopup(
       context: context,
       builder: (_) => Container(
         height: 250,
-        color: CupertinoColors.systemBackground.resolveFrom(context),
+        color: colorScheme.surface,
         child: Column(
           children: [
             Expanded(
@@ -43,7 +46,12 @@ class _HeightPickerState extends ConsumerState<HeightPickerSignupWidget> {
                 children: heightOptions
                     .map(
                       (height) => Center(
-                        child: Text('${height.toStringAsFixed(1)} cm'),
+                        child: Text(
+                          '${height.toStringAsFixed(1)} cm',
+                          style: textTheme.bodyMedium!.copyWith(
+                            color: colorScheme.primary,
+                          ),
+                        ),
                       ),
                     )
                     .toList(),

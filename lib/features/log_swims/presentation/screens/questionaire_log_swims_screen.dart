@@ -59,11 +59,9 @@ class QuestionnaireLogSwimsScreen extends ConsumerWidget {
           SizedBox(height: 50),
           MetricButtonWidget(
             text: 'Next',
-            onPressed: () {
+            onPressed: () async {
               if (true) {
-                print('Navigating to next step from questionnaire screen');
-                ref.read(logSwimProvider.notifier).printState();
-                ref.read(logSwimProvider.notifier).navigateToNextStep();
+                await ref.read(logSwimProvider.notifier).navigateToNextStep();
               }
             },
           ),

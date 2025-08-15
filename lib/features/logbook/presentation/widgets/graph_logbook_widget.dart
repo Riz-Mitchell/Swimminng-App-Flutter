@@ -1,6 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/logbook/application/logbook_provider.dart';
+import 'package:swimming_app_frontend/features/logbook/application/selected_day_logbook_provider.dart';
+import 'package:swimming_app_frontend/features/logbook/domain/models/logbook_state_model.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
 class GraphLogbookWidget extends ConsumerWidget {
@@ -12,6 +15,14 @@ class GraphLogbookWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+
+    final logbookState = ref.watch(logbookProvider);
+
+    final selectedDate = ref.watch(selectedDayLogbookProvider);
+
+    final spots = _generateSpots(logbookState, selectedDate);
+
+    final maxX = spots.length.toDouble() - 1;
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -39,33 +50,24 @@ class GraphLogbookWidget extends ConsumerWidget {
                   metricPurple.withOpacity(1),
                 ],
               ),
-              spots: [
-                FlSpot(0, 2.3),
-                FlSpot(1, 3.8),
-                FlSpot(2, 1.5),
-                FlSpot(3, 1.1),
-                FlSpot(4, 0.2),
-                FlSpot(5, 0.9),
-                FlSpot(6, -2.0),
-                FlSpot(7, 0.5),
-                FlSpot(8, 2.7),
-                FlSpot(9, 0.2),
-                FlSpot(10, -0.2),
-                FlSpot(11, 4.0),
-                FlSpot(12, -1.0),
-                FlSpot(13, -3.3),
-                FlSpot(14, -3.5),
-                FlSpot(15, -4.5),
-                FlSpot(16, -0.8),
-              ],
+              spots: spots,
               isCurved: true,
-              barWidth: 3,
+              barWidth: 1.5,
               color: Colors.blue,
-              dotData: FlDotData(show: false),
+              dotData: FlDotData(
+                show: false,
+                getDotPainter: (spot, percent, barData, index) =>
+                    FlDotCirclePainter(
+                      radius: 2.5,
+                      color: colorScheme.primary,
+                      strokeWidth: 0,
+                      strokeColor: colorScheme.primary,
+                    ),
+              ),
             ),
           ],
           minX: 0,
-          maxX: 16,
+          maxX: maxX,
           minY: -8,
           maxY: 8,
           gridData: FlGridData(
@@ -138,6 +140,29 @@ class GraphLogbookWidget extends ConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  List<FlSpot> _generateSpots(
+    AsyncValue<LogbookStateModel> logbookState,
+    DateTime time,
+  ) {
+    return logbookState.when(
+      data: (data) {
+        final dayData = data.getDayData(time.year, time.month, time.day);
+
+        if (dayData == null) {
+          return [];
+        }
+        double index = dayData.swims.length.toDouble();
+        return dayData.swims.map((swim) {
+          final percentageOff = swim.getFinalSplitPercentageOffPB();
+          index--;
+          return FlSpot(index, percentageOff);
+        }).toList();
+      },
+      error: (error, stack) => [],
+      loading: () => [],
     );
   }
 }

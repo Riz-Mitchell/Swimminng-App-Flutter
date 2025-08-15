@@ -1,30 +1,30 @@
 import 'package:intl/intl.dart';
 
-enum TimePeriod { day, week, month, threeMonths, sixMonths, year }
+enum TimePeriodEnum { day, week, month, threeMonths, sixMonths, year }
 
 /// Returns a tuple of (startDate, endDate) based on selectedPeriod.
-List<DateTime> getTimeRange(TimePeriod period) {
+List<DateTime> getTimeRange(TimePeriodEnum period) {
   final now = DateTime.now();
   DateTime startDate;
   DateTime endDate = now;
 
   switch (period) {
-    case TimePeriod.day:
+    case TimePeriodEnum.day:
       startDate = now.subtract(Duration(days: 1));
       break;
-    case TimePeriod.week:
+    case TimePeriodEnum.week:
       startDate = now.subtract(Duration(days: 7));
       break;
-    case TimePeriod.month:
+    case TimePeriodEnum.month:
       startDate = DateTime(now.year, now.month - 1, now.day);
       break;
-    case TimePeriod.threeMonths:
+    case TimePeriodEnum.threeMonths:
       startDate = DateTime(now.year, now.month - 3, now.day);
       break;
-    case TimePeriod.sixMonths:
+    case TimePeriodEnum.sixMonths:
       startDate = DateTime(now.year, now.month - 6, now.day);
       break;
-    case TimePeriod.year:
+    case TimePeriodEnum.year:
       startDate = DateTime(now.year - 1, now.month, now.day);
       break;
   }
@@ -37,9 +37,9 @@ String formatDate(DateTime date) {
 }
 
 class DateLabelConverter {
-  static String format(DateTime date, TimePeriod timePeriod) {
+  static String format(DateTime date, TimePeriodEnum timePeriod) {
     switch (timePeriod) {
-      case TimePeriod.day:
+      case TimePeriodEnum.day:
         final now = DateTime.now();
         final isYesterday =
             date.day == now.subtract(Duration(days: 1)).day &&
@@ -47,15 +47,15 @@ class DateLabelConverter {
             date.year == now.year;
         final timeString = DateFormat('h:mma').format(date);
         return isYesterday ? 'Yesterday, $timeString' : timeString;
-      case TimePeriod.week:
+      case TimePeriodEnum.week:
         // Example: Monday, Tuesday
         return DateFormat('h:mma EEE').format(date);
-      case TimePeriod.month:
+      case TimePeriodEnum.month:
         // Example: 11 June
         return DateFormat('d MMMM').format(date);
-      case TimePeriod.threeMonths:
-      case TimePeriod.sixMonths:
-      case TimePeriod.year:
+      case TimePeriodEnum.threeMonths:
+      case TimePeriodEnum.sixMonths:
+      case TimePeriodEnum.year:
         // Example: June 2025
         return DateFormat('MMMM yyyy').format(date);
     }

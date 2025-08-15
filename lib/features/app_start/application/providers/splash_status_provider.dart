@@ -42,7 +42,9 @@ class SplashStatusNotifier extends Notifier<SplashStatus> {
 
     state = SplashStatus.done;
 
-    ref.read(routerProvider).go(isLoggedIn ? '/home' : '/login-or-signup');
+    ref
+        .read(routerProvider)
+        .go(isLoggedIn ? '/logbook-landing' : '/login-or-signup');
   }
 }
 

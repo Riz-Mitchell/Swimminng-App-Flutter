@@ -1,5 +1,9 @@
-import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
+import 'package:flutter/material.dart';
+import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
+import 'package:swimming_app_frontend/features/log_swims/domain/models/split_model.dart';
+import 'package:swimming_app_frontend/shared/helper/json_formatting.dart';
 
+@immutable
 class GetSplitEntity {
   final String id; // Primary Key
   final StrokeEnum stroke; // Stroke type for this split
@@ -13,7 +17,7 @@ class GetSplitEntity {
   final double? perOffGoalStrokeRate; // Percentage off goal stroke rate
   final bool dive; // Indicates if from dive start
 
-  GetSplitEntity({
+  const GetSplitEntity({
     required this.id,
     required this.stroke,
     required this.intervalTime,
@@ -26,8 +30,25 @@ class GetSplitEntity {
     this.perOffGoalStrokeRate,
     required this.dive,
   });
+
+  factory GetSplitEntity.fromJson(Map<String, dynamic> json) {
+    return GetSplitEntity(
+      id: json['id'] as String,
+      stroke: enumFromJson(StrokeEnum.values, json['stroke']),
+      intervalTime: (json['intervalTime'] as num).toDouble(),
+      intervalDistance: json['intervalDistance'] as int,
+      intervalStrokeRate: json['intervalStrokeRate'] as int?,
+      intervalStrokeCount: json['intervalStrokeCount'] as int?,
+      perOffPBIntervalTime: (json['perOffPBIntervalTime'] as num?)?.toDouble(),
+      perOffPBStrokeRate: (json['perOffPBStrokeRate'] as num?)?.toDouble(),
+      perOffGoalTime: (json['perOffGoalTime'] as num?)?.toDouble(),
+      perOffGoalStrokeRate: (json['perOffGoalStrokeRate'] as num?)?.toDouble(),
+      dive: json['dive'] as bool,
+    );
+  }
 }
 
+@immutable
 class CreateSplitEntity {
   final StrokeEnum stroke; // Stroke type for this split
   final double intervalTime; // Time for this split in seconds
@@ -36,7 +57,7 @@ class CreateSplitEntity {
   final int? intervalStrokeCount; // Stroke count for this split
   final bool dive; // Indicates if from dive start
 
-  CreateSplitEntity({
+  const CreateSplitEntity({
     required this.stroke,
     required this.intervalTime,
     required this.intervalDistance,
@@ -44,4 +65,28 @@ class CreateSplitEntity {
     this.intervalStrokeCount,
     required this.dive,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'stroke': enumToJson(stroke),
+      'intervalTime': intervalTime,
+      'intervalDistance': intervalDistance,
+      'intervalStrokeRate': intervalStrokeRate,
+      'intervalStrokeCount': intervalStrokeCount,
+      'dive': dive,
+    };
+  }
+}
+
+class SplitMapper {
+  static CreateSplitEntity fromModelToEntity(SplitModel model) {
+    return CreateSplitEntity(
+      stroke: model.stroke,
+      intervalTime: model.intervalTime,
+      intervalDistance: model.intervalDistance,
+      intervalStrokeRate: model.intervalStrokeRate,
+      intervalStrokeCount: model.intervalStrokeCount,
+      dive: true, // Currently hardcoded as true
+    );
+  }
 }

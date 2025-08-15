@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/selected_event_stroke_log_swims_provider.dart';
-import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/stroke_button_log_swims_widget.dart';
 
 class StrokeSelectorLogSwimsWidget extends ConsumerWidget {

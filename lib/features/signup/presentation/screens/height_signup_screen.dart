@@ -8,6 +8,8 @@ class HeightSignupScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('here');
+
     return Stack(
       children: [
         Scaffold(
@@ -28,9 +30,7 @@ class HeightSignupScreen extends ConsumerWidget {
                           'How tall are you?',
                           style: Theme.of(context).textTheme.displayLarge
                               ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onBackground,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                         ),
                       ),

@@ -3,17 +3,17 @@ import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity
 class DayLogModel {
   final int dayOfMonth;
   final List<GetSwimEntity> swims;
-  final double avPercentOffPb;
-  final double lowPercentOffPb;
-  final double highPercentOffPb;
+  final double? avPercentOffPb;
+  final double? lowPercentOffPb;
+  final double? highPercentOffPb;
 
   DayLogModel({required this.dayOfMonth, required this.swims})
     : avPercentOffPb = _calculateAveragePercentOffPb(swims),
       lowPercentOffPb = _calculateLowPercentOffPb(swims),
       highPercentOffPb = _calculateHighPercentOffPb(swims);
 
-  static _calculateAveragePercentOffPb(List<GetSwimEntity> swims) {
-    if (swims.isEmpty) return 0.0;
+  static double? _calculateAveragePercentOffPb(List<GetSwimEntity> swims) {
+    if (swims.isEmpty) return null;
 
     double totalPercentOffPb = 0.0;
     int count = 0;
@@ -38,11 +38,11 @@ class DayLogModel {
       }
     }
 
-    return count > 0 ? totalPercentOffPb / count : 0.0;
+    return count > 0 ? totalPercentOffPb / count : null;
   }
 
   static _calculateLowPercentOffPb(List<GetSwimEntity> swims) {
-    if (swims.isEmpty) return 0.0;
+    if (swims.isEmpty) return null;
 
     double minPercentOffPb = double.infinity;
 
@@ -64,11 +64,11 @@ class DayLogModel {
       }
     }
 
-    return minPercentOffPb == double.infinity ? 0.0 : minPercentOffPb;
+    return minPercentOffPb == double.infinity ? null : minPercentOffPb;
   }
 
   static _calculateHighPercentOffPb(List<GetSwimEntity> swims) {
-    if (swims.isEmpty) return 0.0;
+    if (swims.isEmpty) return null;
 
     double maxPercentOffPb = double.negativeInfinity;
 
@@ -90,6 +90,6 @@ class DayLogModel {
       }
     }
 
-    return maxPercentOffPb == double.negativeInfinity ? 0.0 : maxPercentOffPb;
+    return maxPercentOffPb == double.negativeInfinity ? null : maxPercentOffPb;
   }
 }

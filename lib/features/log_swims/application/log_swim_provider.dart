@@ -5,14 +5,15 @@ import 'package:swimming_app_frontend/features/log_swims/application/selected_ev
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
-import 'package:swimming_app_frontend/features/log_swims/domain/enum/stroke_enum.dart';
+import 'package:swimming_app_frontend/features/logbook/application/logbook_provider.dart';
+import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_split_state_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_swim_state_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/post_swim_questionnaire_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/split_model.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
 import 'package:swimming_app_frontend/providers/swim_service_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
+import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/split_entity.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_questionnaire_entity.dart';
@@ -70,17 +71,14 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
   }
 
   Future<void> navigateToNextStep() async {
-    print('Navigating to next step with state:');
+    print('\n\n\nNavigating to next step with state:');
     printState();
-    print('--------------------------------');
+    print('--------------------------------\n\n\n');
     final currentStatus = state.status;
     final nextStatusIndex = currentStatus.index + 1;
 
     if (nextStatusIndex < StatusLogSwimsEnum.values.length) {
-      print('inside navigateToNextStep');
-      print('Current status: $currentStatus, next index: $nextStatusIndex');
       final nextStatus = StatusLogSwimsEnum.values[nextStatusIndex];
-      print('Next status: $nextStatus');
       _updatePageStatus(nextStatus);
       switch (nextStatus) {
         case StatusLogSwimsEnum.selectStroke:
@@ -93,16 +91,17 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
           ref.read(routerProvider).go('/add-swim-splits');
           break;
         case StatusLogSwimsEnum.completeQuestionnaire:
-          _submitSwimAsync();
           ref.read(routerProvider).go('/add-swim-questionnaire');
           break;
         case StatusLogSwimsEnum.complete:
+          await _submitSwimAsync();
           ref.read(routerProvider).go('/add-swim-complete');
           break;
         default:
           break;
       }
     } else {
+      await ref.read(logbookProvider.notifier).reRetrieveToday();
       ref.read(routerProvider).go('/logbook-landing');
       _reset();
       return;
@@ -120,8 +119,11 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
           .map((split) => SplitMapper.fromModelToEntity(split))
           .toList(),
       poolType: state.poolType,
-      questionnaire: questionnaire,
+      swimQuestionnaire: questionnaire,
     );
+    print('Submitting swim with state:');
+    printState();
+    print('--------------------------------');
 
     await ref.read(swimServiceProvider).createSwim(swim);
   }
@@ -137,9 +139,9 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
   }
 
   void _reset() {
-    print('Resting LogSwimProvider');
-    final stackTrace = StackTrace.current;
-    print('Reset called from:\n$stackTrace');
+    // print('Resting LogSwimProvider');
+    // final stackTrace = StackTrace.current;
+    // print('Reset called from:\n$stackTrace');
     state = state.copyWith(status: StatusLogSwimsEnum.selectPoolType);
     ref.invalidate(selectedEventStrokeLogSwimsProvider);
     ref.invalidate(selectedDistanceLogSwimsProvider);

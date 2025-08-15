@@ -1,32 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:swimming_app_frontend/features/swims/domain/models/swim_model.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity.dart';
 
 class SwimCardLogbookWidget extends ConsumerWidget {
   final String asset;
-  late GetSwimResDTO? swim;
+  final GetSwimEntity? swim;
 
-  SwimCardLogbookWidget({super.key, required this.asset, this.swim});
+  const SwimCardLogbookWidget({super.key, required this.asset, this.swim});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final screenWidth = MediaQuery.of(context).size.width;
-
-    swim =
-        swim ??
-        GetSwimResDTO(
-          id: '1',
-          event: EventEnum
-              .freestyle50, // Provide appropriate default or mock value
-          splits: const [], // Provide appropriate default or mock value
-          goalSwim: false, // Provide appropriate default or mock value
-          recordedAt:
-              DateTime.now(), // Provide appropriate default or mock value
-        );
 
     return Container(
       width: screenWidth,

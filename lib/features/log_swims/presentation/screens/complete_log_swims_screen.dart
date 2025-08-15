@@ -26,9 +26,9 @@ class CompleteLogSwimsScreen extends ConsumerWidget {
           ),
           MetricButtonWidget(
             text: 'Complete',
-            onPressed: () {
+            onPressed: () async {
               if (true) {
-                ref.read(logSwimProvider.notifier).navigateToNextStep();
+                await ref.read(logSwimProvider.notifier).navigateToNextStep();
               }
             },
           ),

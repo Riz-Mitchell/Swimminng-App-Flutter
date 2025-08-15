@@ -4,12 +4,12 @@ import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnai
 import 'package:swimming_app_frontend/features/log_swims/domain/models/post_swim_questionnaire_model.dart';
 
 class PostSwimQuestionnaireLogSwimsProvider
-    extends Notifier<PostSwimQuestionnaireModel> {
+    extends Notifier<CreateSwimQuestionnaireModel> {
   @override
-  PostSwimQuestionnaireModel build() => PostSwimQuestionnaireModel();
+  CreateSwimQuestionnaireModel build() => CreateSwimQuestionnaireModel();
 
   void resetQuestionnaire() {
-    state = PostSwimQuestionnaireModel();
+    state = CreateSwimQuestionnaireModel();
   }
 
   void selectSelfTalk(SelfTalkOptionsEnum option) {
@@ -156,5 +156,5 @@ class PostSwimQuestionnaireLogSwimsProvider
 final postSwimQuestionnaireLogSwimsProvider =
     NotifierProvider<
       PostSwimQuestionnaireLogSwimsProvider,
-      PostSwimQuestionnaireModel
+      CreateSwimQuestionnaireModel
     >(PostSwimQuestionnaireLogSwimsProvider.new);

@@ -1,6 +1,6 @@
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
 
-class PostSwimQuestionnaireModel {
+class CreateSwimQuestionnaireModel {
   Map<SelfTalkOptionsEnum, bool> selfTalk;
   Map<NervesOptionsEnum, bool> nerves;
   Map<EnergyLevelOptionsEnum, bool> energyLevel;
@@ -12,7 +12,7 @@ class PostSwimQuestionnaireModel {
   Map<HeadPositionOptionsEnum, bool> headPosition;
   Map<TurnOptionsEnum, bool> turn;
 
-  PostSwimQuestionnaireModel({
+  CreateSwimQuestionnaireModel({
     this.selfTalk = const {
       SelfTalkOptionsEnum.unselected: true,
       SelfTalkOptionsEnum.none: false,
@@ -88,7 +88,7 @@ class PostSwimQuestionnaireModel {
     },
   });
 
-  PostSwimQuestionnaireModel copyWith({
+  CreateSwimQuestionnaireModel copyWith({
     Map<SelfTalkOptionsEnum, bool>? selfTalk,
     Map<NervesOptionsEnum, bool>? nerves,
     Map<EnergyLevelOptionsEnum, bool>? energyLevel,
@@ -100,7 +100,7 @@ class PostSwimQuestionnaireModel {
     Map<HeadPositionOptionsEnum, bool>? headPosition,
     Map<TurnOptionsEnum, bool>? turn,
   }) {
-    return PostSwimQuestionnaireModel(
+    return CreateSwimQuestionnaireModel(
       selfTalk: selfTalk ?? this.selfTalk,
       nerves: nerves ?? this.nerves,
       energyLevel: energyLevel ?? this.energyLevel,
@@ -114,7 +114,7 @@ class PostSwimQuestionnaireModel {
     );
   }
 
-  PostSwimQuestionnaireModel updateQuestionnaireField<T extends Enum>(
+  CreateSwimQuestionnaireModel updateQuestionnaireField<T extends Enum>(
     T option,
     Map<T, bool> currentMap,
   ) {

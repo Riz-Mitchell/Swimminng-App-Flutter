@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/log_swim_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/split_model.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/icon_button_widget.dart';
 
 class SplitCardLogSwimsWidget extends ConsumerWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/logbook/application/logbook_provider.dart';
+import 'package:swimming_app_frontend/features/logbook/application/selected_day_logbook_provider.dart';
 import 'package:swimming_app_frontend/features/logbook/domain/models/logbook_state_model.dart';
 
 class GraphHeaderLogbookWidget extends ConsumerWidget {
@@ -14,7 +15,7 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
     final logbookState = ref.watch(logbookProvider);
 
     // Replace with current date being looked at
-    final now = DateTime.now();
+    final selectedDate = ref.watch(selectedDayLogbookProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -25,7 +26,7 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              _getAverageString(logbookState, now),
+              _getAverageString(logbookState, selectedDate),
               style: textTheme.displayMedium!.copyWith(
                 color: colorScheme.primary,
               ),
@@ -74,13 +75,13 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    _getHighString(logbookState, now),
+                    _getHighString(logbookState, selectedDate),
                     style: textTheme.headlineSmall!.copyWith(
                       color: colorScheme.primary,
                     ),
                   ),
                   Text(
-                    _getLowString(logbookState, now),
+                    _getLowString(logbookState, selectedDate),
                     style: textTheme.headlineSmall!.copyWith(
                       color: colorScheme.primary,
                     ),
@@ -103,9 +104,11 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
         final dayData = data.getDayData(time.year, time.month, time.day);
 
         if (dayData != null) {
-          return '${dayData.highPercentOffPb.toStringAsFixed(2)}%';
+          return (dayData.highPercentOffPb != null)
+              ? '${dayData.highPercentOffPb!.toStringAsFixed(2)}%'
+              : '-';
         } else {
-          return '';
+          return '-';
         }
       },
       loading: () => 'Loading...',
@@ -122,9 +125,11 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
         final dayData = data.getDayData(time.year, time.month, time.day);
 
         if (dayData != null) {
-          return '${dayData.lowPercentOffPb.toStringAsFixed(2)}%';
+          return (dayData.lowPercentOffPb != null)
+              ? '${dayData.lowPercentOffPb!.toStringAsFixed(2)}%'
+              : '-';
         } else {
-          return '';
+          return '-';
         }
       },
       loading: () => 'Loading...',
@@ -141,9 +146,11 @@ class GraphHeaderLogbookWidget extends ConsumerWidget {
         final dayData = data.getDayData(time.year, time.month, time.day);
 
         if (dayData != null) {
-          return '${dayData.avPercentOffPb.toStringAsFixed(2)}%';
+          return (dayData.avPercentOffPb != null)
+              ? '${dayData.avPercentOffPb!.toStringAsFixed(2)}%'
+              : '-';
         } else {
-          return '';
+          return '-';
         }
       },
       loading: () => 'Loading...',

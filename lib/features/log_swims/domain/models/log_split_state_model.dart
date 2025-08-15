@@ -1,6 +1,5 @@
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_split_enum.dart';
-import 'package:swimming_app_frontend/features/log_swims/domain/models/split_model.dart';
-import 'package:swimming_app_frontend/features/swims/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
 
 class LogSplitStateModel {
   final StatusLogSplitEnum status;

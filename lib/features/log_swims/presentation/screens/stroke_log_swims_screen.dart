@@ -36,9 +36,9 @@ class StrokeLogSwimsScreen extends ConsumerWidget {
                 .read(selectedEventStrokeLogSwimsProvider.notifier)
                 .isValidSelection(),
             text: 'Next',
-            onPressed: () {
+            onPressed: () async {
               if (true) {
-                ref.read(logSwimProvider.notifier).navigateToNextStep();
+                await ref.read(logSwimProvider.notifier).navigateToNextStep();
               }
             },
           ),
