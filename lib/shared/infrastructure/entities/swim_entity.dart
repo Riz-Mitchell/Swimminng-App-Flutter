@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:swimming_app_frontend/external/aus/domain/models/aus_swim_model.dart';
+import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/shared/enum/time_period_enum.dart';
 import 'package:swimming_app_frontend/shared/helper/json_formatting.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/split_entity.dart';
@@ -138,4 +141,87 @@ class QuerySwimEntity {
     'Page': page,
     'PageSize': pageSize,
   };
+}
+
+class SwimEntityMapper {
+  static CreateSwimEntity fromAusModelToLocalEntity(
+    CreateAusSwimModel ausSwimModel,
+  ) {
+    return CreateSwimEntity(
+      event: ausSwimModel.event,
+      splits: ausSwimModel.splits.map((split) {
+        return CreateSplitEntity(
+          intervalDistance: split.splitDistance,
+          intervalTime: split.splitTime,
+          dive: false,
+          stroke: _getSplitStrokeFromAusModelData(ausSwimModel, split),
+        );
+      }).toList(),
+      goalSwim: false, // Default value, can be modified later
+      poolType: ausSwimModel.poolType,
+      swimQuestionnaire: CreateSwimQuestionnaireEntity(
+        selfTalk: SelfTalkOptionsEnum.unselected,
+        nerves: [NervesOptionsEnum.unselected],
+        energyLevel: EnergyLevelOptionsEnum.unselected,
+        breathing: BreathingOptionsEnum.unselected,
+        catchFeel: [CatchFeelOptionsEnum.unselected],
+        strokeLength: StrokeLengthOptionsEnum.unselected,
+        kickTechnique: KickTechniqueOptionsEnum.unselected,
+        kickThroughout: KickThroughoutOptionsEnum.unselected,
+        headPosition: [HeadPositionOptionsEnum.unselected],
+        turn: [TurnOptionsEnum.unselected],
+      ),
+    );
+  }
+
+  static StrokeEnum _getSplitStrokeFromAusModelData(
+    CreateAusSwimModel ausSwimModel,
+    CreateAusSplitModel currentSplit,
+  ) {
+    switch (ausSwimModel.event) {
+      case EventEnum.freestyle50:
+      case EventEnum.freestyle100:
+      case EventEnum.freestyle200:
+      case EventEnum.freestyle400:
+      case EventEnum.freestyle800:
+      case EventEnum.freestyle1500:
+        return StrokeEnum.freestyle;
+      case EventEnum.backstroke100:
+      case EventEnum.backstroke200:
+        return StrokeEnum.backstroke;
+      case EventEnum.breaststroke100:
+      case EventEnum.breaststroke200:
+        return StrokeEnum.breaststroke;
+      case EventEnum.butterfly100:
+      case EventEnum.butterfly200:
+        return StrokeEnum.butterfly;
+      case EventEnum.individualMedley200:
+        switch (currentSplit.splitDistance) {
+          case <= 50:
+            return StrokeEnum.butterfly;
+          case <= 100:
+            return StrokeEnum.backstroke;
+          case <= 150:
+            return StrokeEnum.breaststroke;
+          case <= 200:
+            return StrokeEnum.freestyle;
+        }
+      case EventEnum.individualMedley400:
+        switch (currentSplit.splitDistance) {
+          case <= 100:
+            return StrokeEnum.butterfly;
+          case <= 200:
+            return StrokeEnum.backstroke;
+          case <= 300:
+            return StrokeEnum.breaststroke;
+          case <= 400:
+            return StrokeEnum.freestyle;
+        }
+      case EventEnum.none:
+        return StrokeEnum.freestyle; // Default stroke if none specified
+    }
+    throw ArgumentError(
+      'Issue converting swims to local: ${ausSwimModel.event}',
+    );
+  }
 }
