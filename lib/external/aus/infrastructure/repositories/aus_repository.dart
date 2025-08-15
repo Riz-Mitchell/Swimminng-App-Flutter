@@ -7,7 +7,7 @@ class AusRepository {
 
   AusRepository(this._apiClient);
 
-  Future<List<GetAusSwimEntity>> getAllAusSwims(
+  Future<List<GetAusSwimEntity>> getAllAusSwimsAsync(
     QueryReqAusSwimEntity query,
   ) async {
     final res = await _apiClient.get('/results/results', query: query.toJson());
@@ -21,10 +21,14 @@ class AusRepository {
         .toList();
   }
 
-  Future<List<GetAusSplitEntity>> getAllSplitsForSwim(
+  Future<List<GetAusSplitEntity>> getAllSplitsForSwimAsync(
+    String raceResultId,
     QueryReqAusSplitEntity query,
   ) async {
-    final res = await _apiClient.get('/results/splits', query: query.toJson());
+    final res = await _apiClient.get(
+      '/results/$raceResultId/splits',
+      query: query.toJson(),
+    );
 
     if (res == null) {
       throw Exception('Failed to get all Aus splits: No response from server.');
