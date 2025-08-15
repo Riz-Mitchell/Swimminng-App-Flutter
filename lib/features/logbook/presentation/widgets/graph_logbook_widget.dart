@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/logbook/application/logbook_provider.dart';
 import 'package:swimming_app_frontend/features/logbook/application/selected_day_logbook_provider.dart';
+import 'package:swimming_app_frontend/features/logbook/application/selected_swim_logbook_provider.dart';
 import 'package:swimming_app_frontend/features/logbook/domain/models/logbook_state_model.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
@@ -23,6 +24,8 @@ class GraphLogbookWidget extends ConsumerWidget {
     final spots = _generateSpots(logbookState, selectedDate);
 
     final maxX = spots.length.toDouble() - 1;
+
+    final selectedCarouselIndex = ref.watch(selectedSwimLogbookProvider);
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -55,14 +58,13 @@ class GraphLogbookWidget extends ConsumerWidget {
               barWidth: 1.5,
               color: Colors.blue,
               dotData: FlDotData(
-                show: false,
-                getDotPainter: (spot, percent, barData, index) =>
-                    FlDotCirclePainter(
-                      radius: 2.5,
-                      color: colorScheme.primary,
-                      strokeWidth: 0,
-                      strokeColor: colorScheme.primary,
-                    ),
+                show: true,
+                getDotPainter: (spot, percent, barData, index) {
+                  return FlDotCirclePainter(
+                    radius: (index == selectedCarouselIndex) ? 2.5 : 0,
+                    color: colorScheme.primary,
+                  );
+                },
               ),
             ),
           ],
