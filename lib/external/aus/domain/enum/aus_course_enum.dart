@@ -1,0 +1,1 @@
+enum AusCourseEnum { long, short }
