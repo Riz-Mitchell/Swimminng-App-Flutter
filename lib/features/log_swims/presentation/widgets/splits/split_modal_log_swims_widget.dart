@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:swimming_app_frontend/features/log_swims/application/log_split_log_swims_provider.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_split_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/widgets/splits/distance_split_selector_log_swims_widget.dart';
