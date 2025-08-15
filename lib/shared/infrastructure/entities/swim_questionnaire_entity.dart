@@ -63,6 +63,26 @@ class GetSwimQuestionnaireEntity {
           .toList(),
     );
   }
+
+  double getQuestionnaireCompleteness() {
+    double completeness = 0.0;
+    int totalQuestions = 10; // Total number of questions in the questionnaire
+
+    // Count how many questions have been answered
+    if (selfTalk != SelfTalkOptionsEnum.unselected) completeness++;
+    if (nerves.first != NervesOptionsEnum.unselected) completeness++;
+    if (energyLevel != EnergyLevelOptionsEnum.unselected) completeness++;
+    if (breathing != BreathingOptionsEnum.unselected) completeness++;
+    if (catchFeel.first != CatchFeelOptionsEnum.unselected) completeness++;
+    if (strokeLength != StrokeLengthOptionsEnum.unselected) completeness++;
+    if (kickTechnique != KickTechniqueOptionsEnum.unselected) completeness++;
+    if (kickThroughout != KickThroughoutOptionsEnum.unselected) completeness++;
+    if (headPosition.first != HeadPositionOptionsEnum.unselected)
+      completeness++;
+    if (turn.first != TurnOptionsEnum.unselected) completeness++;
+
+    return (completeness / totalQuestions) * 100; // Return percentage
+  }
 }
 
 @immutable
