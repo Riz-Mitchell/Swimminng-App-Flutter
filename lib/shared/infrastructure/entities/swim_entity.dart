@@ -50,6 +50,22 @@ class GetSwimEntity {
 
     return lastSplit.perOffPBIntervalTime!;
   }
+
+  double getFinalSplitTime() {
+    final lastSplit = splits.reduce(
+      (a, b) => a.intervalDistance > b.intervalDistance ? a : b,
+    );
+
+    return lastSplit.intervalTime;
+  }
+
+  int getFinalSplitDistance() {
+    final lastSplit = splits.reduce(
+      (a, b) => a.intervalDistance > b.intervalDistance ? a : b,
+    );
+
+    return lastSplit.intervalDistance;
+  }
 }
 
 @immutable
