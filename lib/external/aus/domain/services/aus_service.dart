@@ -1,3 +1,4 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/external/aus/domain/models/aus_swim_model.dart';
 import 'package:swimming_app_frontend/external/aus/infrastructure/entities/aus_participant_entity.dart';
 import 'package:swimming_app_frontend/external/aus/infrastructure/entities/aus_split_entity.dart';
@@ -62,3 +63,8 @@ class AusService {
     return swimmers;
   }
 }
+
+final ausServiceProvider = Provider<AusService>((ref) {
+  final ausRepository = ref.watch(ausRepositoryProvider);
+  return AusService(ausRepository);
+});
