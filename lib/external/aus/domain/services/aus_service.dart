@@ -1,4 +1,5 @@
 import 'package:swimming_app_frontend/external/aus/domain/models/aus_swim_model.dart';
+import 'package:swimming_app_frontend/external/aus/infrastructure/entities/aus_participant_entity.dart';
 import 'package:swimming_app_frontend/external/aus/infrastructure/entities/aus_split_entity.dart';
 import 'package:swimming_app_frontend/external/aus/infrastructure/entities/aus_swim_entity.dart';
 import 'package:swimming_app_frontend/external/aus/infrastructure/repositories/aus_repository.dart';
@@ -23,7 +24,11 @@ class AusService {
         participantId: participantId, // Replace with actual participant ID
       );
 
-      final ausSwimEntities = await _ausRepository.getAllAusSwimsAsync(query);
+      final queryResponseEntity = await _ausRepository.getSwimsQueryAsync(
+        query,
+      );
+
+      final ausSwimEntities = queryResponseEntity.data;
 
       if (ausSwimEntities.isEmpty) {
         break; // No more data
@@ -32,7 +37,7 @@ class AusService {
       final swimEntities = await Future.wait(
         ausSwimEntities.map((swimEntity) async {
           final splitQuery = QueryReqAusSplitEntity();
-          final splitEntities = await _ausRepository.getAllSplitsForSwimAsync(
+          final splitEntities = await _ausRepository.getSplitsForRaceAsync(
             swimEntity.raceResultId,
             splitQuery,
           );
@@ -44,5 +49,16 @@ class AusService {
       currentPage++;
     }
     return allSwims;
+  }
+
+  Future<List<GetAusParticipantEntity>> getSwimmersFromAusToImport(
+    String searchTerm,
+  ) async {
+    if (searchTerm.isEmpty) {
+      return [];
+    }
+
+    final swimmers = await _ausRepository.getSwimmersAsync(searchTerm);
+    return swimmers;
   }
 }
