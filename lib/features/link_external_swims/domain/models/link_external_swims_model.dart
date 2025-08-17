@@ -5,7 +5,7 @@ import 'package:swimming_app_frontend/external/aus/infrastructure/entities/aus_p
 @immutable
 class LinkExternalSwimsModel {
   final List<GetAusParticipantEntity> searchResults;
-  final GetAusParticipantEntity selectedSwimmer;
+  final GetAusParticipantEntity? selectedSwimmer;
   final List<CreateAusSwimModel> swimsToLink;
 
   const LinkExternalSwimsModel({
