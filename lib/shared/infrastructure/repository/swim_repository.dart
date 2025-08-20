@@ -58,10 +58,8 @@ class SwimRepository {
   // }
 
   Future<void> deleteSwimReq(String swimId) async {
-    final client = await _apiClient;
-
     try {
-      await client.delete('/api/Swim/$swimId');
+      await _apiClient.delete('/api/Swim/$swimId');
     } catch (e) {
       throw Exception('Failed to delete swim: $e');
     }

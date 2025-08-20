@@ -122,4 +122,8 @@ class SwimService {
   Future<void> createSwim(CreateSwimEntity schema) async {
     await _swimRepository.createSwimReq(schema);
   }
+
+  Future<void> deleteSwim(String id) async {
+    await _swimRepository.deleteSwimReq(id);
+  }
 }

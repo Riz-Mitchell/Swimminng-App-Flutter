@@ -8,12 +8,16 @@ enum EventEnum {
   freestyle400,
   freestyle800,
   freestyle1500,
+  backstroke50,
   backstroke100,
   backstroke200,
+  breaststroke50,
   breaststroke100,
   breaststroke200,
+  butterfly50,
   butterfly100,
   butterfly200, // Add all your C# enum values here
+  individualMedley100,
   individualMedley200,
   individualMedley400,
 }
@@ -27,6 +31,8 @@ extension EventEnumExtension on EventEnum {
     switch (stroke) {
       case null:
         switch (distance) {
+          case 100:
+            return EventEnum.individualMedley100;
           case 200:
             return EventEnum.individualMedley200;
           case 400:
@@ -49,6 +55,8 @@ extension EventEnumExtension on EventEnum {
         }
       case StrokeEnum.backstroke:
         switch (distance) {
+          case 50:
+            return EventEnum.backstroke50;
           case 100:
             return EventEnum.backstroke100;
           case 200:
@@ -56,6 +64,8 @@ extension EventEnumExtension on EventEnum {
         }
       case StrokeEnum.breaststroke:
         switch (distance) {
+          case 50:
+            return EventEnum.breaststroke50;
           case 100:
             return EventEnum.breaststroke100;
           case 200:
@@ -63,6 +73,8 @@ extension EventEnumExtension on EventEnum {
         }
       case StrokeEnum.butterfly:
         switch (distance) {
+          case 50:
+            return EventEnum.butterfly50;
           case 100:
             return EventEnum.butterfly100;
           case 200:
@@ -87,18 +99,26 @@ extension EventEnumExtension on EventEnum {
         return '800 Free';
       case EventEnum.freestyle1500:
         return '1500 Free';
+      case EventEnum.backstroke50:
+        return '50 Back';
       case EventEnum.backstroke100:
         return '100 Back';
       case EventEnum.backstroke200:
         return '200 Back';
+      case EventEnum.breaststroke50:
+        return '50 Breast';
       case EventEnum.breaststroke100:
         return '100 Breast';
       case EventEnum.breaststroke200:
         return '200 Breast';
+      case EventEnum.butterfly50:
+        return '50 Fly';
       case EventEnum.butterfly100:
         return '100 Fly';
       case EventEnum.butterfly200:
         return '200 Fly';
+      case EventEnum.individualMedley100:
+        return '100 IM';
       case EventEnum.individualMedley200:
         return '200 IM';
       case EventEnum.individualMedley400:

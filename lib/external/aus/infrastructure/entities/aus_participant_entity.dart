@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class GetAusParticipantEntity {
   final String participantId;
   final String fullName;
-  final String club;
+  final String? club;
 
   const GetAusParticipantEntity({
     required this.participantId,
@@ -16,7 +16,7 @@ class GetAusParticipantEntity {
     return GetAusParticipantEntity(
       participantId: json['participantId'] as String,
       fullName: json['fullName'] as String,
-      club: json['club'] as String,
+      club: json['club'] as String?,
     );
   }
 }

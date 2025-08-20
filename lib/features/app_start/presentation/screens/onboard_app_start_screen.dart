@@ -51,6 +51,12 @@ class OnboardAppStartScreen extends ConsumerWidget {
                     ref.read(routerProvider).go('/ca-initial');
                   },
                 ),
+                ButtonWidget(
+                  text: 'Link External Swims',
+                  onPressed: () {
+                    ref.read(routerProvider).go('/link-external-swims');
+                  },
+                ),
               ],
             ),
           ),

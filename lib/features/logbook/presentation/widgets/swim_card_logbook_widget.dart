@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
+import 'package:swimming_app_frontend/features/logbook/application/viewing_swim_logbook_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity.dart';
 
@@ -16,155 +18,166 @@ class SwimCardLogbookWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Container(
-      width: screenWidth,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: colorScheme.primary,
-      ),
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
-      // decoration: BoxDecoration(
-      //   borderRadius: BorderRadius.circular(20),
-      //   color: colorScheme.surface,
-      // ),
-      child: Column(
-        spacing: 20,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                _getTimeString(swim.recordedAt),
-                style: textTheme.headlineSmall?.copyWith(
-                  color: colorScheme.secondary,
+    return GestureDetector(
+      onTap: () {
+        ref.read(viewingSwimLogbookProvider.notifier).setSwimAndSplit(swim);
+        ref.read(routerProvider).go('/swim-viewer');
+      },
+      child: Container(
+        width: screenWidth,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: colorScheme.primary,
+        ),
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          bottom: 20,
+          top: 20,
+        ),
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(20),
+        //   color: colorScheme.surface,
+        // ),
+        child: Column(
+          spacing: 20,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  _getTimeString(swim.recordedAt),
+                  style: textTheme.headlineSmall?.copyWith(
+                    color: colorScheme.secondary,
+                  ),
                 ),
-              ),
-              SvgPicture.asset(
-                _getAssetPath(),
-                width: 20,
-                height: 20,
-                colorFilter: ColorFilter.mode(
-                  colorScheme.secondary,
-                  BlendMode.srcIn,
+                SvgPicture.asset(
+                  _getAssetPath(),
+                  width: 20,
+                  height: 20,
+                  colorFilter: ColorFilter.mode(
+                    colorScheme.secondary,
+                    BlendMode.srcIn,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Row(
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Text(
-                      //   'Final Time',
-                      //   style: textTheme.bodyMedium!.copyWith(
-                      //     color: colorScheme.secondary,
-                      //   ),
-                      // ),
-                      Text(
-                        _getFinalTimeString(),
-                        style: textTheme.displayLarge?.copyWith(
-                          color: colorScheme.onPrimary,
+              ],
+            ),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Text(
+                        //   'Final Time',
+                        //   style: textTheme.bodyMedium!.copyWith(
+                        //     color: colorScheme.secondary,
+                        //   ),
+                        // ),
+                        Text(
+                          _getFinalTimeString(),
+                          style: textTheme.displayLarge?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Divider(
-                color: Theme.of(context).colorScheme.secondary,
-                thickness: 1,
-                radius: BorderRadius.circular(20),
-              ),
-              Row(
-                spacing: 20,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    spacing: 5,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Distance',
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.secondary,
+                      ],
+                    ),
+                  ],
+                ),
+                Divider(
+                  color: Theme.of(context).colorScheme.secondary,
+                  thickness: 1,
+                  radius: BorderRadius.circular(20),
+                ),
+                Row(
+                  spacing: 20,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      spacing: 5,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Distance',
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.secondary,
+                          ),
                         ),
-                      ),
-                      Text(
-                        _getFinalSplitDistance(),
-                        style: textTheme.headlineSmall?.copyWith(
-                          color: colorScheme.onPrimary,
+                        Text(
+                          _getFinalSplitDistance(),
+                          style: textTheme.headlineSmall?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    spacing: 5,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pace',
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.secondary,
+                      ],
+                    ),
+                    Column(
+                      spacing: 5,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Pace',
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.secondary,
+                          ),
                         ),
-                      ),
-                      Text(
-                        _getPace(),
-                        style: textTheme.headlineSmall?.copyWith(
-                          color: colorScheme.onPrimary,
+                        Text(
+                          _getPace(),
+                          style: textTheme.headlineSmall?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    spacing: 5,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Pool',
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.secondary,
+                      ],
+                    ),
+                    Column(
+                      spacing: 5,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Pool',
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.secondary,
+                          ),
                         ),
-                      ),
-                      Text(
-                        _getPoolType(),
-                        style: textTheme.headlineSmall?.copyWith(
-                          color: colorScheme.onPrimary,
+                        Text(
+                          _getPoolType(),
+                          style: textTheme.headlineSmall?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    spacing: 5,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Off By',
-                        style: textTheme.bodyMedium?.copyWith(
-                          color: colorScheme.secondary,
+                      ],
+                    ),
+                    Column(
+                      spacing: 5,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Off By',
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.secondary,
+                          ),
                         ),
-                      ),
-                      Text(
-                        _getPercentageOffPB(),
-                        style: textTheme.headlineSmall?.copyWith(
-                          color: colorScheme.onPrimary,
+                        Text(
+                          _getPercentageOffPB(),
+                          style: textTheme.headlineSmall?.copyWith(
+                            color: colorScheme.onPrimary,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ), // Bottom row with less relevant info
-            ],
-          ),
-        ],
+                      ],
+                    ),
+                  ],
+                ), // Bottom row with less relevant info
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -213,11 +226,15 @@ class SwimCardLogbookWidget extends ConsumerWidget {
   String _getPace() {
     switch (swim.event) {
       case EventEnum.freestyle50:
+      case EventEnum.backstroke50:
+      case EventEnum.breaststroke50:
+      case EventEnum.butterfly50:
         return '50';
       case EventEnum.freestyle100:
       case EventEnum.butterfly100:
       case EventEnum.backstroke100:
       case EventEnum.breaststroke100:
+      case EventEnum.individualMedley100:
         return '100';
       case EventEnum.freestyle200:
       case EventEnum.butterfly200:

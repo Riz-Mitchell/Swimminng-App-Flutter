@@ -195,15 +195,19 @@ class SplitCardLogSwimsWidget extends ConsumerWidget {
       case EventEnum.freestyle800:
       case EventEnum.freestyle1500:
         return 'Freestyle';
+      case EventEnum.backstroke50:
       case EventEnum.backstroke100:
       case EventEnum.backstroke200:
         return 'Backstroke';
+      case EventEnum.breaststroke50:
       case EventEnum.breaststroke100:
       case EventEnum.breaststroke200:
         return 'Breaststroke';
+      case EventEnum.butterfly50:
       case EventEnum.butterfly100:
       case EventEnum.butterfly200:
         return 'Butterfly';
+      case EventEnum.individualMedley100:
       case EventEnum.individualMedley200:
       case EventEnum.individualMedley400:
         return 'Individual Medley';
@@ -244,15 +248,19 @@ class SplitCardLogSwimsWidget extends ConsumerWidget {
       case EventEnum.freestyle800:
       case EventEnum.freestyle1500:
         return 'assets/svg/Freestyle.svg';
+      case EventEnum.backstroke50:
       case EventEnum.backstroke100:
       case EventEnum.backstroke200:
         return 'assets/svg/Backstroke.svg';
+      case EventEnum.breaststroke50:
       case EventEnum.breaststroke100:
       case EventEnum.breaststroke200:
         return 'assets/svg/BreastStroke.svg';
+      case EventEnum.butterfly50:
       case EventEnum.butterfly100:
       case EventEnum.butterfly200:
         return 'assets/svg/Butterfly.svg';
+      case EventEnum.individualMedley100:
       case EventEnum.individualMedley200:
       case EventEnum.individualMedley400:
         return 'assets/svg/swimmer_icon.svg';

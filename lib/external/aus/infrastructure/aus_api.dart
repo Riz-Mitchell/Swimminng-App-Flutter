@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final apiClientProvider = Provider<AusApiClient>((ref) {
+final ausApiClientProvider = Provider<AusApiClient>((ref) {
   final client = AusApiClient(
     baseUrl: 'https://sal-sc-results-prod-app.azurewebsites.net/api/public',
   );
@@ -32,9 +32,14 @@ class AusApiClient {
   Future<Response<T>?> get<T>(
     String path, {
     Map<String, dynamic>? query,
+    CancelToken? cancelToken,
   }) async {
     try {
-      return await _dio.get<T>(path, queryParameters: query);
+      return await _dio.get<T>(
+        path,
+        queryParameters: query,
+        cancelToken: cancelToken,
+      );
     } catch (e, stacktrace) {
       print('GET $path failed: $e');
       print(stacktrace);

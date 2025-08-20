@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/external/aus/domain/models/aus_swim_model.dart';
 import 'package:swimming_app_frontend/external/aus/infrastructure/entities/aus_participant_entity.dart';
@@ -13,12 +14,13 @@ class AusService {
   Future<List<CreateAusSwimModel>> getSwimsFromAusToImport(
     String participantId,
   ) async {
-    const int maxPageSize = 20;
+    const int maxPageSize = 500;
     int currentPage = 1;
 
     List<CreateAusSwimModel> allSwims = [];
 
     while (true) {
+      print('Fetching page $currentPage for participant $participantId');
       final query = QueryReqAusSwimEntity(
         pageNumber: currentPage,
         pageSize: maxPageSize,
@@ -35,18 +37,23 @@ class AusService {
         break; // No more data
       }
 
-      final swimEntities = await Future.wait(
-        ausSwimEntities.map((swimEntity) async {
-          final splitQuery = QueryReqAusSplitEntity();
-          final splitEntities = await _ausRepository.getSplitsForRaceAsync(
-            swimEntity.raceResultId,
-            splitQuery,
-          );
-          return AusSwimMapper.fromEntity(swimEntity, splitEntities);
-        }),
-      );
+      final List<CreateAusSwimModel> swimEntities = [];
+
+      for (final swimEntity in ausSwimEntities) {
+        print('Fetching splits for swim: ${swimEntity.raceResultId}');
+        await Future.delayed(Duration(milliseconds: 300)); // actually waits
+        final splitEntities = await _ausRepository.getSplitsForRaceAsync(
+          swimEntity.raceResultId,
+          QueryReqAusSplitEntity(),
+        );
+        print(
+          'Fetched ${splitEntities.length} splits for swim: ${swimEntity.raceResultId}',
+        );
+        swimEntities.add(AusSwimMapper.fromEntity(swimEntity, splitEntities));
+      }
 
       allSwims.addAll(swimEntities);
+
       currentPage++;
     }
     return allSwims;
@@ -54,12 +61,16 @@ class AusService {
 
   Future<List<GetAusParticipantEntity>> getSwimmersFromAusToImport(
     String searchTerm,
+    CancelToken? cancelToken,
   ) async {
     if (searchTerm.isEmpty) {
       return [];
     }
 
-    final swimmers = await _ausRepository.getSwimmersAsync(searchTerm);
+    final swimmers = await _ausRepository.getSwimmersAsync(
+      searchTerm,
+      cancelToken,
+    );
     return swimmers;
   }
 }

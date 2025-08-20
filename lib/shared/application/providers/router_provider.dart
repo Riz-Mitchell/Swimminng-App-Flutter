@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swimming_app_frontend/features/app_start/presentation/screens/onboard_app_start_screen.dart';
 import 'package:swimming_app_frontend/features/app_start/presentation/screens/launch_app_start_screen.dart';
+import 'package:swimming_app_frontend/features/link_external_swims/presentation/screens/link_external_swims_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/complete_log_swims_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/distance_log_swims_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/pool_type_log_swims_screen.dart';
@@ -10,6 +11,7 @@ import 'package:swimming_app_frontend/features/log_swims/presentation/screens/qu
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/splits_log_swims_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/stroke_log_swims_screen.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/screens/landing_logbook_screen.dart';
+import 'package:swimming_app_frontend/features/logbook/presentation/screens/swim_viewer_logbook_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/done_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/phone_num_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/verify_login_screen.dart';
@@ -74,6 +76,13 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/swim-viewer',
+        name: 'swimViewer',
+        builder: (context, state) {
+          return const SwimViewerLogbookScreen();
+        },
       ),
       GoRoute(
         path: '/add-swim-landing',
@@ -173,6 +182,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/login-done',
         name: 'loginDone',
         builder: (context, state) => const DoneLoginScreen(),
+      ),
+      GoRoute(
+        path: '/link-external-swims',
+        name: 'linkExternalSwims',
+        builder: (context, state) => const LinkExternalSwimsScreen(),
       ),
     ],
   );

@@ -46,6 +46,43 @@ class GetSplitEntity {
       dive: json['dive'] as bool,
     );
   }
+
+  String getTimeString() {
+    final minutes = (intervalTime / 60).floor();
+    final seconds = (intervalTime % 60).toStringAsFixed(2);
+
+    if (minutes > 0) {
+      return '${minutes}m${seconds}s';
+    } else {
+      return '${seconds}s';
+    }
+  }
+
+  double getSecondsOffPB() {
+    if (perOffPBIntervalTime == null) return 0.0;
+    return intervalTime - intervalTime * (1 + perOffPBIntervalTime! / 100);
+  }
+
+  double getSecondsOffGoal() {
+    if (perOffGoalTime == null) return 0.0;
+    return intervalTime - intervalTime * (1 + perOffGoalTime! / 100);
+  }
+
+  double getStrokeRateOffPB() {
+    if (perOffPBStrokeRate == null) return 0.0;
+    return intervalStrokeRate != null
+        ? intervalStrokeRate! -
+              intervalStrokeRate! * (1 + perOffPBStrokeRate! / 100)
+        : 0.0;
+  }
+
+  double getStrokeRateOffGoal() {
+    if (perOffGoalStrokeRate == null) return 0.0;
+    return intervalStrokeRate != null
+        ? intervalStrokeRate! -
+              intervalStrokeRate! * (1 + perOffGoalStrokeRate! / 100)
+        : 0.0;
+  }
 }
 
 @immutable

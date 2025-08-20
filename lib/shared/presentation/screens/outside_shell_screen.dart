@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LogSwimsShellScreen extends ConsumerWidget {
+class OutsideShellScreen extends ConsumerWidget {
   final Widget child;
-  final Color? backgroundColor;
 
-  const LogSwimsShellScreen({
-    super.key,
-    required this.child,
-    this.backgroundColor,
-  });
+  const OutsideShellScreen({super.key, required this.child});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // This is the outside shell screen that will be used to display content without the main navigation
     return Stack(
       children: [
         Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor:
-              backgroundColor ?? Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.background,
           body: SingleChildScrollView(
             child: Container(
               margin: const EdgeInsets.only(

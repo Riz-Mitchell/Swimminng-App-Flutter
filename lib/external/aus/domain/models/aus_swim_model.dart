@@ -85,6 +85,8 @@ class AusSwimMapper {
         }
       case AusStrokeEnum.backstroke:
         switch (distance) {
+          case 50:
+            return EventEnum.backstroke50;
           case 100:
             return EventEnum.backstroke100;
           case 200:
@@ -94,6 +96,8 @@ class AusSwimMapper {
         }
       case AusStrokeEnum.breaststroke:
         switch (distance) {
+          case 50:
+            return EventEnum.breaststroke50;
           case 100:
             return EventEnum.breaststroke100;
           case 200:
@@ -103,6 +107,8 @@ class AusSwimMapper {
         }
       case AusStrokeEnum.butterfly:
         switch (distance) {
+          case 50:
+            return EventEnum.butterfly50;
           case 100:
             return EventEnum.butterfly100;
           case 200:
@@ -112,6 +118,8 @@ class AusSwimMapper {
         }
       case AusStrokeEnum.medley:
         switch (distance) {
+          case 100:
+            return EventEnum.individualMedley100;
           case 200:
             return EventEnum.individualMedley200;
           case 400:

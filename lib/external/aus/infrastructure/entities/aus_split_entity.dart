@@ -25,7 +25,7 @@ class GetAusSplitEntity {
 
   factory GetAusSplitEntity.fromJson(Map<String, dynamic> json) {
     return GetAusSplitEntity(
-      raceResultSplitId: json['raceResultId'] as String,
+      raceResultSplitId: json['raceResultSplitId'] as String,
       calculatedSplitDistance: json['calculatedSplitDistance'] as int,
       cumulativeSplitTimeMilliseconds:
           json['cumulativeSplitTimeMilliseconds'] as int,

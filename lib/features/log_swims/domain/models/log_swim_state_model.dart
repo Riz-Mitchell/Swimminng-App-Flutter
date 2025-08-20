@@ -48,11 +48,15 @@ class LogSwimStateModel {
       case EventEnum.none:
         availableDistances = [];
       case EventEnum.freestyle50:
+      case EventEnum.backstroke50:
+      case EventEnum.breaststroke50:
+      case EventEnum.butterfly50:
         availableDistances = [15, 20, 25, 30, 35, 40, 45, 50];
       case EventEnum.butterfly100:
       case EventEnum.backstroke100:
       case EventEnum.breaststroke100:
       case EventEnum.freestyle100:
+      case EventEnum.individualMedley100:
         availableDistances = [
           15,
           20,

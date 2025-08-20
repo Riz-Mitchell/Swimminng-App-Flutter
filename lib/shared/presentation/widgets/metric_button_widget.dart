@@ -32,7 +32,7 @@ class MetricButtonWidget extends ConsumerWidget {
           color: isEnabled ? metricColor : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isEnabled ? metricBlue : colorScheme.secondary,
+            color: isEnabled ? metricColor : colorScheme.secondary,
             width: 2,
           ),
         ),

@@ -1,38 +1,28 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/logbook/application/logbook_provider.dart';
-import 'package:swimming_app_frontend/features/logbook/application/selected_day_logbook_provider.dart';
-import 'package:swimming_app_frontend/features/logbook/application/selected_swim_logbook_provider.dart';
-import 'package:swimming_app_frontend/features/logbook/domain/models/logbook_state_model.dart';
-import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity.dart';
 
-class GraphLogbookWidget extends ConsumerWidget {
-  final double graphHeight;
+class SwimViewerGraphLogbookWidget extends ConsumerWidget {
+  final GetSwimEntity swim;
 
-  const GraphLogbookWidget({super.key, required this.graphHeight});
+  const SwimViewerGraphLogbookWidget({required this.swim, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final logbookState = ref.watch(logbookProvider);
+    final List<FlSpot> spots = swim.getVelocitySpots();
 
-    final selectedDate = ref.watch(selectedDayLogbookProvider);
-
-    final spots = _generateSpots(logbookState, selectedDate);
-
-    final maxX = spots.length.toDouble() - 1;
-
-    final selectedCarouselIndex = ref.watch(selectedSwimLogbookProvider);
-
-    return SizedBox(
+    return Container(
       width: MediaQuery.of(context).size.width,
-      height: graphHeight,
+      height: 250,
       child: LineChart(
         LineChartData(
-          backgroundColor: Colors.transparent,
+          minY: 1.0,
+          maxY: 3.0,
+          minX: 0.0,
           borderData: FlBorderData(
             border: Border(
               left: BorderSide.none, //(color: colorScheme.secondary, width: 2),
@@ -49,54 +39,16 @@ class GraphLogbookWidget extends ConsumerWidget {
               right: BorderSide.none, // no right border
             ),
           ),
-          lineBarsData: [
-            LineChartBarData(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  metricRed.withOpacity(1),
-                  metricYellow.withOpacity(1),
-                  metricPurple.withOpacity(1),
-                ],
-              ),
-              spots: spots,
-              isCurved: true,
-              curveSmoothness: 0.1,
-              barWidth: 1.5,
-              color: Colors.blue,
-              dotData: FlDotData(
-                show: true,
-                getDotPainter: (spot, percent, barData, index) {
-                  return FlDotCirclePainter(
-                    radius: (index == selectedCarouselIndex) ? 2.5 : 0,
-                    color: colorScheme.primary,
-                  );
-                },
-              ),
-            ),
-          ],
-          minX: 0,
-          maxX: maxX,
-          minY: -8,
-          maxY: 8,
-          gridData: FlGridData(
-            show: true,
-            horizontalInterval: 4,
-            verticalInterval: 2,
-          ),
           titlesData: FlTitlesData(
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                reservedSize: 28, // Try 24–32 depending on your font size
-                interval: 4,
+                reservedSize: 24, // Try 24–32 depending on your font size
+                interval: 1,
                 getTitlesWidget: (value, meta) {
-                  final percentage = value.toStringAsFixed(0);
+                  final velocity = value.toStringAsFixed(1);
                   return Text(
-                    (value == 0 || value < 0)
-                        ? '$percentage%'
-                        : '+$percentage%',
+                    velocity,
                     style: textTheme.bodySmall?.copyWith(
                       color: colorScheme.secondary,
                     ),
@@ -118,8 +70,18 @@ class GraphLogbookWidget extends ConsumerWidget {
               sideTitles: SideTitles(showTitles: false), // 🔕 Hide top
             ),
           ),
+          lineBarsData: [
+            LineChartBarData(
+              spots: spots,
+              isCurved: true,
+              curveSmoothness: 0.05,
+              barWidth: 3,
+              color: Theme.of(context).colorScheme.primary,
+              dotData: FlDotData(show: false),
+            ),
+          ],
           lineTouchData: LineTouchData(
-            touchSpotThreshold: 50,
+            touchSpotThreshold: 200,
             handleBuiltInTouches: true,
             touchTooltipData: LineTouchTooltipData(
               getTooltipColor: (touchedSpot) => colorScheme.primary,
@@ -129,8 +91,8 @@ class GraphLogbookWidget extends ConsumerWidget {
                 return touchedSpots.map((spot) {
                   return LineTooltipItem(
                     (spot.y == 0 || spot.y < 0)
-                        ? '${spot.y.toStringAsFixed(2)}%'
-                        : '+${spot.y.toStringAsFixed(2)}%',
+                        ? '${spot.y.toStringAsFixed(2)}m/s'
+                        : '${spot.y.toStringAsFixed(2)}m/s',
                     textTheme.headlineSmall!.copyWith(
                       color: colorScheme.onPrimary,
                     ),
@@ -161,31 +123,13 @@ class GraphLogbookWidget extends ConsumerWidget {
               }).toList();
             },
           ),
+          gridData: FlGridData(
+            show: true,
+            horizontalInterval: 1,
+            verticalInterval: 1,
+          ),
         ),
       ),
-    );
-  }
-
-  List<FlSpot> _generateSpots(
-    AsyncValue<LogbookStateModel> logbookState,
-    DateTime time,
-  ) {
-    return logbookState.when(
-      data: (data) {
-        final dayData = data.getDayData(time.year, time.month, time.day);
-
-        if (dayData == null) {
-          return [];
-        }
-        double index = dayData.swims.length.toDouble();
-        return dayData.swims.map((swim) {
-          final percentageOff = swim.getFinalSplitPercentageOffPB();
-          index--;
-          return FlSpot(index, percentageOff);
-        }).toList();
-      },
-      error: (error, stack) => [],
-      loading: () => [],
     );
   }
 }

@@ -25,24 +25,7 @@ class GraphContainerLogbookWidget extends ConsumerWidget {
         GraphHeaderLogbookWidget(),
         Stack(
           alignment: Alignment.center,
-          children: [
-            GraphLogbookWidget(graphHeight: graphHeight),
-            SizedBox(
-              height: containerHeight,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AxisLabelInstance(text: '+8%'),
-                  AxisLabelInstance(text: '+4%'),
-                  AxisLabelInstance(text: '0%'),
-                  AxisLabelInstance(text: '-4%'),
-                  AxisLabelInstance(text: '-8%'),
-                ],
-              ),
-            ),
-          ],
+          children: [GraphLogbookWidget(graphHeight: graphHeight)],
         ),
         GraphFooterLogbookWidget(),
       ],

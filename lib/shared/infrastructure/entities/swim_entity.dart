@@ -1,3 +1,4 @@
+import 'package:fl_chart/src/chart/base/axis_chart/axis_chart_data.dart';
 import 'package:flutter/widgets.dart';
 import 'package:swimming_app_frontend/external/aus/domain/models/aus_swim_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
@@ -38,7 +39,7 @@ class GetSwimEntity {
       swimQuestionnaire: GetSwimQuestionnaireEntity.fromJson(
         json['swimQuestionnaire'] as Map<String, dynamic>,
       ),
-      recordedAt: DateTime.parse(json['recordedAt'] as String),
+      recordedAt: DateTime.parse(json['recordedAt'] as String).toLocal(),
     );
   }
 
@@ -68,6 +69,15 @@ class GetSwimEntity {
     );
 
     return lastSplit.intervalDistance;
+  }
+
+  List<FlSpot> getVelocitySpots() {
+    int index = splits.length;
+    return splits.map((split) {
+      index--;
+      final velocity = split.intervalDistance / split.intervalTime;
+      return FlSpot(index.toDouble(), velocity);
+    }).toList();
   }
 }
 
@@ -186,15 +196,29 @@ class SwimEntityMapper {
       case EventEnum.freestyle800:
       case EventEnum.freestyle1500:
         return StrokeEnum.freestyle;
+      case EventEnum.backstroke50:
       case EventEnum.backstroke100:
       case EventEnum.backstroke200:
         return StrokeEnum.backstroke;
+      case EventEnum.breaststroke50:
       case EventEnum.breaststroke100:
       case EventEnum.breaststroke200:
         return StrokeEnum.breaststroke;
+      case EventEnum.butterfly50:
       case EventEnum.butterfly100:
       case EventEnum.butterfly200:
         return StrokeEnum.butterfly;
+      case EventEnum.individualMedley100:
+        switch (currentSplit.splitDistance) {
+          case <= 25:
+            return StrokeEnum.butterfly;
+          case <= 50:
+            return StrokeEnum.backstroke;
+          case <= 75:
+            return StrokeEnum.breaststroke;
+          case <= 100:
+            return StrokeEnum.freestyle;
+        }
       case EventEnum.individualMedley200:
         switch (currentSplit.splitDistance) {
           case <= 50:

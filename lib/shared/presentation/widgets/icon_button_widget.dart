@@ -8,6 +8,7 @@ class IconButtonWidget extends ConsumerWidget {
   final bool isActive;
   final bool isInvisible;
   final Color? overrideColor;
+  final double? size;
 
   const IconButtonWidget({
     super.key,
@@ -16,6 +17,7 @@ class IconButtonWidget extends ConsumerWidget {
     this.isActive = true,
     this.isInvisible = false,
     this.overrideColor,
+    this.size = 25,
   });
 
   @override
@@ -38,8 +40,8 @@ class IconButtonWidget extends ConsumerWidget {
         ),
         child: SvgPicture.asset(
           path,
-          width: 25,
-          height: 25,
+          width: size,
+          height: size,
           colorFilter: ColorFilter.mode(
             (overrideColor != null)
                 ? overrideColor!

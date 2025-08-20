@@ -80,7 +80,7 @@ class LogbookProvider extends AsyncNotifier<LogbookStateModel> {
   /// When a user adds a swim to the logbook, this method retrieves the current day again and updates the state.
   Future<void> reRetrieveToday() async {
     print('running reRetrieveToday');
-    final now = DateTime.now();
+    final now = DateTime.now().toUtc();
 
     await _updateDayData(now.year, now.month, now.day);
   }
@@ -93,6 +93,16 @@ class LogbookProvider extends AsyncNotifier<LogbookStateModel> {
       // If the month is not present, retrieve and update it
       await _updateMonthData(year, month);
     }
+  }
+
+  Future<void> handleDeleteSwim(DateTime recordedAt) async {
+    final inUtcTime = recordedAt.toUtc();
+
+    final year = inUtcTime.year;
+    final month = inUtcTime.month;
+    final day = inUtcTime.day;
+
+    await _updateDayData(year, month, day);
   }
 }
 
