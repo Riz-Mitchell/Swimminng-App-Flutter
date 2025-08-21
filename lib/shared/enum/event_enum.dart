@@ -85,6 +85,36 @@ extension EventEnumExtension on EventEnum {
     return EventEnum.none;
   }
 
+  String getAssetPath() {
+    switch (this) {
+      case EventEnum.freestyle50:
+      case EventEnum.freestyle100:
+      case EventEnum.freestyle200:
+      case EventEnum.freestyle400:
+      case EventEnum.freestyle800:
+      case EventEnum.freestyle1500:
+        return 'assets/svg/Freestyle.svg';
+      case EventEnum.backstroke50:
+      case EventEnum.backstroke100:
+      case EventEnum.backstroke200:
+        return 'assets/svg/Backstroke.svg';
+      case EventEnum.breaststroke50:
+      case EventEnum.breaststroke100:
+      case EventEnum.breaststroke200:
+        return 'assets/svg/Breaststroke.svg';
+      case EventEnum.butterfly50:
+      case EventEnum.butterfly100:
+      case EventEnum.butterfly200:
+        return 'assets/svg/Butterfly.svg';
+      case EventEnum.individualMedley100:
+      case EventEnum.individualMedley200:
+      case EventEnum.individualMedley400:
+        return 'assets/svg/IndividualMedley.svg';
+      case EventEnum.none:
+        return 'assets/svg/None.svg';
+    }
+  }
+
   String toReadableString() {
     switch (this) {
       case EventEnum.freestyle50:

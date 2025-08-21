@@ -6,6 +6,7 @@ import 'package:swimming_app_frontend/features/logbook/presentation/widgets/grap
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/graph_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/date_selector_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/heart_rate_onboarding/heart_rate_onboarding_modal_logbook_widget.dart';
+import 'package:swimming_app_frontend/features/logbook/presentation/widgets/stroke_data_container_logbook_widget.dart';
 import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/icon_button_widget.dart';
 
@@ -42,6 +43,7 @@ class LandingLogbookScreen extends ConsumerWidget {
         ),
         GraphContainerLogbookWidget(),
         CarouselLogbookWidget(),
+        StrokeDataContainerLogbookWidget(),
         AddContainerLogbookWidget(),
         SizedBox(height: 50),
       ],

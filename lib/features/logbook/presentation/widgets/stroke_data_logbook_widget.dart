@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/presentation/theme/gradient_mapper.dart';
+import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
+
+class StrokeDataLogbookWidget extends ConsumerWidget {
+  final EventEnum event;
+  final double averagePerOffPb;
+  final double highestPerOffPb;
+  final double lowestPerOffPb;
+  final bool isSelected;
+
+  const StrokeDataLogbookWidget({
+    super.key,
+    required this.event,
+    required this.averagePerOffPb,
+    required this.highestPerOffPb,
+    required this.lowestPerOffPb,
+    this.isSelected = false,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            width: 150,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.0),
+              color: (isSelected)
+                  ? mapValueToGradient(averagePerOffPb)
+                  : colorScheme.secondary,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SvgPicture.asset(
+                  event.getAssetPath(),
+                  width: 25,
+                  height: 25,
+                  colorFilter: ColorFilter.mode(
+                    colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
+                ),
+                Text(
+                  '${averagePerOffPb.toStringAsFixed(2)}%',
+                  style: textTheme.headlineMedium?.copyWith(
+                    color: colorScheme.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Text(
+            event.toReadableString(),
+            style: textTheme.headlineMedium?.copyWith(
+              color: colorScheme.primary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
