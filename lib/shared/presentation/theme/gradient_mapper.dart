@@ -2,29 +2,59 @@ import 'dart:ui';
 
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
-Color mapValueToGradient(double value, {double opacity = 1.0}) {
-  // Clamp value to valid range
-  if (value <= -0.08) return metricPurple.withOpacity(opacity);
-  if (value >= 0.08) return metricOrange.withOpacity(opacity);
+import 'package:flutter/material.dart';
 
-  // Purple range
-  if (value <= -0.05) return metricPurple.withOpacity(opacity);
+const double purpleThreshold = -5;
+const double blueMin = -4;
+const double blueMax = 4;
+const double orangeThreshold = 5;
 
-  // Purple → Blue transition
-  if (value <= -0.04) {
-    double t = (value - (-0.05)) / (0.01); // scale into [0,1]
-    return Color.lerp(metricPurple, metricBlue, t)!.withOpacity(opacity);
+Color mapValueToColor(double value, double opacity) {
+  // Gradient definition
+  final colors = [
+    metricPurple.withOpacity(opacity), // -0.08
+    metricPurple.withOpacity(opacity), // -0.05
+    metricBlue.withOpacity(opacity), // -0.04
+    metricBlue.withOpacity(opacity), //  0.04
+    metricOrange.withOpacity(opacity), //  0.05
+    metricOrange.withOpacity(opacity), //  0.08
+  ];
+
+  final stops = [
+    -8, // purple
+    -5, // purple
+    -4, // purple→blue transition
+    4, // blue
+    5, // blue→orange transition
+    9, // orange
+  ];
+
+  // Clamp value to domain
+  value = value.clamp(-8, 8);
+
+  // Find the two stops this value falls between
+  for (int i = 0; i < stops.length - 1; i++) {
+    final start = stops[i];
+    final end = stops[i + 1];
+    if (value >= start && value <= end) {
+      final t = (value - start) / (end - start);
+      return Color.lerp(colors[i], colors[i + 1], t)!;
+    }
   }
 
-  // Solid Blue
-  if (value < 0.04) return metricBlue.withOpacity(opacity);
+  // Fallback (should never happen if value is clamped)
+  return colors.last;
+}
 
-  // Blue → Orange transition
-  if (value <= 0.05) {
-    double t = (value - 0.04) / (0.01); // scale into [0,1]
-    return Color.lerp(metricBlue, metricOrange, t)!.withOpacity(opacity);
-  }
+List<double> calculateStops(double minY, double maxY) {
+  double normalize(double y) => (y - minY) / (maxY - minY);
 
-  // Orange range
-  return metricOrange.withOpacity(opacity);
+  return [
+    0.0, // bottom = minY
+    normalize(purpleThreshold), // -5
+    normalize(blueMin), // -4
+    normalize(blueMax), // +4
+    normalize(orangeThreshold), // +5
+    1.0, // top = maxY
+  ];
 }
