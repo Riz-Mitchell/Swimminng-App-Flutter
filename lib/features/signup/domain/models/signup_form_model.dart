@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:swimming_app_frontend/features/signup/domain/enum/user_type_enum.dart';
-import 'package:swimming_app_frontend/shared/domain/models/user_model.dart';
+import 'package:swimming_app_frontend/features/signup/domain/enum/selected_sex_enum.dart';
+import 'package:swimming_app_frontend/features/signup/domain/enum/selected_user_type_enum.dart';
 
 @immutable
 class SignupFormModel {
@@ -8,9 +8,9 @@ class SignupFormModel {
   final String phoneNumber;
   final DateTime dateOfBirth;
   final double? height;
-  final SexEnum sex;
+  final SelectedSexEnum sex;
   final String? email;
-  final UserTypeEnum userType;
+  final SelectedUserTypeEnum userType;
 
   const SignupFormModel({
     required this.name,
@@ -28,8 +28,8 @@ class SignupFormModel {
     DateTime? dateOfBirth,
     double? height,
     String? email,
-    SexEnum? sex,
-    UserTypeEnum? userType,
+    SelectedSexEnum? sex,
+    SelectedUserTypeEnum? userType,
   }) {
     return SignupFormModel(
       name: name ?? this.name,
