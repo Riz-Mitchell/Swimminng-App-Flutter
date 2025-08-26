@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/signup/application/providers/form/signup_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/signup_provider.dart';
 
 class DobPickerSignupWidget extends ConsumerStatefulWidget {
   const DobPickerSignupWidget({super.key});
@@ -14,7 +14,7 @@ class _DOBPickerState extends ConsumerState<DobPickerSignupWidget> {
   DateTime selectedDate = DateTime.now();
 
   void _showDatePicker(BuildContext context) {
-    final signupFormNotifier = ref.read(signupFormProvider.notifier);
+    final signupNotifier = ref.read(signupProvider.notifier);
 
     showCupertinoModalPopup(
       context: context,
@@ -31,7 +31,7 @@ class _DOBPickerState extends ConsumerState<DobPickerSignupWidget> {
             setState(() {
               selectedDate = newDate;
             });
-            signupFormNotifier.updateDateOfBirth(newDate.toUtc());
+            signupNotifier.updateSignupForm(dateOfBirth: newDate.toUtc());
           },
         ),
       ),

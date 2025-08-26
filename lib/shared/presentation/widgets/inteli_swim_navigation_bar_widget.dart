@@ -7,7 +7,7 @@ import 'package:swimming_app_frontend/shared/presentation/widgets/nav_icon_widge
 enum NavigationItem { logbook, statistics, squad, profile }
 
 final navigationItemProvider = StateProvider<NavigationItem>((ref) {
-  return NavigationItem.profile; // Default navigation item
+  return NavigationItem.logbook; // Default navigation item
 });
 
 class InteliSwimNavigationBarWidget extends ConsumerWidget {

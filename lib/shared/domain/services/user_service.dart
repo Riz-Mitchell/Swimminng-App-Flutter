@@ -1,5 +1,7 @@
-import 'package:swimming_app_frontend/shared/domain/models/auth_model.dart';
-import 'package:swimming_app_frontend/shared/domain/models/user_model.dart';
+import 'package:swimming_app_frontend/features/signup/domain/models/login_form_model.dart';
+import 'package:swimming_app_frontend/features/signup/domain/models/signup_form_model.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/auth_entity.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/user_entity.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/repository/auth_repository.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/repository/user_repository.dart';
 
@@ -9,13 +11,19 @@ class UserService {
 
   UserService(this._userRepository, this._authRepository);
 
-  Future<GetUserResDTO> signupUser(CreateUserReqDTO schema) async {
-    final newUser = await _userRepository.createUserReq(schema);
+  Future<GetUserEntity> signupUserAsync(SignupFormModel signupForm) async {
+    // Map model to entity
+    final otpEntity = AuthMapper.signupFormModelToEntity(signupForm);
+    final newUserEntity = UserMapper.signupFormModelToEntity(signupForm);
+
+    final newUser = await _userRepository.createUserAsync(newUserEntity);
 
     return newUser;
   }
 
-  Future<bool> requestOtp(OTPReqDTO otpSchema) async {
+  Future<bool> requestOtpAsync(String phoneNumber) async {
+    final otpSchema = OtpEntity(phoneNumber: phoneNumber);
+
     try {
       await _authRepository.generateOTP(otpSchema);
 
@@ -26,15 +34,17 @@ class UserService {
     }
   }
 
-  Future<String?> verifyUser(LoginReqDTO schema) async {
-    return await _authRepository.verifyOTP(schema);
+  Future<String?> verifyUserAsync(LoginFormModel loginForm) async {
+    final loginEntity = AuthMapper.loginFormModelToEntity(loginForm);
+
+    return await _authRepository.verifyOTP(loginEntity);
   }
 
-  Future<bool> checkLoginStatus() async {
+  Future<bool> checkLoginStatusAsync() async {
     return await _authRepository.checkLoginStatus();
   }
 
-  Future<bool> handleLogout(String userId) async {
+  Future<bool> handleLogoutAsync(String userId) async {
     return await _authRepository.deleteCookiesAndAuthData(userId);
   }
 }

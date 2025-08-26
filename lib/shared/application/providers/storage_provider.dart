@@ -30,11 +30,7 @@ class Storage {
   }
 }
 
-final storageProvider = Provider<Storage>((ref) {
-  throw UnimplementedError('Must override with storageProviderOverride');
-});
-
-final storageProviderOverride = FutureProvider<Storage>((ref) async {
+final storageProvider = FutureProvider<Storage>((ref) async {
   final prefs = await SharedPreferences.getInstance();
   return Storage(prefs);
 });

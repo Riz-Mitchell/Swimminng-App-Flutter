@@ -20,7 +20,7 @@ class GraphContainerLogbookWidget extends ConsumerWidget {
         graphHeight + 18; // Adjusted for padding and spacing
 
     return Column(
-      spacing: 10,
+      spacing: 30,
       children: [
         GraphHeaderLogbookWidget(),
         Stack(

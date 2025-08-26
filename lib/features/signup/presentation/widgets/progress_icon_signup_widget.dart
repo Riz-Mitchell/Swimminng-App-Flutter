@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:swimming_app_frontend/features/login/domain/enum/login_status_enum.dart';
+import 'package:swimming_app_frontend/features/signup/domain/enum/signup_status_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
-class ProgressIconLoginWidget extends ConsumerWidget {
+class ProgressIconSignupWidget extends ConsumerWidget {
   final bool completed;
   final bool isUsing;
-  final LoginStatusEnum status;
+  final SignupStatusEnum status;
 
-  const ProgressIconLoginWidget({
+  const ProgressIconSignupWidget({
     super.key,
     required this.completed,
     this.isUsing = false,
@@ -43,13 +43,28 @@ class ProgressIconLoginWidget extends ConsumerWidget {
   Widget _getStatusIcon(ColorScheme colorScheme) {
     String assetPath;
     switch (status) {
-      case LoginStatusEnum.addPhoneNumber:
-        assetPath = 'assets/svg/smart_phone.svg';
+      case SignupStatusEnum.initial:
+        assetPath = 'assets/svg/ic--round-person.svg';
         break;
-      case LoginStatusEnum.verifyPhoneNumber:
-        assetPath = 'assets/svg/shield.svg';
+      case SignupStatusEnum.addName:
+        assetPath = '';
         break;
-      case LoginStatusEnum.done:
+      case SignupStatusEnum.addDOB:
+        assetPath = '';
+        break;
+      case SignupStatusEnum.addHeight:
+        assetPath = '';
+        break;
+      case SignupStatusEnum.addSex:
+        assetPath = '';
+        break;
+      case SignupStatusEnum.addPhoneNumber:
+        assetPath = '';
+        break;
+      case SignupStatusEnum.verifyPhoneNumber:
+        assetPath = '';
+        break;
+      case SignupStatusEnum.done:
         assetPath = 'assets/svg/tick.svg';
         break;
     }

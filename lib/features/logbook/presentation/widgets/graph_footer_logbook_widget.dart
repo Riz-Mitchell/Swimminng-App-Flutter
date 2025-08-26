@@ -21,12 +21,12 @@ class GraphFooterLogbookWidget extends ConsumerWidget {
             Container(
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               decoration: BoxDecoration(
-                color: metricRed,
+                color: metricOrange,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: SvgPicture.asset(
                 colorFilter: ColorFilter.mode(
-                  metricRedSecondary,
+                  metricOrangeSecondary,
                   BlendMode.srcIn,
                 ),
                 'assets/svg/up_arrow.svg',
@@ -35,7 +35,7 @@ class GraphFooterLogbookWidget extends ConsumerWidget {
               ),
             ),
             Text(
-              'Bad',
+              'Off Track',
               style: TextTheme.of(
                 context,
               ).headlineSmall!.copyWith(color: colorScheme.secondary),
@@ -47,7 +47,7 @@ class GraphFooterLogbookWidget extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Good',
+              'On Track',
               style: TextTheme.of(
                 context,
               ).headlineSmall!.copyWith(color: colorScheme.secondary),

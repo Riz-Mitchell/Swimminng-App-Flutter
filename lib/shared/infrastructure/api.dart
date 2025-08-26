@@ -45,34 +45,59 @@ class ApiClient {
           if (isUnauthorized && !isRefreshEndpoint) {
             try {
               print('[AUTH] Attempting token refresh...');
-
-              bool refreshed = false;
-              // attempt to get new tokens
-              refreshed = await _attemptRefreshTokens();
+              final refreshed = await _attemptRefreshTokens();
 
               if (refreshed) {
-                // Retry original request
+                print('[AUTH] Refresh successful, retrying original request');
                 final retryResponse = await _dio.fetch(error.requestOptions);
                 return handler.resolve(retryResponse);
               } else {
-                print('[AUTH] Refresh failed — clearing session');
+                // Refresh failed → force logout
+                print('[AUTH] Refresh failed — logging out');
                 if (!kIsWeb) await _cookieJar?.deleteAll();
-                ref
-                    .read(authControllerProvider.notifier)
-                    .logout(); // Logout of the app. Delete stored userId
+
+                // ✅ Logout via Riverpod controller
+                await ref.read(authControllerProvider.notifier).logout();
+
+                // Optional: return a controlled error to the original API call
+                return handler.reject(
+                  DioException(
+                    requestOptions: error.requestOptions,
+                    response: error.response,
+                    type: DioExceptionType.badResponse,
+                    error: 'Session expired, logged out',
+                  ),
+                );
               }
-            } catch (e) {
-              print('[AUTH] Refresh error: $e');
+            } catch (e, st) {
+              // Catch unexpected errors during refresh → also logout
+              print('[AUTH] Unexpected refresh error: $e');
+              await ref.read(authControllerProvider.notifier).logout();
+              return handler.reject(
+                DioException(
+                  requestOptions: error.requestOptions,
+                  response: error.response,
+                  type: DioExceptionType.badResponse,
+                  error: 'Session expired, logged out',
+                ),
+              );
             }
+          } else {
+            print('[AUTH] Error not handled by interceptor: $error');
+            await ref.read(authControllerProvider.notifier).logout();
+            print('logged out due to error: $error');
           }
 
-          return handler.next(error); // Give up, forward error
+          return handler.next(error); // Forward error if not handled
         },
         onResponse: (response, handler) async {
           if (!kIsWeb && _cookieJar != null) {
             final cookies = await _cookieJar!.loadForRequest(
               Uri.parse(_dio.options.baseUrl),
             );
+            if (cookies.isEmpty) {
+              print('[COOKIE] No cookies were set in the response');
+            }
             for (var cookie in cookies) {
               print(
                 '[COOKIE] ${cookie.name} = ${cookie.value} was sent in above request',
@@ -108,11 +133,29 @@ class ApiClient {
   }
 
   Future<bool> _attemptRefreshTokens() async {
+    print('inside attempt refresh tokens function');
+
+    final storage = await ref.read(storageProvider.future);
+    final userId = storage.userId;
+    if (userId == null) return false;
+
     try {
-      String? userId = ref.read(storageProvider).userId;
-      final response = await _dio.post('/api/Auth/refresh/$userId');
-      return response.statusCode == 200;
-    } catch (_) {
+      final response = await _dio.post(
+        '/api/Auth/refresh/$userId',
+        options: Options(
+          validateStatus: (status) => true, // Accept all status codes
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        print('Refresh succeeded');
+        return true;
+      } else {
+        print('Refresh failed: ${response.statusCode}');
+        return false;
+      }
+    } catch (e, st) {
+      print('Unexpected error in refresh tokens: $e');
       return false;
     }
   }

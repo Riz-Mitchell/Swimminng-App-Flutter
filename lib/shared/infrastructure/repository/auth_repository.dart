@@ -1,12 +1,12 @@
 import 'package:swimming_app_frontend/shared/infrastructure/api.dart';
-import 'package:swimming_app_frontend/shared/domain/models/auth_model.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/auth_entity.dart';
 
 class AuthRepository {
   final ApiClient _apiClient;
 
   AuthRepository(this._apiClient);
 
-  Future<bool> generateOTP(OTPReqDTO schema) async {
+  Future<bool> generateOTP(OtpEntity schema) async {
     // Call API to generate OTP
     try {
       final res = await _apiClient.post(
@@ -23,7 +23,7 @@ class AuthRepository {
     }
   }
 
-  Future<String?> verifyOTP(LoginReqDTO schema) async {
+  Future<String?> verifyOTP(LoginEntity schema) async {
     try {
       final res = await _apiClient.post(
         '/api/Auth/login',
@@ -59,7 +59,7 @@ class AuthRepository {
 
   Future<bool> deleteCookiesAndAuthData(String userId) async {
     try {
-      final res = await _apiClient.delete('/api/Auth/logout/$userId');
+      final res = await _apiClient.post('/api/Auth/logout/$userId');
 
       print('logged out with status ${res!.statusCode}');
       return true;

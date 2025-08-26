@@ -1,14 +1,12 @@
 import 'package:swimming_app_frontend/shared/infrastructure/api.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/shared/domain/models/auth_model.dart';
-import 'package:swimming_app_frontend/shared/domain/models/user_model.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/user_entity.dart';
 
 class UserRepository {
   final ApiClient _apiClient;
 
   UserRepository(this._apiClient);
 
-  Future<GetUserResDTO> createUserReq(CreateUserReqDTO schema) async {
+  Future<GetUserEntity> createUserAsync(CreateUserEntity schema) async {
     // Validate user data
     // if (!user.isComplete) throw Exception('User data is incomplete');
 
@@ -18,28 +16,28 @@ class UserRepository {
       if (res == null) {
         throw Exception('Failed to create swim: No response from server.');
       }
-      return GetUserResDTO.fromJson(res.data);
+      return GetUserEntity.fromJson(res.data);
     } catch (e) {
       // Handle error, e.g., show error message to user
       throw Exception('Failed to create user: $e');
     }
   }
 
-  Future<GetUserResDTO> getUserReq(String userId) async {
+  Future<GetUserEntity> getUserAsync(String userId) async {
     try {
       // Call API to get user by ID
       final res = await _apiClient.get('/api/User/$userId');
       if (res == null) {
         throw Exception('Failed to create swim: No response from server.');
       }
-      return GetUserResDTO.fromJson(res.data);
+      return GetUserEntity.fromJson(res.data);
     } catch (e) {
       // Handle error, e.g., show error message to user
       throw Exception('Failed to get user: $e');
     }
   }
 
-  Future<List<GetUserResDTO>> getAllUsersReq(GetUsersQuery schema) async {
+  Future<List<GetUserEntity>> queryUsersAsync(QueryUsersEntity schema) async {
     try {
       // Call API to get all users
       final res = await _apiClient.get('/api/User', query: schema.toJson());
@@ -49,7 +47,7 @@ class UserRepository {
       }
       // Map response data to List<GetUserResDTO>
       return (res.data as List)
-          .map((user) => GetUserResDTO.fromJson(user))
+          .map((user) => GetUserEntity.fromJson(user))
           .toList();
     } catch (e) {
       // Handle error, e.g., show error message to user
@@ -57,7 +55,7 @@ class UserRepository {
     }
   }
 
-  Future<void> deleteUserReq(String userId) async {
+  Future<void> deleteUserAsync(String userId) async {
     try {
       // Call API to delete user by ID
       await _apiClient.delete('/api/User/$userId');
@@ -67,9 +65,9 @@ class UserRepository {
     }
   }
 
-  Future<GetUserResDTO> updateUserReq(
+  Future<GetUserEntity> updateUserAsync(
     String userId,
-    UpdateUserReqDTO schema,
+    UpdateUserEntity schema,
   ) async {
     try {
       // Call API to update user by ID
@@ -81,7 +79,7 @@ class UserRepository {
         throw Exception('Failed to create swim: No response from server.');
       }
 
-      return GetUserResDTO.fromJson(res.data);
+      return GetUserEntity.fromJson(res.data);
     } catch (e) {
       // Handle error, e.g., show error message to user
       throw Exception('Failed to update user: $e');

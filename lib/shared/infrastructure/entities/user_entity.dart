@@ -1,28 +1,24 @@
-enum UserType {
-  swimmer,
-  coach,
-  admin, // Add more as needed
-}
+import 'package:swimming_app_frontend/features/signup/domain/enum/selected_sex_enum.dart';
+import 'package:swimming_app_frontend/features/signup/domain/enum/selected_user_type_enum.dart';
+import 'package:swimming_app_frontend/features/signup/domain/models/signup_form_model.dart';
 
-enum Sex { male, female }
-
-class GetUsersQuery {
+class QueryUsersEntity {
   final String nameContains;
   final int pageNumber;
   final int pageSize;
 
-  const GetUsersQuery({
+  const QueryUsersEntity({
     required this.nameContains,
     this.pageNumber = 1,
     this.pageSize = 10,
   });
 
-  GetUsersQuery copyWith({
+  QueryUsersEntity copyWith({
     String? nameContains,
     int? pageNumber,
     int? pageSize,
   }) {
-    return GetUsersQuery(
+    return QueryUsersEntity(
       nameContains: nameContains ?? this.nameContains,
       pageNumber: pageNumber ?? this.pageNumber,
       pageSize: pageSize ?? this.pageSize,
@@ -36,14 +32,14 @@ class GetUsersQuery {
   };
 }
 
-class GetUserResDTO {
+class GetUserEntity {
   final String id; // Dart doesn't use Guid – treat as String
   final String name;
   final int age;
   final double? height;
-  final UserType userType;
+  final SelectedUserTypeEnum userType;
 
-  GetUserResDTO({
+  GetUserEntity({
     required this.id,
     required this.name,
     required this.age,
@@ -51,29 +47,29 @@ class GetUserResDTO {
     required this.userType,
   });
 
-  factory GetUserResDTO.fromJson(Map<String, dynamic> json) {
-    return GetUserResDTO(
+  factory GetUserEntity.fromJson(Map<String, dynamic> json) {
+    return GetUserEntity(
       id: json['id'] as String,
       name: json['name'] as String,
       age: json['age'] as int,
       height: json['height']?.toDouble(),
-      userType: UserType.values.byName(
+      userType: SelectedUserTypeEnum.values.byName(
         (json['userType'] as String).toLowerCase(),
       ),
     );
   }
 }
 
-class CreateUserReqDTO {
+class CreateUserEntity {
   final String name;
   final String phoneNumber;
   final DateTime dateOfBirth;
   final double? height;
-  final Sex? sex;
+  final SelectedSexEnum? sex;
   final String? email;
-  final UserType userType;
+  final SelectedUserTypeEnum userType;
 
-  const CreateUserReqDTO({
+  const CreateUserEntity({
     required this.name,
     required this.phoneNumber,
     required this.dateOfBirth,
@@ -83,16 +79,16 @@ class CreateUserReqDTO {
     required this.userType,
   });
 
-  CreateUserReqDTO copyWith({
+  CreateUserEntity copyWith({
     String? name,
     String? phoneNumber,
     DateTime? dateOfBirth,
     double? height,
     String? email,
-    Sex? sex,
-    UserType? userType,
+    SelectedSexEnum? sex,
+    SelectedUserTypeEnum? userType,
   }) {
-    return CreateUserReqDTO(
+    return CreateUserEntity(
       name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
@@ -113,26 +109,26 @@ class CreateUserReqDTO {
   };
 }
 
-class UpdateUserReqDTO {
+class UpdateUserEntity {
   final String? name;
   final DateTime? dateOfBirth;
   final double? height;
   final String? email;
 
-  const UpdateUserReqDTO({
+  const UpdateUserEntity({
     this.name,
     this.dateOfBirth,
     this.height,
     this.email,
   });
 
-  UpdateUserReqDTO copyWith({
+  UpdateUserEntity copyWith({
     String? name,
     DateTime? dateOfBirth,
     double? height,
     String? email,
   }) {
-    return UpdateUserReqDTO(
+    return UpdateUserEntity(
       name: name ?? this.name,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       height: height ?? this.height,
@@ -146,4 +142,17 @@ class UpdateUserReqDTO {
     if (height != null) 'height': height,
     if (email != null) 'email': email,
   };
+}
+
+class UserMapper {
+  static CreateUserEntity signupFormModelToEntity(SignupFormModel model) {
+    return CreateUserEntity(
+      name: model.name,
+      phoneNumber: model.phoneNumber,
+      dateOfBirth: model.dateOfBirth,
+      height: model.height,
+      email: model.email,
+      userType: model.userType,
+    );
+  }
 }

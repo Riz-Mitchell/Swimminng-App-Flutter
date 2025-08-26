@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:swimming_app_frontend/features/signup/application/providers/selected_sex_status_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/selected_sex_status_provider.dart';
 
 class SexPickerSignupWidget extends ConsumerWidget {
   const SexPickerSignupWidget({super.key});

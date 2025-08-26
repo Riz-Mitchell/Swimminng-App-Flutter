@@ -46,7 +46,10 @@ class StrokeDataContainerLogbookWidget extends ConsumerWidget {
             ],
           ),
         ),
-        ..._buildStrokeDataWidgets(logbookState, selectedDate),
+        Column(
+          spacing: 5,
+          children: [..._buildStrokeDataWidgets(logbookState, selectedDate)],
+        ),
       ],
     );
   }

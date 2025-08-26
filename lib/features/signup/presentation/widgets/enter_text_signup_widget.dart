@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/signup/application/providers/form/signup_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/application/signup_provider.dart';
 
 class EnterTextSignupWidget extends ConsumerWidget {
   final String text;
@@ -9,7 +9,7 @@ class EnterTextSignupWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final signupFormNotifier = ref.read(signupFormProvider.notifier);
+    final signupNotifier = ref.read(signupProvider.notifier);
 
     return TextField(
       decoration: InputDecoration(
@@ -37,7 +37,7 @@ class EnterTextSignupWidget extends ConsumerWidget {
         ),
       ),
       onChanged: (newName) {
-        signupFormNotifier.updateName(newName);
+        signupNotifier.updateSignupForm(name: newName);
       },
     );
   }

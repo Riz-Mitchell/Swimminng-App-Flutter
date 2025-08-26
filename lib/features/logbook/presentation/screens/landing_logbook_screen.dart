@@ -19,7 +19,7 @@ class LandingLogbookScreen extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Column(
-      spacing: 50,
+      spacing: 20,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [

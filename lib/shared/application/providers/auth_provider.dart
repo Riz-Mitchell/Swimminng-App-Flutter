@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swimming_app_frontend/features/signup/application/providers/form/login_form_provider.dart';
-import 'package:swimming_app_frontend/features/signup/application/providers/form/signup_form_provider.dart';
-import 'package:swimming_app_frontend/shared/application/providers/form/verify_form_provider.dart';
+import 'package:swimming_app_frontend/features/signup/domain/models/login_form_model.dart';
+import 'package:swimming_app_frontend/features/signup/domain/models/signup_form_model.dart';
 import 'package:swimming_app_frontend/providers/user_service_provider.dart';
+import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/storage_provider.dart';
 
 enum LoginStatus { loggedIn, loggedOut }
@@ -11,58 +11,66 @@ class AuthController extends AsyncNotifier<LoginStatus> {
   @override
   Future<LoginStatus> build() async {
     final userService = ref.read(userServiceProvider);
-    final storage = ref.read(storageProvider);
-    if (await userService.checkLoginStatus() && storage.userId != null) {
+    final storage = await ref.watch(storageProvider.future);
+    if (await userService.checkLoginStatusAsync() && storage.userId != null) {
       return LoginStatus.loggedIn;
     } else {
       return LoginStatus.loggedOut;
     }
   }
 
-  Future<void> signup() async {
+  Future<void> signup(SignupFormModel signupForm) async {
     final userService = ref.read(userServiceProvider);
-    final postUserReq = ref.read(signupFormProvider);
 
-    final otpReqNotifier = ref.read(verifyFormProvider.notifier);
+    await userService.signupUserAsync(signupForm);
 
-    await userService.signupUser(postUserReq);
-
-    otpReqNotifier.setPhoneNum(postUserReq.phoneNumber);
-
-    await userService.requestOtp(ref.read(verifyFormProvider));
+    await userService.requestOtpAsync(signupForm.phoneNumber);
   }
 
-  Future<void> requestOtp() async {
+  Future<void> requestOtp(String phoneNumber) async {
     final userService = ref.read(userServiceProvider);
 
-    await userService.requestOtp(ref.read(verifyFormProvider));
+    await userService.requestOtpAsync(phoneNumber);
   }
 
   Future<void> logout() async {
     final userService = ref.read(userServiceProvider);
-    final storage = ref.read(storageProvider);
+    final storage = await ref.read(storageProvider.future);
 
     final userId = storage.userId;
+
+    print('attempting to logout, userId from storage: $userId');
 
     if (userId == null) {
       print('attempting to logout when userId not set in storage');
     } else {
-      await userService.handleLogout(userId);
-      await storage.clearUserId();
+      try {
+        print('inside logout try block, userId: $userId');
+        await userService.handleLogoutAsync(userId);
+        await storage.clearUserId();
+      } catch (e) {
+        print('error during logout: $e');
+      }
     }
 
+    print('logged out, setting state to loggedOut');
+
     state = AsyncData(LoginStatus.loggedOut);
+    ref.read(routerProvider).go('/login-or-signup');
   }
 
-  Future<void> login() async {
-    final storage = ref.read(storageProvider);
+  Future<void> login(LoginFormModel loginForm) async {
+    final storage = await ref.read(storageProvider.future);
     final userService = ref.read(userServiceProvider);
-    final loginUserReq = ref.read(loginFormProvider);
+    print('LOGGING IN');
 
-    String? userId = await userService.verifyUser(loginUserReq);
+    String? userId = await userService.verifyUserAsync(loginForm);
 
     if (userId != null) {
+      print('login successful, userId: $userId');
       storage.setUserId(userId);
+    } else {
+      print('login failed, userId is null');
     }
   }
 }
