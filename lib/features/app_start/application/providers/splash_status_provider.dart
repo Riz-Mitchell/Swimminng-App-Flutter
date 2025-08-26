@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/shared/application/providers/auth_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 
@@ -20,8 +21,12 @@ class SplashStatusNotifier extends Notifier<SplashStatus> {
     bool isLoggedIn;
     try {
       print('attempting to check if logged in');
-      final userService = ref.read(userServiceProvider);
-      isLoggedIn = await userService.checkLoginStatus();
+      final auth = await ref.read(authControllerProvider.future);
+      final checkLoggedIn = await ref
+          .read(userServiceProvider)
+          .checkLoginStatusAsync();
+
+      isLoggedIn = auth == LoginStatus.loggedIn && checkLoggedIn;
 
       print('logged in set to: $isLoggedIn, in start');
     } catch (e) {
