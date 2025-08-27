@@ -12,6 +12,9 @@ class NameSignupScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return LoginShellScreen(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -23,12 +26,19 @@ class NameSignupScreen extends ConsumerWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               'What do you go by?',
-              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
+              style: textTheme.headlineLarge?.copyWith(
+                color: colorScheme.onBackground,
               ),
             ),
           ),
-          EnterTextSignupWidget(text: 'Enter your name'),
+          SizedBox(height: 50),
+          EnterTextSignupWidget(text: 'Name'),
+          SizedBox(height: 5),
+          Text(
+            textAlign: TextAlign.left,
+            'This is the name that will be displayed on your profile.',
+            style: textTheme.bodySmall?.copyWith(color: colorScheme.secondary),
+          ),
           SizedBox(height: 100),
           MetricButtonWidget(
             text: 'Next',
