@@ -20,8 +20,6 @@ class DistanceButtonLogSwimsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
-    final colorShcheme = Theme.of(context).colorScheme;
-
     final colorScheme = Theme.of(context).colorScheme;
     final currColor = isSelected ? metricBlue : colorScheme.secondary;
 
