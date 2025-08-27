@@ -44,25 +44,25 @@ class ProgressIconSignupWidget extends ConsumerWidget {
     String assetPath;
     switch (status) {
       case SignupStatusEnum.initial:
-        assetPath = 'assets/svg/ic--round-person.svg';
+        assetPath = 'assets/svg/check_list.svg';
         break;
       case SignupStatusEnum.addName:
-        assetPath = '';
+        assetPath = 'assets/svg/id_card.svg';
         break;
       case SignupStatusEnum.addDOB:
-        assetPath = '';
+        assetPath = 'assets/svg/cake.svg';
         break;
       case SignupStatusEnum.addHeight:
-        assetPath = '';
+        assetPath = 'assets/svg/ruler.svg';
         break;
       case SignupStatusEnum.addSex:
-        assetPath = '';
+        assetPath = 'assets/svg/stars.svg';
         break;
       case SignupStatusEnum.addPhoneNumber:
-        assetPath = '';
+        assetPath = 'assets/svg/smart_phone.svg';
         break;
       case SignupStatusEnum.verifyPhoneNumber:
-        assetPath = '';
+        assetPath = 'assets/svg/shield.svg';
         break;
       case SignupStatusEnum.done:
         assetPath = 'assets/svg/tick.svg';

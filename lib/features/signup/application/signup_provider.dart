@@ -33,36 +33,43 @@ class SignupNotifier extends Notifier<SignupModel> {
     if (nextStatusIndex < SignupStatusEnum.values.length) {
       final nextStatus = SignupStatusEnum.values[nextStatusIndex];
 
-      state = state.copyWith(status: nextStatus);
       switch (nextStatus) {
         case SignupStatusEnum.addName:
+          state = state.copyWith(status: nextStatus);
           ref.read(routerProvider).go('/ca-add-name');
           break;
         case SignupStatusEnum.addDOB:
+          state = state.copyWith(status: nextStatus);
           ref.read(routerProvider).go('/ca-add-dob');
           break;
         case SignupStatusEnum.addHeight:
+          state = state.copyWith(status: nextStatus);
           ref.read(routerProvider).go('/ca-add-height');
           break;
         case SignupStatusEnum.addSex:
+          state = state.copyWith(status: nextStatus);
           ref.read(routerProvider).go('/ca-add-sex');
           break;
         case SignupStatusEnum.addPhoneNumber:
+          state = state.copyWith(status: nextStatus);
           ref.read(routerProvider).go('/ca-add-phone-number');
           break;
         case SignupStatusEnum.verifyPhoneNumber:
           await ref
               .read(authControllerProvider.notifier)
               .signup(state.signupForm);
+          state = state.copyWith(status: nextStatus);
           ref.read(routerProvider).go('/ca-verify-phone-number');
           break;
         case SignupStatusEnum.done:
           await ref
               .read(authControllerProvider.notifier)
               .login(state.loginForm);
+          state = state.copyWith(status: nextStatus);
           ref.read(routerProvider).go('/ca-done');
           break;
         default:
+          exit();
           break;
       }
     }
@@ -92,15 +99,12 @@ class SignupNotifier extends Notifier<SignupModel> {
         case SignupStatusEnum.addSex:
           ref.read(routerProvider).go('/ca-add-sex');
           break;
-        case SignupStatusEnum.addPhoneNumber:
-          break;
-        case SignupStatusEnum.verifyPhoneNumber:
-          ref.read(routerProvider).go('/logbook-landing');
-          break;
         default:
-          ref.read(routerProvider).go('/logbook-landing');
+          exit();
           break;
       }
+    } else {
+      exit();
     }
   }
 
@@ -154,6 +158,7 @@ class SignupNotifier extends Notifier<SignupModel> {
         ref.read(routerProvider).go('/logbook-landing');
         break;
     }
+    ref.invalidateSelf();
   }
 }
 

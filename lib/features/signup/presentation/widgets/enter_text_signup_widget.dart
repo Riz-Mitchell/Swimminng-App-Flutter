@@ -2,6 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/signup/application/signup_provider.dart';
 
+final nameControllerProvider = Provider.autoDispose<TextEditingController>((
+  ref,
+) {
+  final controller = TextEditingController(
+    text: ref.read(signupProvider).signupForm.name, // initial value
+  );
+
+  // When the controller text changes, update your state
+  controller.addListener(() {
+    ref.read(signupProvider.notifier).updateSignupForm(name: controller.text);
+  });
+
+  // Dispose controller when provider is disposed
+  ref.onDispose(controller.dispose);
+
+  return controller;
+});
+
 class EnterTextSignupWidget extends ConsumerWidget {
   final String text;
 
@@ -9,14 +27,15 @@ class EnterTextSignupWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final signupNotifier = ref.read(signupProvider.notifier);
+    final controller = ref.watch(nameControllerProvider);
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         hintText: text,
-        hintStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-          color: Theme.of(context).colorScheme.secondary,
-        ),
+        hintStyle: textTheme.bodyLarge?.copyWith(color: colorScheme.secondary),
         border: UnderlineInputBorder(
           borderSide: BorderSide(
             width: 1,
@@ -36,9 +55,6 @@ class EnterTextSignupWidget extends ConsumerWidget {
           ),
         ),
       ),
-      onChanged: (newName) {
-        signupNotifier.updateSignupForm(name: newName);
-      },
     );
   }
 }

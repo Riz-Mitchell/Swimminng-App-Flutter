@@ -22,12 +22,13 @@ class SexSignupScreen extends ConsumerWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Which category do you compete in?',
+              'Which category do you swim in?',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                 color: Theme.of(context).colorScheme.onBackground,
               ),
             ),
           ),
+          SizedBox(height: 50),
           SexPickerSignupWidget(),
           SizedBox(height: 100),
           MetricButtonWidget(

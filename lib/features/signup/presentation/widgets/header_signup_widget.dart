@@ -13,7 +13,7 @@ class HeaderSignupWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final signupStatus = ref.watch(signupProvider).status;
+    final signupStatus = ref.read(signupProvider).status;
     final signupNotifier = ref.read(signupProvider.notifier);
 
     return Row(
