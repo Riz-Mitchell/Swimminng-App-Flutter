@@ -15,6 +15,8 @@ class SwimViewerGraphLogbookWidget extends ConsumerWidget {
 
     final List<FlSpot> spots = swim.getVelocitySpots();
 
+    print('spots: $spots');
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 250,
@@ -72,6 +74,18 @@ class SwimViewerGraphLogbookWidget extends ConsumerWidget {
           ),
           lineBarsData: [
             LineChartBarData(
+              belowBarData: BarAreaData(
+                show: true,
+                gradient: RadialGradient(
+                  radius: 1.2,
+                  center: Alignment.topCenter,
+                  colors: [
+                    colorScheme.primary.withOpacity(0.2),
+                    colorScheme.primary.withOpacity(0.0),
+                  ],
+                  stops: [0.0, 1.0],
+                ),
+              ),
               spots: spots,
               isCurved: true,
               curveSmoothness: 0.05,

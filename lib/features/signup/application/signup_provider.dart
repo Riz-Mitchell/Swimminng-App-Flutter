@@ -155,7 +155,7 @@ class SignupNotifier extends Notifier<SignupModel> {
         ref.read(routerProvider).go('/login-or-signup');
         break;
       case SignupStatusEnum.done:
-        ref.read(routerProvider).go('/logbook-landing');
+        ref.read(routerProvider).go('/home');
         break;
     }
     ref.invalidateSelf();

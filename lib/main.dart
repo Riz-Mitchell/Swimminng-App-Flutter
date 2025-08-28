@@ -53,7 +53,7 @@ class MyApp extends ConsumerWidget {
           bodyLarge: TextStyle(fontSize: 24),
           bodyMedium: TextStyle(fontSize: 16),
           bodySmall: TextStyle(fontSize: 14),
-          labelSmall: TextStyle(fontSize: 12, letterSpacing: 1.2),
+          labelSmall: TextStyle(fontSize: 12),
         ),
         extensions: <ThemeExtension<dynamic>>[
           const CustomColors(

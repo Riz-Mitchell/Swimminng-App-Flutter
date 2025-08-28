@@ -71,6 +71,18 @@ class GraphLogbookWidget extends ConsumerWidget {
           ),
           lineBarsData: [
             LineChartBarData(
+              belowBarData: BarAreaData(
+                show: true,
+                gradient: RadialGradient(
+                  radius: 1.2,
+                  center: Alignment.topCenter,
+                  colors: [
+                    colorScheme.primary.withOpacity(0.2),
+                    colorScheme.primary.withOpacity(0.0),
+                  ],
+                  stops: [0.0, 1.0],
+                ),
+              ),
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
@@ -119,15 +131,13 @@ class GraphLogbookWidget extends ConsumerWidget {
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                reservedSize: 28, // Try 24–32 depending on your font size
+                reservedSize: 32, // Try 24–32 depending on your font size
                 interval: 4,
                 getTitlesWidget: (value, meta) {
                   final percentage = value.toStringAsFixed(0);
                   return Text(
-                    (value == 0 || value < 0)
-                        ? '$percentage%'
-                        : '+$percentage%',
-                    style: textTheme.bodySmall?.copyWith(
+                    (value < 0) ? '$percentage%' : '+$percentage%',
+                    style: textTheme.labelSmall?.copyWith(
                       color: colorScheme.secondary,
                     ),
                   );

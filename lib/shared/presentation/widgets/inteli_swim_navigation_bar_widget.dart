@@ -2,20 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swimming_app_frontend/features/home/domain/home_page_enum.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/nav_icon_widget.dart';
-
-enum NavigationItem { logbook, statistics, squad, profile }
-
-final navigationItemProvider = StateProvider<NavigationItem>((ref) {
-  return NavigationItem.logbook; // Default navigation item
-});
 
 class InteliSwimNavigationBarWidget extends ConsumerWidget {
   const InteliSwimNavigationBarWidget({super.key});
 
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentItem = ref.watch(navigationItemProvider);
-
     return Container(
       height: 90,
       padding: EdgeInsets.only(top: 12),
@@ -29,19 +22,22 @@ class InteliSwimNavigationBarWidget extends ConsumerWidget {
         children: [
           NavIconWidget(
             asset: 'assets/svg/book.svg',
-            pageItem: NavigationItem.logbook,
+            selectedAsset: 'assets/svg/book_full.svg',
+            pageItem: HomePageEnum.logbook,
           ),
-          NavIconWidget(
-            asset: 'assets/svg/scatter_plot.svg',
-            pageItem: NavigationItem.statistics,
-          ),
+          // NavIconWidget(
+          //   asset: 'assets/svg/scatter_plot.svg',
+          //   pageItem: HomePageEnum.statistics,
+          // ),
           NavIconWidget(
             asset: 'assets/svg/group.svg',
-            pageItem: NavigationItem.squad,
+            selectedAsset: 'assets/svg/group_full.svg',
+            pageItem: HomePageEnum.squad,
           ),
           NavIconWidget(
             asset: 'assets/svg/user_placeholder.svg',
-            pageItem: NavigationItem.profile,
+            selectedAsset: 'assets/svg/user_placeholder_full.svg',
+            pageItem: HomePageEnum.profile,
           ),
         ],
       ),

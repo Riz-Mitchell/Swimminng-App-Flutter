@@ -9,8 +9,16 @@ class ViewingSwimLogbookNotifier extends Notifier<ViewingSwimModel> {
   }
 
   void setSwimAndSplit(GetSwimEntity swim) {
+    final swimWithSortedSplits = swim.copyWith(
+      splits: List.from(swim.splits)
+        ..sort((a, b) => a.intervalDistance.compareTo(b.intervalDistance)),
+    );
+
     print('Setting swim and split in ViewingSwimLogbookNotifier');
-    state = state.copyWith(swim: swim, selectedSplit: swim.splits.first);
+    state = state.copyWith(
+      swim: swimWithSortedSplits,
+      selectedSplit: swimWithSortedSplits.splits.first,
+    );
   }
 
   bool canGoForward() {

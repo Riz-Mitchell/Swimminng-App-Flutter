@@ -36,7 +36,7 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
 
     // Override the attempted change to status if it is complete
     if (currentStatus == StatusLogSwimsEnum.complete) {
-      ref.read(routerProvider).go('/logbook-landing');
+      ref.read(routerProvider).go('/home');
       _reset();
       return;
     }
@@ -64,7 +64,7 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
           break;
       }
     } else {
-      ref.read(routerProvider).go('/logbook-landing');
+      ref.read(routerProvider).go('/home');
       _reset();
       return;
     }
@@ -102,7 +102,7 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
       }
     } else {
       await ref.read(logbookProvider.notifier).reRetrieveToday();
-      ref.read(routerProvider).go('/logbook-landing');
+      ref.read(routerProvider).go('/home');
       _reset();
       return;
     }

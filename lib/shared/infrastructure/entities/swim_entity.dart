@@ -72,12 +72,33 @@ class GetSwimEntity {
   }
 
   List<FlSpot> getVelocitySpots() {
-    int index = splits.length;
-    return splits.map((split) {
-      index--;
+    final List<GetSplitEntity> sortedSplits = List.from(splits)
+      ..sort((a, b) => a.intervalDistance.compareTo(b.intervalDistance));
+
+    int index = 0;
+    return sortedSplits.map((split) {
+      index++;
       final velocity = split.intervalDistance / split.intervalTime;
       return FlSpot(index.toDouble(), velocity);
     }).toList();
+  }
+
+  GetSwimEntity copyWith({
+    String? id,
+    EventEnum? event,
+    SelectedPoolTypeEnum? poolType,
+    List<GetSplitEntity>? splits,
+    GetSwimQuestionnaireEntity? swimQuestionnaire,
+    DateTime? recordedAt,
+  }) {
+    return GetSwimEntity(
+      id: id ?? this.id,
+      event: event ?? this.event,
+      poolType: poolType ?? this.poolType,
+      splits: splits ?? this.splits,
+      swimQuestionnaire: swimQuestionnaire ?? this.swimQuestionnaire,
+      recordedAt: recordedAt ?? this.recordedAt,
+    );
   }
 }
 

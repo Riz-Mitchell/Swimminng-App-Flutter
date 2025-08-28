@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swimming_app_frontend/features/app_start/presentation/screens/onboard_app_start_screen.dart';
 import 'package:swimming_app_frontend/features/app_start/presentation/screens/launch_app_start_screen.dart';
+import 'package:swimming_app_frontend/features/home/presentation/screens/home_shell_screen.dart';
 import 'package:swimming_app_frontend/features/link_external_swims/presentation/screens/link_external_swims_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/complete_log_swims_screen.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/distance_log_swims_screen.dart';
@@ -23,7 +24,6 @@ import 'package:swimming_app_frontend/features/signup/presentation/screens/name_
 import 'package:swimming_app_frontend/features/signup/presentation/screens/phone_number_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/sex_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/verify_signup_screen.dart';
-import 'package:swimming_app_frontend/features/signup/presentation/widgets/height_picker_signup_widget.dart';
 import 'package:swimming_app_frontend/features/squad/presentation/screens/landing_squad_screen.dart';
 import 'package:swimming_app_frontend/shared/presentation/screens/main_shell_screen.dart';
 
@@ -39,43 +39,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       // This is the main shell screen that will be used to navigate between different features of the app.
       // It will be used to wrap the main content of the app with a navigation bar
       // and other common UI elements.
-      ShellRoute(
-        builder: (context, state, child) {
-          final routeName = state.matchedLocation;
-
-          if (routeName == '/profile-landing')
-            return MainShellScreen(profileOverride: true, child: child);
-
-          return MainShellScreen(child: child);
-        },
-        routes: [
-          GoRoute(
-            path: '/logbook-landing',
-            name: 'logbook-landing',
-            pageBuilder: (context, state) {
-              return NoTransitionPage(
-                key: state.pageKey,
-                child: const LandingLogbookScreen(),
-              );
-            },
-          ),
-          GoRoute(
-            path: '/squad-landing',
-            name: 'squad-landing',
-            pageBuilder: (context, state) => NoTransitionPage(
-              key: state.pageKey,
-              child: const LandingSquadScreen(),
-            ),
-          ),
-          GoRoute(
-            path: '/profile-landing',
-            name: 'profile-landing',
-            pageBuilder: (context, state) => NoTransitionPage(
-              key: state.pageKey,
-              child: const LandingProfileScreen(),
-            ),
-          ),
-        ],
+      GoRoute(
+        path: '/home',
+        name: 'home',
+        pageBuilder: (context, state) => NoTransitionPage(
+          key: state.pageKey,
+          child: const HomeShellScreen(),
+        ),
       ),
       GoRoute(
         path: '/swim-viewer',

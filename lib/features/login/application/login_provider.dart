@@ -87,7 +87,7 @@ class LoginNotifier extends Notifier<LoginModel> {
         ref.read(routerProvider).go('/login-or-signup');
         break;
       case LoginStatusEnum.done:
-        ref.read(routerProvider).go('/logbook-landing');
+        ref.read(routerProvider).go('/home');
         break;
     }
   }
