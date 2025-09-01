@@ -9,19 +9,19 @@ class LogbookProvider extends AsyncNotifier<LogbookStateModel> {
   @override
   Future<LogbookStateModel> build() async {
     final now = DateTime.now();
-    final year = now.year;
-    final month = now.month;
 
-    final thisMonthData = await _retrieveMonthData(year, month);
+    final thisMonthData = await _retrieveMonthData(now);
 
-    return LogbookStateModel(months: {'$year-$month': thisMonthData});
+    return LogbookStateModel(
+      months: {'${now.year}-${now.month}': thisMonthData},
+    );
   }
 
-  Future<MonthLogModel> _retrieveMonthData(int year, int month) async {
+  Future<MonthLogModel> _retrieveMonthData(DateTime time) async {
     // Retrieve the swims for the specified month and organize them by day
     final List<GetSwimEntity> unsortedMonthSwims = await ref
         .read(swimServiceProvider)
-        .getSwimsByMonthAsync(year, month);
+        .getSwimsByMonthAsync(time);
 
     final Map<int, List<GetSwimEntity>> swimsByDay = {};
 
@@ -35,37 +35,44 @@ class LogbookProvider extends AsyncNotifier<LogbookStateModel> {
       days[day] = DayLogModel(dayOfMonth: day, swims: swims);
     });
 
-    return MonthLogModel(year: year, month: month, days: days);
+    return MonthLogModel(year: time.year, month: time.month, days: days);
   }
 
-  Future<void> _updateMonthData(int year, int month) async {
+  Future<void> _updateMonthData(DateTime time) async {
     // collect data for the month and update the state
 
-    final updatedMonthData = await _retrieveMonthData(year, month);
+    final updatedMonthData = await _retrieveMonthData(time);
 
     state = AsyncData(
       state.value!.copyWith(
-        months: {...state.value!.months, '$year-$month': updatedMonthData},
+        months: {
+          ...state.value!.months,
+          '${time.year}-${time.month}': updatedMonthData,
+        },
       ),
     );
   }
 
-  Future<DayLogModel> _retrieveDayData(int year, int month, int day) async {
+  Future<DayLogModel> _retrieveDayData(DateTime time) async {
     // Retrieve the specific day data from the service
-    final swims = await ref
-        .read(swimServiceProvider)
-        .getSwimsByQuery(QuerySwimEntity(year: year, month: month, day: day));
+    final swims = await ref.read(swimServiceProvider).getSwimsByDayAsync(time);
 
-    return DayLogModel(dayOfMonth: day, swims: swims);
+    for (final swim in swims) {
+      print(
+        'Retrieved swim on ${swim.recordedAt} with ID: ${swim.id} event was ${swim.event} with ${swim.splits.length} splits',
+      );
+    }
+
+    return DayLogModel(dayOfMonth: time.day, swims: swims);
   }
 
-  Future<void> _updateDayData(int year, int month, int day) async {
+  Future<void> _updateDayData(DateTime time) async {
     // collect data for the day and update the state
-    final updatedDayData = await _retrieveDayData(year, month, day);
+    final updatedDayData = await _retrieveDayData(time);
 
-    final monthKey = '$year-$month';
+    final monthKey = '${time.year}-${time.month}';
     final updatedMonth = state.value!.months[monthKey]?.copyWith(
-      days: {...state.value!.months[monthKey]!.days, day: updatedDayData},
+      days: {...state.value!.months[monthKey]!.days, time.day: updatedDayData},
     );
 
     if (updatedMonth != null) {
@@ -80,29 +87,23 @@ class LogbookProvider extends AsyncNotifier<LogbookStateModel> {
   /// When a user adds a swim to the logbook, this method retrieves the current day again and updates the state.
   Future<void> reRetrieveToday() async {
     print('running reRetrieveToday');
-    final now = DateTime.now().toUtc();
+    final now = DateTime.now();
 
-    await _updateDayData(now.year, now.month, now.day);
+    await _updateDayData(now);
   }
 
-  Future<void> checkMonthVisitedAndUpdateData(int year, int month) async {
-    final monthKey = '$year-$month';
+  Future<void> checkMonthVisitedAndUpdateData(DateTime time) async {
+    final monthKey = '${time.year}-${time.month}';
 
     if (!state.value!.months.containsKey(monthKey)) {
       print('Month not visited, retrieving data for $monthKey');
       // If the month is not present, retrieve and update it
-      await _updateMonthData(year, month);
+      await _updateMonthData(time);
     }
   }
 
   Future<void> handleDeleteSwim(DateTime recordedAt) async {
-    final inUtcTime = recordedAt.toUtc();
-
-    final year = inUtcTime.year;
-    final month = inUtcTime.month;
-    final day = inUtcTime.day;
-
-    await _updateDayData(year, month, day);
+    await _updateDayData(recordedAt);
   }
 }
 
