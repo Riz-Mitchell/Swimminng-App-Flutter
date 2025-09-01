@@ -14,6 +14,8 @@ class SwimService {
       querySchema,
     );
 
+    print('Retrieved ${swims.length} swims with query: $querySchema');
+
     return swims;
   }
 
@@ -58,15 +60,17 @@ class SwimService {
     return allSwims;
   }
 
-  Future<List<GetSwimEntity>> getSwimsByMonthAsync(int year, int month) async {
+  Future<List<GetSwimEntity>> getSwimsByMonthAsync(DateTime time) async {
     const int maxPageSize = 20;
     int currentPage = 1;
     List<GetSwimEntity> allSwims = [];
 
+    final timeInUtc = time.toUtc();
+
     while (true) {
       final query = QuerySwimEntity(
-        year: year,
-        month: month,
+        year: timeInUtc.year,
+        month: timeInUtc.month,
         page: currentPage,
         pageSize: maxPageSize,
       );
@@ -84,20 +88,17 @@ class SwimService {
     return allSwims;
   }
 
-  Future<List<GetSwimEntity>> getSwimsByDayAsync(
-    int year,
-    int month,
-    int day,
-  ) async {
+  Future<List<GetSwimEntity>> getSwimsByDayAsync(DateTime time) async {
     const int maxPageSize = 20;
     int currentPage = 1;
     List<GetSwimEntity> allSwims = [];
+    final timeInUtc = time.toUtc();
 
     while (true) {
       final query = QuerySwimEntity(
-        year: year,
-        month: month,
-        day: day,
+        year: timeInUtc.year,
+        month: timeInUtc.month,
+        day: timeInUtc.day,
         page: currentPage,
         pageSize: maxPageSize,
       );
