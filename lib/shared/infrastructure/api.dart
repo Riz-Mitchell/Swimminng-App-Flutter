@@ -10,13 +10,13 @@ import 'package:swimming_app_frontend/shared/application/providers/storage_provi
 
 final apiClientProvider = Provider<ApiClient>((ref) {
   final client = ApiClient(baseUrl: 'https://api.inteliswim.com', ref: ref);
-  client.init();
   return client;
 });
 
 class ApiClient {
   final Dio _dio;
   final Ref ref;
+  bool _initialized = false;
   PersistCookieJar? _cookieJar;
 
   ApiClient({required String baseUrl, required this.ref})
@@ -41,6 +41,20 @@ class ApiClient {
           final isRefreshEndpoint = error.requestOptions.path.contains(
             '/api/Auth/refresh',
           );
+
+          print('INSIDE DIO INTERCEPTOR');
+
+          if (isUnauthorized) {
+            print(
+              '[AUTH] 401 Unauthorized received from ${error.requestOptions.path}',
+            );
+          }
+
+          if (isRefreshEndpoint) {
+            print(
+              '[AUTH] 401 received from refresh endpoint, likely invalid refresh token',
+            );
+          }
 
           if (isUnauthorized && !isRefreshEndpoint) {
             try {
@@ -112,6 +126,8 @@ class ApiClient {
   }
 
   Future<void> init() async {
+    if (_initialized) return;
+
     if (kIsWeb) return;
 
     print('initialising cookie jar');
@@ -130,6 +146,8 @@ class ApiClient {
     if (refreshToken != null) print('refreshtoken found');
 
     _dio.interceptors.add(CookieManager(_cookieJar!));
+
+    _initialized = true;
   }
 
   Future<bool> _attemptRefreshTokens() async {
@@ -161,6 +179,8 @@ class ApiClient {
   }
 
   Future<bool> checkLoginStatus() async {
+    await init();
+
     if (kIsWeb || _cookieJar == null) {
       print('either web or cookiJar null');
       if (_cookieJar == null) {
@@ -197,6 +217,8 @@ class ApiClient {
   }
 
   Future<void> clearCookies() async {
+    await init();
+
     if (!kIsWeb && _cookieJar != null) {
       print('[AUTH] Clearing cookies');
       await _cookieJar!.deleteAll();
@@ -207,6 +229,8 @@ class ApiClient {
     String path, {
     Map<String, dynamic>? query,
   }) async {
+    await init();
+
     try {
       return await _dio.get<T>(path, queryParameters: query);
     } catch (e, stacktrace) {
@@ -217,6 +241,8 @@ class ApiClient {
   }
 
   Future<Response<T>?> post<T>(String path, {dynamic data}) async {
+    await init();
+
     try {
       return await _dio.post<T>(path, data: data);
     } catch (e, stacktrace) {
@@ -227,6 +253,8 @@ class ApiClient {
   }
 
   Future<Response<T>?> put<T>(String path, {dynamic data}) async {
+    await init();
+
     try {
       return await _dio.put<T>(path, data: data);
     } catch (e, stacktrace) {
@@ -237,6 +265,8 @@ class ApiClient {
   }
 
   Future<Response<T>?> patch<T>(String path, {dynamic data}) async {
+    await init();
+
     try {
       return await _dio.patch<T>(path, data: data);
     } catch (e, stacktrace) {
@@ -247,6 +277,8 @@ class ApiClient {
   }
 
   Future<Response<T>?> delete<T>(String path, {dynamic data}) async {
+    await init();
+
     try {
       return await _dio.delete<T>(path, data: data);
     } catch (e, stacktrace) {
