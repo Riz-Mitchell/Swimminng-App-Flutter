@@ -36,37 +36,37 @@ class SignupNotifier extends Notifier<SignupModel> {
       switch (nextStatus) {
         case SignupStatusEnum.addName:
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/ca-add-name');
+          ref.read(routerProvider).push('/ca-add-name');
           break;
         case SignupStatusEnum.addDOB:
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/ca-add-dob');
+          ref.read(routerProvider).push('/ca-add-dob');
           break;
         case SignupStatusEnum.addHeight:
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/ca-add-height');
+          ref.read(routerProvider).push('/ca-add-height');
           break;
         case SignupStatusEnum.addSex:
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/ca-add-sex');
+          ref.read(routerProvider).push('/ca-add-sex');
           break;
         case SignupStatusEnum.addPhoneNumber:
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/ca-add-phone-number');
+          ref.read(routerProvider).push('/ca-add-phone-number');
           break;
         case SignupStatusEnum.verifyPhoneNumber:
           await ref
               .read(authControllerProvider.notifier)
               .signup(state.signupForm);
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/ca-verify-phone-number');
+          ref.read(routerProvider).push('/ca-verify-phone-number');
           break;
         case SignupStatusEnum.done:
           await ref
               .read(authControllerProvider.notifier)
               .login(state.loginForm);
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/ca-done');
+          ref.read(routerProvider).push('/ca-done');
           break;
         default:
           exit();
@@ -85,19 +85,19 @@ class SignupNotifier extends Notifier<SignupModel> {
       state = state.copyWith(status: prevStatus);
       switch (prevStatus) {
         case SignupStatusEnum.initial:
-          ref.read(routerProvider).go('/ca-initial');
+          ref.read(routerProvider).pop('/ca-initial');
           break;
         case SignupStatusEnum.addName:
-          ref.read(routerProvider).go('/ca-add-name');
+          ref.read(routerProvider).pop('/ca-add-name');
           break;
         case SignupStatusEnum.addDOB:
-          ref.read(routerProvider).go('/ca-add-dob');
+          ref.read(routerProvider).pop('/ca-add-dob');
           break;
         case SignupStatusEnum.addHeight:
-          ref.read(routerProvider).go('/ca-add-height');
+          ref.read(routerProvider).pop('/ca-add-height');
           break;
         case SignupStatusEnum.addSex:
-          ref.read(routerProvider).go('/ca-add-sex');
+          ref.read(routerProvider).pop('/ca-add-sex');
           break;
         default:
           exit();
@@ -152,7 +152,7 @@ class SignupNotifier extends Notifier<SignupModel> {
       case SignupStatusEnum.addSex:
       case SignupStatusEnum.addPhoneNumber:
       case SignupStatusEnum.verifyPhoneNumber:
-        ref.read(routerProvider).go('/login-or-signup');
+        ref.read(routerProvider).pop('/login-or-signup');
         break;
       case SignupStatusEnum.done:
         ref.read(routerProvider).go('/home');
