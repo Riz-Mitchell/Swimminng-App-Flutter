@@ -83,6 +83,19 @@ class GetSwimEntity {
     }).toList();
   }
 
+  List<FlSpot> getHighlightSpots(GetSplitEntity selectedSplit) {
+    final List<GetSplitEntity> sortedSplits = List.from(splits)
+      ..sort((a, b) => a.intervalDistance.compareTo(b.intervalDistance));
+
+    final selectedIndex = sortedSplits.indexOf(selectedSplit);
+    if (selectedIndex == -1 || selectedIndex == sortedSplits.length) return [];
+
+    final start = selectedIndex;
+    final end = selectedIndex + 1;
+
+    return [FlSpot(start.toDouble(), 3), FlSpot(end.toDouble(), 3)];
+  }
+
   GetSwimEntity copyWith({
     String? id,
     EventEnum? event,
