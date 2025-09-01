@@ -46,19 +46,19 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
       _updatePageStatus(prevStatus);
       switch (prevStatus) {
         case StatusLogSwimsEnum.selectPoolType:
-          ref.read(routerProvider).go('/add-swim-landing');
+          ref.read(routerProvider).pop('/add-swim-landing');
           break;
         case StatusLogSwimsEnum.selectStroke:
-          ref.read(routerProvider).go('/add-swim-stroke');
+          ref.read(routerProvider).pop('/add-swim-stroke');
           break;
         case StatusLogSwimsEnum.selectDistance:
-          ref.read(routerProvider).go('/add-swim-distance');
+          ref.read(routerProvider).pop('/add-swim-distance');
           break;
         case StatusLogSwimsEnum.addSplits:
-          ref.read(routerProvider).go('/add-swim-splits');
+          ref.read(routerProvider).pop('/add-swim-splits');
           break;
         case StatusLogSwimsEnum.completeQuestionnaire:
-          ref.read(routerProvider).go('/add-swim-questionnaire');
+          ref.read(routerProvider).pop('/add-swim-questionnaire');
           break;
         default:
           break;
@@ -82,20 +82,20 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
       _updatePageStatus(nextStatus);
       switch (nextStatus) {
         case StatusLogSwimsEnum.selectStroke:
-          ref.read(routerProvider).go('/add-swim-stroke');
+          ref.read(routerProvider).push('/add-swim-stroke');
           break;
         case StatusLogSwimsEnum.selectDistance:
-          ref.read(routerProvider).go('/add-swim-distance');
+          ref.read(routerProvider).push('/add-swim-distance');
           break;
         case StatusLogSwimsEnum.addSplits:
-          ref.read(routerProvider).go('/add-swim-splits');
+          ref.read(routerProvider).push('/add-swim-splits');
           break;
         case StatusLogSwimsEnum.completeQuestionnaire:
-          ref.read(routerProvider).go('/add-swim-questionnaire');
+          ref.read(routerProvider).push('/add-swim-questionnaire');
           break;
         case StatusLogSwimsEnum.complete:
           await _submitSwimAsync();
-          ref.read(routerProvider).go('/add-swim-complete');
+          ref.read(routerProvider).push('/add-swim-complete');
           break;
         default:
           break;
