@@ -47,10 +47,9 @@ class SelectedDayLogbookNotifier extends Notifier<DateTime> {
   }
 
   Future<void> _checkMonthVisited(DateTime date) async {
-    date = date.toUtc();
     await ref
         .read(logbookProvider.notifier)
-        .checkMonthVisitedAndUpdateData(date.year, date.month);
+        .checkMonthVisitedAndUpdateData(date);
   }
 }
 
