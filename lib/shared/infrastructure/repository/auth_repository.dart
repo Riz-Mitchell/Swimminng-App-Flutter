@@ -57,14 +57,22 @@ class AuthRepository {
     }
   }
 
-  Future<bool> deleteCookiesAndAuthData(String userId) async {
+  Future<bool> deleteAuthCookiesAsync() async {
+    await _apiClient.clearCookies();
+    return true;
+  }
+
+  Future<bool> logoutUserAsync(String userId) async {
+    bool apiEndPointSuccess = false;
+
     try {
       final res = await _apiClient.post('/api/Auth/logout/$userId');
-
-      print('logged out with status ${res!.statusCode}');
-      return true;
+      apiEndPointSuccess = true;
     } catch (e) {
-      return false;
+      print('Error calling logout API: $e');
+      // Proceed to clear cookies even if logout API fails
     }
+
+    return apiEndPointSuccess;
   }
 }
