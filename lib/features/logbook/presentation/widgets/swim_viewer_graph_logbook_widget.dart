@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/split_entity.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_entity.dart';
+import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 
 class SwimViewerGraphLogbookWidget extends ConsumerWidget {
   final GetSwimEntity swim;
+  final GetSplitEntity selectedSplit;
 
-  const SwimViewerGraphLogbookWidget({required this.swim, super.key});
+  const SwimViewerGraphLogbookWidget({
+    required this.swim,
+    required this.selectedSplit,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,6 +21,7 @@ class SwimViewerGraphLogbookWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
 
     final List<FlSpot> spots = swim.getVelocitySpots();
+    final highlightSpots = swim.getHighlightSpots(selectedSplit);
 
     print('spots: $spots');
 
@@ -21,6 +29,8 @@ class SwimViewerGraphLogbookWidget extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: 250,
       child: LineChart(
+        duration: Duration(milliseconds: 1000),
+        curve: Curves.fastEaseInToSlowEaseOut,
         LineChartData(
           minY: 1.0,
           maxY: 3.0,
@@ -74,18 +84,18 @@ class SwimViewerGraphLogbookWidget extends ConsumerWidget {
           ),
           lineBarsData: [
             LineChartBarData(
-              belowBarData: BarAreaData(
-                show: true,
-                gradient: RadialGradient(
-                  radius: 1.2,
-                  center: Alignment.topCenter,
-                  colors: [
-                    colorScheme.primary.withOpacity(0.2),
-                    colorScheme.primary.withOpacity(0.0),
-                  ],
-                  stops: [0.0, 1.0],
-                ),
-              ),
+              // belowBarData: BarAreaData(
+              //   show: true,
+              //   gradient: RadialGradient(
+              //     radius: 1.2,
+              //     center: Alignment.topCenter,
+              //     colors: [
+              //       colorScheme.primary.withOpacity(0.2),
+              //       colorScheme.primary.withOpacity(0.0),
+              //     ],
+              //     stops: [0.0, 1.0],
+              //   ),
+              // ),
               spots: spots,
               isCurved: true,
               curveSmoothness: 0.05,
@@ -93,9 +103,31 @@ class SwimViewerGraphLogbookWidget extends ConsumerWidget {
               color: Theme.of(context).colorScheme.primary,
               dotData: FlDotData(show: false),
             ),
+            LineChartBarData(
+              belowBarData: BarAreaData(
+                show: true,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    metricBlue.withOpacity(0.3),
+                    metricBlue.withOpacity(0.0),
+                  ],
+                  stops: [0.0, 1.0],
+                ),
+              ),
+              spots: highlightSpots,
+              isCurved: true,
+              curveSmoothness: 0.05,
+              barWidth: 1,
+              color: metricBlue,
+              dotData: FlDotData(show: false),
+            ),
           ],
+
           lineTouchData: LineTouchData(
             touchSpotThreshold: 200,
+
             handleBuiltInTouches: true,
             touchTooltipData: LineTouchTooltipData(
               getTooltipColor: (touchedSpot) => colorScheme.primary,
