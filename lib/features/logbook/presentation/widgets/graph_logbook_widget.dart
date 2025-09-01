@@ -51,6 +51,7 @@ class GraphLogbookWidget extends ConsumerWidget {
       height: graphHeight,
       child: LineChart(
         duration: const Duration(milliseconds: 0),
+        curve: Curves.fastEaseInToSlowEaseOut,
         LineChartData(
           backgroundColor: Colors.transparent,
           borderData: FlBorderData(
@@ -71,18 +72,18 @@ class GraphLogbookWidget extends ConsumerWidget {
           ),
           lineBarsData: [
             LineChartBarData(
-              belowBarData: BarAreaData(
-                show: true,
-                gradient: RadialGradient(
-                  radius: 1.2,
-                  center: Alignment.topCenter,
-                  colors: [
-                    colorScheme.primary.withOpacity(0.2),
-                    colorScheme.primary.withOpacity(0.0),
-                  ],
-                  stops: [0.0, 1.0],
-                ),
-              ),
+              // belowBarData: BarAreaData(
+              //   show: true,
+              //   gradient: RadialGradient(
+              //     radius: 1.2,
+              //     center: Alignment.topCenter,
+              //     colors: [
+              //       colorScheme.primary.withOpacity(0.2),
+              //       colorScheme.primary.withOpacity(0.0),
+              //     ],
+              //     stops: [0.0, 1.0],
+              //   ),
+              // ),
               gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
@@ -137,7 +138,7 @@ class GraphLogbookWidget extends ConsumerWidget {
                   final percentage = value.toStringAsFixed(0);
                   return Text(
                     (value < 0) ? '$percentage%' : '+$percentage%',
-                    style: textTheme.labelSmall?.copyWith(
+                    style: textTheme.bodySmall?.copyWith(
                       color: colorScheme.secondary,
                     ),
                   );
