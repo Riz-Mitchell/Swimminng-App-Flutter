@@ -36,14 +36,14 @@ class LoginNotifier extends Notifier<LoginModel> {
               .read(authControllerProvider.notifier)
               .requestOtp(state.loginForm.phoneNumber);
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/login-verify');
+          ref.read(routerProvider).push('/login-verify');
           break;
         case LoginStatusEnum.done:
           await ref
               .read(authControllerProvider.notifier)
               .login(state.loginForm);
           state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).go('/login-done');
+          ref.read(routerProvider).push('/login-done');
           break;
         default:
           exit();
@@ -68,11 +68,11 @@ class LoginNotifier extends Notifier<LoginModel> {
     switch (prevStatus) {
       case LoginStatusEnum.addPhoneNumber:
         state = state.copyWith(status: prevStatus);
-        ref.read(routerProvider).go('/login-or-signup');
+        ref.read(routerProvider).pop('/login-or-signup');
         break;
       case LoginStatusEnum.verifyPhoneNumber:
         state = state.copyWith(status: prevStatus);
-        ref.read(routerProvider).go('/login-phonenumber');
+        ref.read(routerProvider).pop('/login-phonenumber');
         break;
       case LoginStatusEnum.done:
         exit();
@@ -84,7 +84,7 @@ class LoginNotifier extends Notifier<LoginModel> {
     switch (state.status) {
       case LoginStatusEnum.addPhoneNumber:
       case LoginStatusEnum.verifyPhoneNumber:
-        ref.read(routerProvider).go('/login-or-signup');
+        ref.read(routerProvider).pop('/login-or-signup');
         break;
       case LoginStatusEnum.done:
         ref.read(routerProvider).go('/home');
