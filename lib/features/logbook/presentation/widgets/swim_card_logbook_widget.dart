@@ -21,7 +21,7 @@ class SwimCardLogbookWidget extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         ref.read(viewingSwimLogbookProvider.notifier).setSwimAndSplit(swim);
-        ref.read(routerProvider).go('/swim-viewer');
+        ref.read(routerProvider).push('/swim-viewer');
       },
       child: Container(
         width: screenWidth,
