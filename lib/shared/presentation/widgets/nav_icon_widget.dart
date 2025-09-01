@@ -20,6 +20,7 @@ class NavIconWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentItem = ref.watch(currentPageProvider);
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
     final controller = ref.read(pageControllerProvider);
     final isSelected = currentItem == pageItem;
 
@@ -28,20 +29,34 @@ class NavIconWidget extends ConsumerWidget {
         behavior: HitTestBehavior.opaque,
         child: Container(
           width: double.infinity,
-          child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
-            transitionBuilder: (child, animation) =>
-                FadeTransition(opacity: animation, child: child),
-            child: SvgPicture.asset(
-              isSelected ? selectedAsset : asset,
-              key: ValueKey(isSelected),
-              height: 35,
-              width: 35,
-              colorFilter: ColorFilter.mode(
-                isSelected ? colorScheme.primary : colorScheme.secondary,
-                BlendMode.srcIn,
+          child: Column(
+            spacing: 2,
+            children: [
+              AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) =>
+                    FadeTransition(opacity: animation, child: child),
+                child: SvgPicture.asset(
+                  isSelected ? selectedAsset : asset,
+                  key: ValueKey(isSelected),
+                  height: 35,
+                  width: 35,
+                  colorFilter: ColorFilter.mode(
+                    isSelected ? colorScheme.primary : colorScheme.secondary,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ),
-            ),
+              AnimatedDefaultTextStyle(
+                duration: Duration(milliseconds: 300),
+                style: isSelected
+                    ? textTheme.labelSmall!.copyWith(color: colorScheme.primary)
+                    : textTheme.bodySmall!.copyWith(
+                        color: colorScheme.secondary,
+                      ),
+                child: Text(pageItem.name),
+              ),
+            ],
           ),
         ),
         onTap: () => _handleTap(currentItem, pageItem, ref, controller),
