@@ -60,7 +60,14 @@ class GetSplitEntity {
 
   double getSecondsOffPB() {
     if (perOffPBIntervalTime == null) return 0.0;
-    return intervalTime - intervalTime * (1 + perOffPBIntervalTime! / 100);
+    print('perOffPBIntervalTime: $perOffPBIntervalTime');
+
+    if (perOffPBIntervalTime! < 0) {
+      return -1 *
+          (intervalTime - intervalTime * (1 + perOffPBIntervalTime! / 100));
+    } else {
+      return intervalTime - intervalTime * (1 + perOffPBIntervalTime! / 100);
+    }
   }
 
   double getSecondsOffGoal() {
