@@ -37,7 +37,7 @@ class SwimViewerLogbookScreen extends ConsumerWidget {
                 children: [
                   IconButtonWidget(
                     path: 'assets/svg/close.svg',
-                    onTapped: () => ref.read(routerProvider).go('/home'),
+                    onTapped: () => ref.read(routerProvider).pop('/home'),
                     overrideColor: colorScheme.primary,
                     size: 25,
                   ),
@@ -88,7 +88,10 @@ class SwimViewerLogbookScreen extends ConsumerWidget {
             ],
           ),
           SizedBox(height: 20),
-          SwimViewerGraphLogbookWidget(swim: viewingSwimState.swim!),
+          SwimViewerGraphLogbookWidget(
+            swim: viewingSwimState.swim!,
+            selectedSplit: viewingSwimState.selectedSplit!,
+          ),
           SizedBox(height: 200),
         ],
       ),
