@@ -43,6 +43,8 @@ class RadialGaugeLogbookWidget extends ConsumerWidget {
                 height: 420,
                 width: 380,
                 child: SfRadialGauge(
+                  animationDuration: 1000,
+                  enableLoadingAnimation: true,
                   backgroundColor: Colors.transparent,
                   axes: [
                     RadialAxis(
@@ -146,6 +148,9 @@ class RadialGaugeLogbookWidget extends ConsumerWidget {
                       ],
                       pointers: [
                         NeedlePointer(
+                          enableAnimation: true,
+                          animationType: AnimationType.ease,
+                          animationDuration: 1000,
                           tailStyle: TailStyle(
                             color: colorScheme.surface.withOpacity(0.5),
                             length: 0.1,
@@ -168,8 +173,6 @@ class RadialGaugeLogbookWidget extends ConsumerWidget {
                             stops: [0.0, 0.1, 0.10000001, 0.5],
                           ),
                           knobStyle: KnobStyle(knobRadius: 0),
-                          enableAnimation: false,
-                          animationType: AnimationType.ease,
                         ),
                       ],
                     ),
@@ -255,15 +258,17 @@ class RadialGaugeLogbookWidget extends ConsumerWidget {
   }
 
   String _getSuggestionString() {
-    final offBy = split?.getSecondsOffPB().abs() ?? 0.0;
+    final offBy = split?.getSecondsOffPB() ?? 0.0;
+
+    String offByString = (offBy >= 0 ? '+' : '') + offBy.toStringAsFixed(2);
 
     switch (split?.perOffPBIntervalTime) {
       case double n when n >= 4.5:
-        return 'Don\'t give up! What can you change to reduce your time by ${offBy.toStringAsFixed(2)} seconds?';
+        return 'Don\'t give up! What can you change to reduce your time by $offByString seconds?';
       case double n when n >= -4.5:
-        return 'Nice job. You\'re ${offBy.toStringAsFixed(2)} seconds off your PB pace. Keep it up!';
+        return 'Nice job. You\'re $offByString seconds off your PB pace. Keep it up!';
       case double n when n >= -8.0:
-        return 'AMAZING! You\'re ${offBy.toStringAsFixed(2)} seconds under your PB pace. Think about why this is faster.';
+        return 'AMAZING! You\'re $offByString seconds under your PB pace. Think about why this is faster.';
       default:
         return 'Unavailable';
     }
