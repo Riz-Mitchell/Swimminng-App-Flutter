@@ -44,7 +44,11 @@ class UserService {
     return await _authRepository.checkLoginStatus();
   }
 
-  Future<bool> handleLogoutAsync(String userId) async {
-    return await _authRepository.deleteCookiesAndAuthData(userId);
+  Future<bool> deleteAuthCookiesAsync() async {
+    return await _authRepository.deleteAuthCookiesAsync();
+  }
+
+  Future<bool> logoutUserAsync(String userId) async {
+    return await _authRepository.logoutUserAsync(userId);
   }
 }
