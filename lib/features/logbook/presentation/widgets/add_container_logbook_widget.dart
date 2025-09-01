@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:swimming_app_frontend/features/home/presentation/widgets/animated_add_button_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/add_child_logbook_widget.dart';
-import 'package:swimming_app_frontend/features/profile/presentation/widgets/data_profile_widget.dart';
 import 'package:swimming_app_frontend/shared/application/nav_direction_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 
@@ -57,6 +57,7 @@ class AddContainerLogbookWidget extends ConsumerWidget {
                     onTap: () {
                       ref.read(navDirectionProvider.notifier).state =
                           NavigationDirection.forward;
+                      print('Tapped');
                       ref.read(routerProvider).go('/add-swim-landing');
                     },
                     child: AddChildLogbookWidget(
