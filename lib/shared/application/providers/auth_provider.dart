@@ -12,9 +12,18 @@ class AuthController extends AsyncNotifier<LoginStatus> {
   Future<LoginStatus> build() async {
     final userService = ref.read(userServiceProvider);
     final storage = await ref.watch(storageProvider.future);
-    if (await userService.checkLoginStatusAsync() && storage.userId != null) {
+    print('storage userId in auth provider build: ${storage.userId}');
+    final apiLoginStatus = await userService.checkLoginStatusAsync();
+    print('apiLoginStatus in auth provider build: $apiLoginStatus');
+
+    if (apiLoginStatus && storage.userId != null) {
       return LoginStatus.loggedIn;
     } else {
+      if (apiLoginStatus && storage.userId == null) {
+        print('apiLoginStatus true but userId null, logging out');
+        await logout();
+      }
+
       return LoginStatus.loggedOut;
     }
   }
@@ -39,24 +48,18 @@ class AuthController extends AsyncNotifier<LoginStatus> {
 
     final userId = storage.userId;
 
-    print('attempting to logout, userId from storage: $userId');
-
-    if (userId == null) {
-      print('attempting to logout when userId not set in storage');
+    if (userId == null || userId.isEmpty) {
+      await userService.deleteAuthCookiesAsync();
+      state = AsyncData(LoginStatus.loggedOut);
+      return;
     } else {
-      try {
-        print('inside logout try block, userId: $userId');
-        await userService.handleLogoutAsync(userId);
-        await storage.clearUserId();
-      } catch (e) {
-        print('error during logout: $e');
-      }
+      print('userId found in storage: $userId');
+      await userService.logoutUserAsync(userId);
+      await storage.clearUserId();
+      await userService.deleteAuthCookiesAsync();
+      state = AsyncData(LoginStatus.loggedOut);
+      return;
     }
-
-    print('logged out, setting state to loggedOut');
-
-    state = AsyncData(LoginStatus.loggedOut);
-    ref.read(routerProvider).go('/login-or-signup');
   }
 
   Future<void> login(LoginFormModel loginForm) async {
@@ -69,8 +72,10 @@ class AuthController extends AsyncNotifier<LoginStatus> {
     if (userId != null) {
       print('login successful, userId: $userId');
       storage.setUserId(userId);
+      state = AsyncData(LoginStatus.loggedIn);
     } else {
       print('login failed, userId is null');
+      state = AsyncData(LoginStatus.loggedOut);
     }
   }
 }
