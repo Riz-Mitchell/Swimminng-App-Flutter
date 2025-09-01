@@ -50,14 +50,15 @@ class OnboardAppStartScreen extends ConsumerWidget {
               MetricButtonWidget(
                 text: 'Create account',
                 onPressed: () {
-                  ref.read(routerProvider).go('/ca-initial');
+                  ref.read(routerProvider).push('/ca-initial');
                 },
               ),
               MetricButtonWidget(
                 text: 'Sign in',
                 metricColor: Colors.transparent,
                 onPressed: () {
-                  ref.read(routerProvider).go('/login-phonenumber');
+                  print('sign in tapped');
+                  ref.read(routerProvider).push('/login-phonenumber');
                 },
               ),
             ],
