@@ -4,6 +4,7 @@ import 'package:swimming_app_frontend/features/signup/domain/models/signup_form_
 import 'package:swimming_app_frontend/providers/user_service_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 import 'package:swimming_app_frontend/shared/application/providers/storage_provider.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/user_entity.dart';
 
 enum LoginStatus { loggedIn, loggedOut }
 
@@ -28,18 +29,24 @@ class AuthController extends AsyncNotifier<LoginStatus> {
     }
   }
 
-  Future<void> signup(SignupFormModel signupForm) async {
+  Future<bool> signup(SignupFormModel signupForm) async {
     final userService = ref.read(userServiceProvider);
 
-    await userService.signupUserAsync(signupForm);
+    GetUserEntity newUser = await userService.signupUserAsync(signupForm);
 
-    await userService.requestOtpAsync(signupForm.phoneNumber);
+    if (newUser == null) return false;
+
+    final otpSuccess = await userService.requestOtpAsync(
+      signupForm.phoneNumber,
+    );
+
+    return otpSuccess;
   }
 
-  Future<void> requestOtp(String phoneNumber) async {
+  Future<bool> requestOtp(String phoneNumber) async {
     final userService = ref.read(userServiceProvider);
 
-    await userService.requestOtpAsync(phoneNumber);
+    return await userService.requestOtpAsync(phoneNumber);
   }
 
   Future<void> logout() async {
@@ -67,7 +74,7 @@ class AuthController extends AsyncNotifier<LoginStatus> {
     }
   }
 
-  Future<void> login(LoginFormModel loginForm) async {
+  Future<bool> login(LoginFormModel loginForm) async {
     final storage = await ref.read(storageProvider.future);
     final userService = ref.read(userServiceProvider);
     print('LOGGING IN');
@@ -78,9 +85,10 @@ class AuthController extends AsyncNotifier<LoginStatus> {
       print('login successful, userId: $userId');
       storage.setUserId(userId);
       state = AsyncData(LoginStatus.loggedIn);
+      return true;
     } else {
       print('login failed, userId is null');
-      state = AsyncData(LoginStatus.loggedOut);
+      return false;
     }
   }
 }
