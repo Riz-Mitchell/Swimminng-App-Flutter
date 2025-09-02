@@ -51,4 +51,8 @@ class UserService {
   Future<bool> logoutUserAsync(String userId) async {
     return await _authRepository.logoutUserAsync(userId);
   }
+
+  Future<GetUserEntity> getCurrentUser(String userId) async {
+    return await _userRepository.getUserAsync(userId);
+  }
 }
