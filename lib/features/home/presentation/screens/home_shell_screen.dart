@@ -7,10 +7,7 @@ import 'package:swimming_app_frontend/features/home/presentation/widgets/animate
 import 'package:swimming_app_frontend/features/logbook/presentation/screens/landing_logbook_screen.dart';
 import 'package:swimming_app_frontend/features/profile/presentation/screens/landing_profile_screen.dart';
 import 'package:swimming_app_frontend/features/squad/presentation/screens/landing_squad_screen.dart';
-import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
-import 'package:swimming_app_frontend/shared/presentation/widgets/icon_button_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/inteli_swim_navigation_bar_widget.dart';
-import 'package:swimming_app_frontend/shared/presentation/widgets/metric_button_widget.dart';
 
 final currentPageProvider = StateProvider<HomePageEnum>(
   (ref) => HomePageEnum.logbook,
@@ -59,7 +56,10 @@ class HomeShellScreen extends ConsumerWidget {
             children: [
               _buildPage(LandingLogbookScreen()),
               _buildPage(LandingSquadScreen()),
-              _buildPage(LandingProfileScreen()), // Placeholder for Analytics
+              _buildPage(
+                LandingProfileScreen(),
+                isProfile: true,
+              ), // Placeholder for Analytics
             ],
           ),
           bottomNavigationBar: InteliSwimNavigationBarWidget(),
@@ -76,10 +76,12 @@ class HomeShellScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildPage(Widget child) {
+  Widget _buildPage(Widget child, {bool isProfile = false}) {
     return SingleChildScrollView(
       child: Container(
-        margin: const EdgeInsets.only(top: 70, left: 12, right: 12, bottom: 0),
+        margin: (!isProfile)
+            ? const EdgeInsets.only(top: 70, left: 12, right: 12, bottom: 0)
+            : const EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 0),
         child: child,
       ),
     );
