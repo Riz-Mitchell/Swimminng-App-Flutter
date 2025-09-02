@@ -55,7 +55,7 @@ class StrokeDataLogbookWidget extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(12.0),
                 color: (isSelected)
                     ? mapValueToColor(averagePerOffPb, 1)
-                    : colorScheme.secondary,
+                    : mapValueToColor(averagePerOffPb, 0.25),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
