@@ -14,7 +14,7 @@ class InteliSwimNavigationBarWidget extends ConsumerWidget {
       padding: EdgeInsets.only(top: 12),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(/*20*/ 0)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
