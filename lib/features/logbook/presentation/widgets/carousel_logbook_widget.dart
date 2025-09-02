@@ -39,7 +39,7 @@ class CarouselLogbookWidget extends ConsumerWidget {
               Text(
                 'Swipe For Today\'s Swims',
                 style: textTheme.headlineSmall?.copyWith(
-                  color: colorScheme.primary,
+                  color: colorScheme.secondary,
                 ),
               ),
               SvgPicture.asset(
@@ -47,7 +47,7 @@ class CarouselLogbookWidget extends ConsumerWidget {
                 width: 25,
                 height: 25,
                 colorFilter: ColorFilter.mode(
-                  colorScheme.primary,
+                  colorScheme.secondary,
                   BlendMode.srcIn,
                 ),
               ),
