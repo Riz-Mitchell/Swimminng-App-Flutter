@@ -50,11 +50,16 @@ class AuthController extends AsyncNotifier<LoginStatus> {
 
     if (userId == null || userId.isEmpty) {
       await userService.deleteAuthCookiesAsync();
+
       state = AsyncData(LoginStatus.loggedOut);
       return;
     } else {
       print('userId found in storage: $userId');
-      await userService.logoutUserAsync(userId);
+      try {
+        await userService.logoutUserAsync(userId);
+      } catch (e) {
+        print('Error hitting logout route: $e');
+      }
       await storage.clearUserId();
       await userService.deleteAuthCookiesAsync();
       state = AsyncData(LoginStatus.loggedOut);
