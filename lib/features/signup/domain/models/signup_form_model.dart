@@ -41,4 +41,16 @@ class SignupFormModel {
       userType: userType ?? this.userType,
     );
   }
+
+  bool isNameValid() {
+    final len = name.length;
+    return len <= 18 && len >= 3;
+  }
+
+  bool isPhoneNumberValid() {
+    print('Validating phone number: $phoneNumber');
+    print('phoneNumber length: ${phoneNumber.length}');
+    final phoneRegex = RegExp(r'^\+?[1-9]\d{1,14}$');
+    return phoneNumber.length == 12;
+  }
 }
