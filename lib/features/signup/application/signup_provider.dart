@@ -20,7 +20,7 @@ class SignupNotifier extends Notifier<SignupModel> {
         height: null,
         email: null,
         sex: SelectedSexEnum.unselected,
-        userType: SelectedUserTypeEnum.unselected,
+        userType: SelectedUserTypeEnum.swimmer,
       ),
       loginForm: LoginFormModel(phoneNumber: '', otp: ''),
     );
@@ -55,18 +55,35 @@ class SignupNotifier extends Notifier<SignupModel> {
           ref.read(routerProvider).push('/ca-add-phone-number');
           break;
         case SignupStatusEnum.verifyPhoneNumber:
-          await ref
+          final success = await ref
               .read(authControllerProvider.notifier)
               .signup(state.signupForm);
-          state = state.copyWith(status: nextStatus);
+
+          if (!success) {
+            print('Signup failed during navigateToNextStep');
+            state = state.copyWith(
+              errorMessage: 'Failed to sign up. Please try again later.',
+            );
+            return;
+          } else {
+            print('Signup successful, proceeding to verify phone number');
+          }
+
+          state = state.copyWith(status: nextStatus, errorMessage: null);
           ref.read(routerProvider).push('/ca-verify-phone-number');
           break;
         case SignupStatusEnum.done:
-          await ref
+          final success = await ref
               .read(authControllerProvider.notifier)
               .login(state.loginForm);
-          state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).push('/ca-done');
+          if (!success) {
+            state = state.copyWith(
+              errorMessage: 'Failed to log in. Please try again later.',
+            );
+            return;
+          }
+          state = state.copyWith(status: nextStatus, errorMessage: null);
+          ref.read(routerProvider).push('/login-done');
           break;
         default:
           exit();
@@ -119,6 +136,9 @@ class SignupNotifier extends Notifier<SignupModel> {
   }) async {
     final currentForm = state.signupForm;
 
+    print('old phone number: ${currentForm.phoneNumber}');
+    print('new phone number: $phoneNumber');
+
     final updatedForm = currentForm.copyWith(
       name: name ?? currentForm.name,
       phoneNumber: phoneNumber ?? currentForm.phoneNumber,
@@ -152,7 +172,7 @@ class SignupNotifier extends Notifier<SignupModel> {
       case SignupStatusEnum.addSex:
       case SignupStatusEnum.addPhoneNumber:
       case SignupStatusEnum.verifyPhoneNumber:
-        ref.read(routerProvider).pop('/login-or-signup');
+        ref.read(routerProvider).go('/login-or-signup');
         break;
       case SignupStatusEnum.done:
         ref.read(routerProvider).go('/home');
