@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/login/application/login_provider.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/login_shell_screen.dart';
-import 'package:swimming_app_frontend/features/login/presentation/widgets/progress_indicator_login_widget.dart';
+import 'package:swimming_app_frontend/features/login/presentation/widgets/header_login_widget.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/metric_button_widget.dart';
 
 class DoneLoginScreen extends ConsumerWidget {
@@ -39,7 +39,7 @@ class DoneLoginScreen extends ConsumerWidget {
           MetricButtonWidget(
             text: 'Get to work',
             onPressed: () async {
-              ref.read(loginProvider.notifier).navigateToNextStep();
+              ref.read(loginProvider.notifier).exitToHome();
             },
           ),
         ],
