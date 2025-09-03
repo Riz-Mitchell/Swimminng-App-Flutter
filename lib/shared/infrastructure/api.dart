@@ -41,6 +41,58 @@ class ApiClient {
           final isRefreshEndpoint = error.requestOptions.path.contains(
             '/api/Auth/refresh',
           );
+          final exceptionEndpoints = [
+            '/api/Auth/login',
+            '/api/Auth/generate-otp',
+            '/api/Auth/signup',
+          ];
+
+          final isLogoutEndpoint = error.requestOptions.path.contains(
+            '/api/Auth/logout',
+          );
+
+          if (isLogoutEndpoint) {
+            print(
+              '401 received from logout endpoint, skipping refresh and logout call',
+            );
+            // Resolve gracefully to prevent retry/loop
+            return handler.resolve(
+              Response(
+                requestOptions: error.requestOptions,
+                statusCode: error.response?.statusCode ?? 401,
+                data: error.response?.data ?? {'message': 'Logout ignored.'},
+              ),
+            );
+          }
+
+          final isExceptionEndpoint = exceptionEndpoints.any(
+            (endpoint) => error.requestOptions.path.contains(endpoint),
+          );
+
+          final isCreateUserEndpoint = error.requestOptions.path.contains(
+            '/api/User',
+          );
+
+          print(
+            'Error intercepted with method ${error.requestOptions.method} at ${error.requestOptions.path}',
+          );
+
+          if (error.requestOptions.method == 'POST' && isCreateUserEndpoint) {
+            print(
+              '[AUTH] 401 received from create user endpoint, likely due to duplicate phone number',
+            );
+            return handler.next(error);
+          } else {
+            print('Not a create user endpoint');
+          }
+
+          if (isExceptionEndpoint) {
+            // Do not attempt refresh on these endpoints and don't logout
+            print(
+              '[AUTH] 401 received from exception endpoint: ${error.requestOptions.path}',
+            );
+            return handler.next(error);
+          }
 
           print('INSIDE DIO INTERCEPTOR');
 
@@ -56,7 +108,7 @@ class ApiClient {
             );
           }
 
-          if (isUnauthorized && !isRefreshEndpoint) {
+          if (isUnauthorized && !isRefreshEndpoint && !isExceptionEndpoint) {
             try {
               print('[AUTH] Attempting token refresh...');
               final refreshed = await _attemptRefreshTokens();
@@ -98,11 +150,14 @@ class ApiClient {
             }
           } else {
             print('[AUTH] Error not handled by interceptor: $error');
-            await ref.read(authControllerProvider.notifier).logout();
-            print('logged out due to error: $error');
+            try {
+              await ref.read(authControllerProvider.notifier).logout();
+              return handler.reject(error);
+            } catch (e) {
+              print('Error during logout inside of api client: $e');
+              return handler.reject(error);
+            }
           }
-
-          return handler.next(error); // Forward error if not handled
         },
         onResponse: (response, handler) async {
           if (!kIsWeb && _cookieJar != null) {
@@ -240,11 +295,22 @@ class ApiClient {
     }
   }
 
-  Future<Response<T>?> post<T>(String path, {dynamic data}) async {
+  Future<Response<T>?> post<T>(
+    String path, {
+    dynamic data,
+    bool skipInterceptor = false,
+  }) async {
     await init();
 
     try {
-      return await _dio.post<T>(path, data: data);
+      print('inside post method of api client');
+      final res = await _dio.post<T>(
+        path,
+        data: data,
+        options: Options(extra: {'skipInterceptor': skipInterceptor}),
+      );
+      print('after post call in api client');
+      return res;
     } catch (e, stacktrace) {
       print('POST $path failed: $e');
       print(stacktrace);
