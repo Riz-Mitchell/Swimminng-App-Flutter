@@ -8,22 +8,26 @@ class SignupModel {
   final SignupStatusEnum status;
   final SignupFormModel signupForm;
   final LoginFormModel loginForm;
+  final String? errorMessage;
 
   const SignupModel({
     required this.status,
     required this.signupForm,
     required this.loginForm,
+    this.errorMessage,
   });
 
   SignupModel copyWith({
     SignupStatusEnum? status,
     SignupFormModel? signupForm,
     LoginFormModel? loginForm,
+    String? errorMessage,
   }) {
     return SignupModel(
       status: status ?? this.status,
       signupForm: signupForm ?? this.signupForm,
       loginForm: loginForm ?? this.loginForm,
+      errorMessage: errorMessage,
     );
   }
 }
