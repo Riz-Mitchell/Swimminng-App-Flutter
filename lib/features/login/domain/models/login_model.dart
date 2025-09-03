@@ -6,13 +6,23 @@ import 'package:swimming_app_frontend/features/signup/domain/models/login_form_m
 class LoginModel {
   final LoginStatusEnum status;
   final LoginFormModel loginForm;
+  final String? errorMessage;
 
-  const LoginModel({required this.status, required this.loginForm});
+  const LoginModel({
+    required this.status,
+    required this.loginForm,
+    this.errorMessage,
+  });
 
-  LoginModel copyWith({LoginStatusEnum? status, LoginFormModel? loginForm}) {
+  LoginModel copyWith({
+    LoginStatusEnum? status,
+    LoginFormModel? loginForm,
+    String? errorMessage,
+  }) {
     return LoginModel(
       status: status ?? this.status,
       loginForm: loginForm ?? this.loginForm,
+      errorMessage: errorMessage,
     );
   }
 }
