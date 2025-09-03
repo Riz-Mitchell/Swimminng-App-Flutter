@@ -15,6 +15,10 @@ class NameSignupScreen extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
+    final signupState = ref.watch(signupProvider);
+
+    final isValid = signupState.signupForm.isNameValid();
+
     return LoginShellScreen(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -31,9 +35,9 @@ class NameSignupScreen extends ConsumerWidget {
               ),
             ),
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 20),
           EnterTextSignupWidget(text: 'Name'),
-          SizedBox(height: 5),
+          SizedBox(height: 20),
           Text(
             textAlign: TextAlign.left,
             'This is the name that will be displayed on your profile.',
@@ -42,7 +46,7 @@ class NameSignupScreen extends ConsumerWidget {
           SizedBox(height: 100),
           MetricButtonWidget(
             text: 'Next',
-            isEnabled: true,
+            isEnabled: isValid,
             onPressed: () async {
               await ref.read(signupProvider.notifier).navigateToNextStep();
             },
