@@ -149,7 +149,7 @@ class UserMapper {
     return CreateUserEntity(
       name: model.name,
       phoneNumber: model.phoneNumber,
-      dateOfBirth: model.dateOfBirth,
+      dateOfBirth: model.dateOfBirth.toUtc(),
       height: model.height,
       email: model.email,
       userType: model.userType,
