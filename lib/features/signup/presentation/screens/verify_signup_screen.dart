@@ -11,13 +11,17 @@ class VerifySignupScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    final signupState = ref.watch(signupProvider);
+
     return LoginShellScreen(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           HeaderSignupWidget(),
           const SizedBox(height: 100),
-
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
@@ -27,21 +31,22 @@ class VerifySignupScreen extends ConsumerWidget {
               ),
             ),
           ),
+          SizedBox(height: 20),
           VerifyWidget(
             onCompleted: (code) async {
+              final phoneNumber = signupState.signupForm.phoneNumber;
               await ref
                   .read(signupProvider.notifier)
-                  .updateLoginForm(otp: code);
-            },
-          ),
-          SizedBox(height: 100),
-          MetricButtonWidget(
-            text: 'Next',
-            isEnabled: true,
-            onPressed: () async {
+                  .updateLoginForm(phoneNumber: phoneNumber, otp: code);
               await ref.read(signupProvider.notifier).navigateToNextStep();
             },
           ),
+          SizedBox(height: 20),
+          if (signupState.errorMessage != null)
+            Text(
+              '${signupState.errorMessage}',
+              style: textTheme.bodySmall?.copyWith(color: colorScheme.error),
+            ),
         ],
       ),
     );
