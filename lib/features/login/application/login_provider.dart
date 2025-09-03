@@ -23,73 +23,81 @@ class LoginNotifier extends Notifier<LoginModel> {
     );
   }
 
-  Future<void> navigateToNextStep() async {
+  LoginStatusEnum _getNextStatus() {
     final currentStatus = state.status;
     final nextStatusIndex = currentStatus.index + 1;
 
     if (nextStatusIndex < LoginStatusEnum.values.length) {
-      final nextStatus = LoginStatusEnum.values[nextStatusIndex];
-
-      switch (nextStatus) {
-        case LoginStatusEnum.verifyPhoneNumber:
-          await ref
-              .read(authControllerProvider.notifier)
-              .requestOtp(state.loginForm.phoneNumber);
-          state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).push('/login-verify');
-          break;
-        case LoginStatusEnum.done:
-          await ref
-              .read(authControllerProvider.notifier)
-              .login(state.loginForm);
-          state = state.copyWith(status: nextStatus);
-          ref.read(routerProvider).push('/login-done');
-          break;
-        default:
-          exit();
-          break;
-      }
+      return LoginStatusEnum.values[nextStatusIndex];
     } else {
-      exit();
+      return currentStatus;
     }
   }
 
-  Future<void> navigateToPrevStep() async {
+  LoginStatusEnum _getPrevStatus() {
     final currentStatus = state.status;
     final prevStatusIndex = currentStatus.index - 1;
 
-    if (prevStatusIndex < 0) {
-      exit();
-      return;
-    }
-
-    final prevStatus = LoginStatusEnum.values[prevStatusIndex];
-
-    switch (prevStatus) {
-      case LoginStatusEnum.addPhoneNumber:
-        state = state.copyWith(status: prevStatus);
-        ref.read(routerProvider).pop('/login-or-signup');
-        break;
-      case LoginStatusEnum.verifyPhoneNumber:
-        state = state.copyWith(status: prevStatus);
-        ref.read(routerProvider).pop('/login-phonenumber');
-        break;
-      case LoginStatusEnum.done:
-        exit();
-        break;
+    if (prevStatusIndex >= 0) {
+      return LoginStatusEnum.values[prevStatusIndex];
+    } else {
+      return currentStatus;
     }
   }
 
-  Future<void> exit() async {
-    switch (state.status) {
-      case LoginStatusEnum.addPhoneNumber:
-      case LoginStatusEnum.verifyPhoneNumber:
-        ref.read(routerProvider).pop('/login-or-signup');
-        break;
-      case LoginStatusEnum.done:
-        ref.read(routerProvider).go('/home');
-        break;
+  Future<void> pushToLoginVerify() async {
+    final nextStatus = _getNextStatus();
+
+    final success = await ref
+        .read(authControllerProvider.notifier)
+        .requestOtp(state.loginForm.phoneNumber);
+
+    if (!success) {
+      state = state.copyWith(
+        errorMessage:
+            'Failed to request OTP. Please check the phone number and try again.',
+      );
+      return;
     }
+
+    state = state.copyWith(
+      status: nextStatus,
+      errorMessage: null, // clear error on success
+    );
+    ref.read(routerProvider).push('/login-verify');
+  }
+
+  Future<void> pushToLoginDone() async {
+    final nextStatus = _getNextStatus();
+
+    final success = await ref
+        .read(authControllerProvider.notifier)
+        .login(state.loginForm);
+
+    if (!success) {
+      state = state.copyWith(errorMessage: 'Invalid OTP. Please try again.');
+      return;
+    }
+
+    state = state.copyWith(status: nextStatus, errorMessage: null);
+    ref.read(routerProvider).push('/login-done');
+  }
+
+  Future<void> popToLoginPhoneNumber() async {
+    final prevStatus = _getPrevStatus();
+
+    state = state.copyWith(status: prevStatus);
+    ref.read(routerProvider).pop();
+  }
+
+  Future<void> exitToHome() async {
+    ref.read(routerProvider).go('/home');
+    ref.invalidateSelf();
+  }
+
+  Future<void> exitToLoginOrSignup() async {
+    ref.read(routerProvider).go('/login-or-signup');
+    ref.invalidateSelf();
   }
 }
 
