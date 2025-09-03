@@ -31,6 +31,10 @@ class EnterTextSignupWidget extends ConsumerWidget {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
+    final signupState = ref.watch(signupProvider);
+
+    final isValid = signupState.signupForm.isNameValid();
+
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -39,19 +43,19 @@ class EnterTextSignupWidget extends ConsumerWidget {
         border: UnderlineInputBorder(
           borderSide: BorderSide(
             width: 1,
-            color: Theme.of(context).colorScheme.primary,
+            color: (isValid) ? colorScheme.primary : colorScheme.error,
           ),
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             width: 1,
-            color: Theme.of(context).colorScheme.primary,
+            color: (isValid) ? colorScheme.primary : colorScheme.error,
           ),
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            width: 2, // thicker when focused
-            color: Theme.of(context).colorScheme.primary,
+            width: 1, // thicker when focused
+            color: (isValid) ? colorScheme.primary : colorScheme.error,
           ),
         ),
       ),
