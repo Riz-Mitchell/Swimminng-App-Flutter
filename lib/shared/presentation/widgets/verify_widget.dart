@@ -9,6 +9,25 @@ class VerifyWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Pinput(length: 6, onCompleted: (code) async => onCompleted(code));
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Pinput(
+      length: 6,
+      defaultPinTheme: PinTheme(
+        width: 56,
+        height: 56,
+        textStyle: textTheme.bodyLarge?.copyWith(color: colorScheme.primary),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: colorScheme.primary, // 👈 bottom border color
+              width: 1, // 👈 border thickness
+            ),
+          ),
+        ),
+      ),
+      onCompleted: (code) async => onCompleted(code),
+    );
   }
 }
