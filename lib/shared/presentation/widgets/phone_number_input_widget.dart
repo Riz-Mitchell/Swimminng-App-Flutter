@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:swimming_app_frontend/features/login/application/login_provider.dart';
 
 class PhoneNumInputWidget extends ConsumerWidget {
   final void Function(String) onChanged;
@@ -9,6 +10,9 @@ class PhoneNumInputWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final loginState = ref.watch(loginProvider);
+    final colorScheme = Theme.of(context).colorScheme;
+
     return IntlPhoneField(
       initialCountryCode: 'AU', // Change as needed
       textAlignVertical: TextAlignVertical.center,
@@ -28,7 +32,9 @@ class PhoneNumInputWidget extends ConsumerWidget {
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             width: 2, // thicker when focused
-            color: Theme.of(context).colorScheme.primary,
+            color: (loginState.errorMessage == null)
+                ? colorScheme.primary
+                : colorScheme.error,
           ),
         ),
       ),
