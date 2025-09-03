@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/api.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/auth_entity.dart';
 
@@ -63,16 +64,23 @@ class AuthRepository {
   }
 
   Future<bool> logoutUserAsync(String userId) async {
+    print('inside logoutUserAsync with userId: $userId');
     bool apiEndPointSuccess = false;
-
     try {
-      final res = await _apiClient.post('/api/Auth/logout/$userId');
+      final res = await _apiClient.post(
+        '/api/Auth/logout/$userId',
+        skipInterceptor: true,
+      );
       apiEndPointSuccess = true;
+      print('successfully hit logout endpoint');
+      return apiEndPointSuccess;
+    } on DioException catch (dioErr) {
+      print('Logout API failed: ${dioErr.response?.statusCode}');
+      print('Response body: ${dioErr.response?.data}');
+      return false;
     } catch (e) {
-      print('Error calling logout API: $e');
-      // Proceed to clear cookies even if logout API fails
+      print('Unexpected error calling logout API: $e');
+      return false;
     }
-
-    return apiEndPointSuccess;
   }
 }
