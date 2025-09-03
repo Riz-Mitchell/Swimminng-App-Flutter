@@ -11,6 +11,13 @@ class PhoneNumberSignupScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    final signupState = ref.watch(signupProvider);
+
+    final isValid = signupState.signupForm.isPhoneNumberValid();
+
     return LoginShellScreen(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -27,6 +34,7 @@ class PhoneNumberSignupScreen extends ConsumerWidget {
               ),
             ),
           ),
+          SizedBox(height: 20),
           PhoneNumInputWidget(
             onChanged: (phoneNumber) {
               ref
@@ -34,10 +42,17 @@ class PhoneNumberSignupScreen extends ConsumerWidget {
                   .updateSignupForm(phoneNumber: phoneNumber);
             },
           ),
+          SizedBox(height: 20),
+          if (signupState.errorMessage != null)
+            Text(
+              textAlign: TextAlign.center,
+              '${signupState.errorMessage}',
+              style: textTheme.bodySmall?.copyWith(color: colorScheme.error),
+            ),
           SizedBox(height: 100),
           MetricButtonWidget(
             text: 'Next',
-            isEnabled: true,
+            isEnabled: (isValid),
             onPressed: () async {
               await ref.read(signupProvider.notifier).navigateToNextStep();
             },
