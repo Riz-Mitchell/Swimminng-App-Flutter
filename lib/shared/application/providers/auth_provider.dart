@@ -32,15 +32,29 @@ class AuthController extends AsyncNotifier<LoginStatus> {
   Future<bool> signup(SignupFormModel signupForm) async {
     final userService = ref.read(userServiceProvider);
 
-    GetUserEntity newUser = await userService.signupUserAsync(signupForm);
+    GetUserEntity? newUser;
 
-    if (newUser == null) return false;
+    try {
+      newUser = await userService.signupUserAsync(signupForm);
+    } catch (e) {
+      print('Error during signupUserAsync: $e');
+      return false;
+    }
 
-    final otpSuccess = await userService.requestOtpAsync(
-      signupForm.phoneNumber,
-    );
+    if (newUser == null) {
+      print('Signup failed, newUser is null');
+      return false;
+    }
 
-    return otpSuccess;
+    try {
+      final otpSuccess = await userService.requestOtpAsync(
+        signupForm.phoneNumber,
+      );
+      return otpSuccess;
+    } catch (e) {
+      print('Error during requestOtpAsync: $e');
+      return false;
+    }
   }
 
   Future<bool> requestOtp(String phoneNumber) async {
@@ -63,10 +77,13 @@ class AuthController extends AsyncNotifier<LoginStatus> {
     } else {
       print('userId found in storage: $userId');
       try {
+        print('Hitting logout endpoint with userId: $userId');
         await userService.logoutUserAsync(userId);
+        print('After logoutUserAsync call');
       } catch (e) {
         print('Error hitting logout route: $e');
       }
+      print('Outside logout try-catch');
       await storage.clearUserId();
       await userService.deleteAuthCookiesAsync();
       state = AsyncData(LoginStatus.loggedOut);
