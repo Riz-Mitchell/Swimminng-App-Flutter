@@ -105,6 +105,7 @@ class HeroCardProfile extends ConsumerWidget {
 
                 // Name
                 Text(
+                      textAlign: TextAlign.center,
                       user.name,
                       style: textTheme.displayLarge?.copyWith(
                         color: colorScheme.primary,
