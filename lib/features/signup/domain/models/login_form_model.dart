@@ -13,4 +13,11 @@ class LoginFormModel {
       otp: otp ?? this.otp,
     );
   }
+
+  bool isPhoneNumberValid() {
+    print('Validating phone number: $phoneNumber');
+    print('phoneNumber length: ${phoneNumber.length}');
+    final phoneRegex = RegExp(r'^\+?[1-9]\d{1,14}$');
+    return phoneNumber.length == 12;
+  }
 }
