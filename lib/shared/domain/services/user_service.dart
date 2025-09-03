@@ -24,14 +24,7 @@ class UserService {
   Future<bool> requestOtpAsync(String phoneNumber) async {
     final otpSchema = OtpEntity(phoneNumber: phoneNumber);
 
-    try {
-      await _authRepository.generateOTP(otpSchema);
-
-      return true;
-    } catch (e) {
-      // Handle otpRequest failure
-      return false;
-    }
+    return await _authRepository.generateOTP(otpSchema);
   }
 
   Future<String?> verifyUserAsync(LoginFormModel loginForm) async {
@@ -49,7 +42,13 @@ class UserService {
   }
 
   Future<bool> logoutUserAsync(String userId) async {
-    return await _authRepository.logoutUserAsync(userId);
+    final success = await _authRepository.logoutUserAsync(userId);
+    if (success) {
+      print('inside logoutUserAsync, logout endpoint successful');
+    } else {
+      print('Logout endpoint failed inside logoutUserAsync');
+    }
+    return success;
   }
 
   Future<GetUserEntity> getCurrentUser(String userId) async {
