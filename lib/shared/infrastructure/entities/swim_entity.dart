@@ -4,9 +4,11 @@ import 'package:swimming_app_frontend/external/aus/domain/models/aus_swim_model.
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnaire_options_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/shared/enum/event_enum.dart';
+import 'package:swimming_app_frontend/shared/enum/logged_swim_type_enum.dart';
 import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/shared/enum/time_period_enum.dart';
 import 'package:swimming_app_frontend/shared/helper/json_formatting.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/race_details_entity.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/split_entity.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/swim_questionnaire_entity.dart';
 
@@ -17,6 +19,9 @@ class GetSwimEntity {
   final SelectedPoolTypeEnum poolType;
   final List<GetSplitEntity> splits;
   final GetSwimQuestionnaireEntity swimQuestionnaire;
+  final LoggedSwimType loggedSwimType;
+  final bool dive;
+  final GetRaceDetailsEntity? raceDetails;
   final DateTime recordedAt;
 
   const GetSwimEntity({
@@ -25,6 +30,9 @@ class GetSwimEntity {
     required this.poolType,
     required this.splits,
     required this.swimQuestionnaire,
+    required this.loggedSwimType,
+    required this.dive,
+    this.raceDetails,
     required this.recordedAt,
   });
 
@@ -39,6 +47,16 @@ class GetSwimEntity {
       swimQuestionnaire: GetSwimQuestionnaireEntity.fromJson(
         json['swimQuestionnaire'] as Map<String, dynamic>,
       ),
+      loggedSwimType: enumFromJson(
+        LoggedSwimType.values,
+        json['loggedSwimType'],
+      ),
+      dive: json['dive'] as bool,
+      raceDetails: json['raceDetails'] != null
+          ? GetRaceDetailsEntity.fromJson(
+              json['raceDetails'] as Map<String, dynamic>,
+            )
+          : null,
       recordedAt: DateTime.parse(json['recordedAt'] as String).toLocal(),
     );
   }
@@ -102,6 +120,9 @@ class GetSwimEntity {
     SelectedPoolTypeEnum? poolType,
     List<GetSplitEntity>? splits,
     GetSwimQuestionnaireEntity? swimQuestionnaire,
+    LoggedSwimType? loggedSwimType,
+    bool? dive,
+    GetRaceDetailsEntity? raceDetails,
     DateTime? recordedAt,
   }) {
     return GetSwimEntity(
@@ -110,6 +131,9 @@ class GetSwimEntity {
       poolType: poolType ?? this.poolType,
       splits: splits ?? this.splits,
       swimQuestionnaire: swimQuestionnaire ?? this.swimQuestionnaire,
+      loggedSwimType: loggedSwimType ?? this.loggedSwimType,
+      dive: dive ?? this.dive,
+      raceDetails: raceDetails ?? this.raceDetails,
       recordedAt: recordedAt ?? this.recordedAt,
     );
   }
