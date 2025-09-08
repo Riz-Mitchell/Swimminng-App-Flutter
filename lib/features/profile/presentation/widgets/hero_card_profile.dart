@@ -187,13 +187,13 @@ class HeroCardProfile extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '52',
+                            '${user.streak.currentStreak}',
                             style: textTheme.displayMedium?.copyWith(
                               color: colorScheme.primary,
                             ),
                           ),
                           Text(
-                            'Days Active',
+                            'Day Streak',
                             style: textTheme.bodyMedium?.copyWith(
                               color: colorScheme.primary,
                             ),
@@ -244,7 +244,7 @@ class HeroCardProfile extends ConsumerWidget {
                                 ),
                               ),
                               Text(
-                                'Jan 2024',
+                                user.getMemberSince(),
                                 style: textTheme.headlineSmall?.copyWith(
                                   color: colorScheme.primary,
                                 ),
