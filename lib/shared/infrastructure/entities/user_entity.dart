@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:swimming_app_frontend/features/signup/domain/enum/selected_sex_enum.dart';
 import 'package:swimming_app_frontend/features/signup/domain/enum/selected_user_type_enum.dart';
 import 'package:swimming_app_frontend/features/signup/domain/models/signup_form_model.dart';
@@ -64,6 +65,11 @@ class GetUserEntity {
       createdAt: DateTime.parse(json['createdAt'] as String).toLocal(),
       streak: GetStreakEntity.fromJson(json['streak'] as Map<String, dynamic>),
     );
+  }
+
+  String getMemberSince() {
+    final formatter = DateFormat('MMM yyyy');
+    return formatter.format(createdAt);
   }
 }
 
