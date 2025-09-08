@@ -15,7 +15,7 @@ class GetSplitEntity {
   final double? perOffPBStrokeRate; // Percentage off PB stroke rate
   final double? perOffGoalTime; // Percentage off goal time
   final double? perOffGoalStrokeRate; // Percentage off goal stroke rate
-  final bool dive; // Indicates if from dive start
+  final double? potentialFullDistanceTime;
 
   const GetSplitEntity({
     required this.id,
@@ -28,7 +28,7 @@ class GetSplitEntity {
     this.perOffPBStrokeRate,
     this.perOffGoalTime,
     this.perOffGoalStrokeRate,
-    required this.dive,
+    this.potentialFullDistanceTime,
   });
 
   factory GetSplitEntity.fromJson(Map<String, dynamic> json) {
@@ -43,7 +43,8 @@ class GetSplitEntity {
       perOffPBStrokeRate: (json['perOffPBStrokeRate'] as num?)?.toDouble(),
       perOffGoalTime: (json['perOffGoalTime'] as num?)?.toDouble(),
       perOffGoalStrokeRate: (json['perOffGoalStrokeRate'] as num?)?.toDouble(),
-      dive: json['dive'] as bool,
+      potentialFullDistanceTime: (json['potentialFullDistanceTime'] as num?)
+          ?.toDouble(),
     );
   }
 
@@ -99,7 +100,6 @@ class CreateSplitEntity {
   final int intervalDistance; // Distance for this split in meters
   final int? intervalStrokeRate; // Stroke rate for this split
   final int? intervalStrokeCount; // Stroke count for this split
-  final bool dive; // Indicates if from dive start
 
   const CreateSplitEntity({
     required this.stroke,
@@ -107,7 +107,6 @@ class CreateSplitEntity {
     required this.intervalDistance,
     this.intervalStrokeRate,
     this.intervalStrokeCount,
-    required this.dive,
   });
 
   Map<String, dynamic> toJson() {
@@ -117,7 +116,6 @@ class CreateSplitEntity {
       'intervalDistance': intervalDistance,
       'intervalStrokeRate': intervalStrokeRate,
       'intervalStrokeCount': intervalStrokeCount,
-      'dive': dive,
     };
   }
 }
@@ -130,7 +128,6 @@ class SplitMapper {
       intervalDistance: model.intervalDistance,
       intervalStrokeRate: model.intervalStrokeRate,
       intervalStrokeCount: model.intervalStrokeCount,
-      dive: true, // Currently hardcoded as true
     );
   }
 }
