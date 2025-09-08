@@ -91,6 +91,23 @@ class GetSplitEntity {
               intervalStrokeRate! * (1 + perOffGoalStrokeRate! / 100)
         : 0.0;
   }
+
+  String getPotentialRaceTimeString() {
+    if (potentialFullDistanceTime == null) return 'N/A';
+
+    final totalSeconds = potentialFullDistanceTime!;
+    final minutes = totalSeconds ~/ 60; // Integer division
+    final seconds = totalSeconds % 60; // Remainder
+
+    if (totalSeconds < 60) {
+      // Under a minute → just show seconds with 2 decimals
+      return '${totalSeconds.toStringAsFixed(2)}s';
+    } else {
+      // 1 minute or more → format as M:SS.ss
+      final formattedSeconds = seconds.toStringAsFixed(2).padLeft(5, '0');
+      return '$minutes:${formattedSeconds}s';
+    }
+  }
 }
 
 @immutable
