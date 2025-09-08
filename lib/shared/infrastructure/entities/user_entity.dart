@@ -1,6 +1,7 @@
 import 'package:swimming_app_frontend/features/signup/domain/enum/selected_sex_enum.dart';
 import 'package:swimming_app_frontend/features/signup/domain/enum/selected_user_type_enum.dart';
 import 'package:swimming_app_frontend/features/signup/domain/models/signup_form_model.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/entities/streak_entity.dart';
 
 class QueryUsersEntity {
   final String nameContains;
@@ -38,6 +39,8 @@ class GetUserEntity {
   final int age;
   final double? height;
   final SelectedUserTypeEnum userType;
+  final DateTime createdAt;
+  final GetStreakEntity streak;
 
   GetUserEntity({
     required this.id,
@@ -45,6 +48,8 @@ class GetUserEntity {
     required this.age,
     this.height,
     required this.userType,
+    required this.createdAt,
+    required this.streak,
   });
 
   factory GetUserEntity.fromJson(Map<String, dynamic> json) {
@@ -56,6 +61,8 @@ class GetUserEntity {
       userType: SelectedUserTypeEnum.values.byName(
         (json['userType'] as String).toLowerCase(),
       ),
+      createdAt: DateTime.parse(json['createdAt'] as String).toLocal(),
+      streak: GetStreakEntity.fromJson(json['streak'] as Map<String, dynamic>),
     );
   }
 }
