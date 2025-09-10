@@ -38,7 +38,6 @@ class MainShellScreen extends ConsumerWidget {
               child: child,
             ),
           ),
-          bottomNavigationBar: InteliSwimNavigationBarWidget(),
         ),
       ],
     );

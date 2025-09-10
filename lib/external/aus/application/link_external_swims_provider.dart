@@ -6,7 +6,8 @@ import 'package:swimming_app_frontend/external/aus/domain/services/aus_service.d
 import 'package:swimming_app_frontend/external/aus/infrastructure/entities/aus_participant_entity.dart';
 import 'package:swimming_app_frontend/features/link_external_swims/domain/models/link_external_swims_model.dart';
 
-class LinkExternalSwimsNotifier extends AsyncNotifier<LinkExternalSwimsModel> {
+class LinkExternalSwimsNotifier
+    extends AutoDisposeAsyncNotifier<LinkExternalSwimsModel> {
   Timer? _debounceTimer;
   CancelToken? _cancelToken;
 
@@ -56,23 +57,49 @@ class LinkExternalSwimsNotifier extends AsyncNotifier<LinkExternalSwimsModel> {
   }
 
   void selectSwimmer(GetAusParticipantEntity swimmerRef) {
+    if (state.value == null) return;
+
+    // No change if the same swimmer is already selected
+    if (state.value!.selectedSwimmer == swimmerRef) return;
+
+    // Update selected swimmer in state
     state = AsyncData(state.value!.copyWith(selectedSwimmer: swimmerRef));
+
+    // Cancel any ongoing swim-fetch request
+    _cancelToken?.cancel("Selecting new swimmer");
+
+    // Create a new cancel token for this request
+    _cancelToken = CancelToken();
+
+    // Fetch swims for this swimmer
+    _getSwimsToLinkWithCancel(_cancelToken!);
   }
 
-  Future<void> getSwimsToLink() async {
-    if (state.value!.selectedSwimmer == null) {
-      return;
+  Future<void> _getSwimsToLinkWithCancel(CancelToken token) async {
+    final swimmer = state.value?.selectedSwimmer;
+    if (swimmer == null) return;
+
+    try {
+      final swims = await ref
+          .read(ausServiceProvider)
+          .getSwimsFromAusToImport(swimmer.participantId, token);
+
+      // Only update if still valid (not canceled)
+      if (!token.isCancelled) {
+        state = AsyncData(state.value!.copyWith(swimsToLink: swims));
+      }
+    } on DioException catch (e) {
+      if (CancelToken.isCancel(e)) {
+        print("Fetch swims canceled");
+      } else {
+        print("Fetch swims failed: $e");
+      }
     }
-
-    final swims = await ref
-        .read(ausServiceProvider)
-        .getSwimsFromAusToImport(state.value!.selectedSwimmer!.participantId);
-
-    state = AsyncData(state.value!.copyWith(swimsToLink: swims));
   }
 }
 
 final linkExternalSwimsProvider =
-    AsyncNotifierProvider<LinkExternalSwimsNotifier, LinkExternalSwimsModel>(
-      () => LinkExternalSwimsNotifier(),
-    );
+    AutoDisposeAsyncNotifierProvider<
+      LinkExternalSwimsNotifier,
+      LinkExternalSwimsModel
+    >(() => LinkExternalSwimsNotifier());

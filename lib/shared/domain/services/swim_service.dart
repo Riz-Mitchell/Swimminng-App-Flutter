@@ -65,12 +65,10 @@ class SwimService {
     int currentPage = 1;
     List<GetSwimEntity> allSwims = [];
 
-    final timeInUtc = time.toUtc();
-
     while (true) {
       final query = QuerySwimEntity(
-        year: timeInUtc.year,
-        month: timeInUtc.month,
+        year: time.year,
+        month: time.month,
         page: currentPage,
         pageSize: maxPageSize,
       );
@@ -92,13 +90,12 @@ class SwimService {
     const int maxPageSize = 20;
     int currentPage = 1;
     List<GetSwimEntity> allSwims = [];
-    final timeInUtc = time.toUtc();
 
     while (true) {
       final query = QuerySwimEntity(
-        year: timeInUtc.year,
-        month: timeInUtc.month,
-        day: timeInUtc.day,
+        year: time.year,
+        month: time.month,
+        day: time.day,
         page: currentPage,
         pageSize: maxPageSize,
       );

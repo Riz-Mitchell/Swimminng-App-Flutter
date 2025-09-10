@@ -6,6 +6,7 @@ import 'package:swimming_app_frontend/features/log_swims/domain/enum/questionnai
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/selected_pool_type_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/enum/status_log_swim_enum.dart';
 import 'package:swimming_app_frontend/features/logbook/application/logbook_provider.dart';
+import 'package:swimming_app_frontend/shared/enum/logged_swim_type_enum.dart';
 import 'package:swimming_app_frontend/shared/enum/stroke_enum.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_split_state_model.dart';
 import 'package:swimming_app_frontend/features/log_swims/domain/models/log_swim_state_model.dart';
@@ -120,6 +121,8 @@ class LogSwimProvider extends Notifier<LogSwimStateModel> {
           .toList(),
       poolType: state.poolType,
       swimQuestionnaire: questionnaire,
+      loggedSwimType: LoggedSwimType.training,
+      dive: true,
     );
     print('Submitting swim with state:');
     printState();

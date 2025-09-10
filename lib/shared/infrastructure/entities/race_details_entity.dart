@@ -20,3 +20,24 @@ class GetRaceDetailsEntity {
     );
   }
 }
+
+@immutable
+class CreateRaceDetailsEntity {
+  final String meetName;
+  final DateTime date;
+  final String raceResultId;
+
+  const CreateRaceDetailsEntity({
+    required this.meetName,
+    required this.date,
+    required this.raceResultId,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'meetName': meetName,
+      'date': date.toUtc().toIso8601String(),
+      'raceResultId': raceResultId,
+    };
+  }
+}

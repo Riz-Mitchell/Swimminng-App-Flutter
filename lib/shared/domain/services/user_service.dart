@@ -54,4 +54,11 @@ class UserService {
   Future<GetUserEntity> getCurrentUser(String userId) async {
     return await _userRepository.getUserAsync(userId);
   }
+
+  Future<GetUserEntity> updateUserAsync(
+    String userId,
+    UpdateUserEntity updatedUser,
+  ) async {
+    return await _userRepository.updateUserAsync(userId, updatedUser);
+  }
 }

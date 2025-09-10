@@ -143,25 +143,31 @@ class GetSwimEntity {
 class CreateSwimEntity {
   final EventEnum event; // Event type
   final List<CreateSplitEntity> splits; // Splits for this swim
-  final bool goalSwim; // Whether this is a goal swim
   final SelectedPoolTypeEnum poolType; // Pool type
   final CreateSwimQuestionnaireEntity swimQuestionnaire;
+  final LoggedSwimType loggedSwimType;
+  final CreateRaceDetailsEntity? raceDetails;
+  final bool dive;
 
   const CreateSwimEntity({
     required this.event,
     required this.splits,
-    this.goalSwim = false,
     required this.poolType,
     required this.swimQuestionnaire,
+    required this.loggedSwimType,
+    this.raceDetails,
+    required this.dive,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'event': event.name,
       'splits': splits.map((e) => e.toJson()).toList(),
-      'goalSwim': goalSwim,
       'poolType': poolType.name,
       'swimQuestionnaire': swimQuestionnaire.toJson(),
+      'loggedSwimType': enumToJson(loggedSwimType),
+      'raceDetails': raceDetails?.toJson(),
+      'dive': dive,
     };
   }
 }
@@ -221,11 +227,9 @@ class SwimEntityMapper {
         return CreateSplitEntity(
           intervalDistance: split.splitDistance,
           intervalTime: split.splitTime,
-          dive: false,
           stroke: _getSplitStrokeFromAusModelData(ausSwimModel, split),
         );
       }).toList(),
-      goalSwim: false, // Default value, can be modified later
       poolType: ausSwimModel.poolType,
       swimQuestionnaire: CreateSwimQuestionnaireEntity(
         selfTalk: SelfTalkOptionsEnum.unselected,
@@ -239,6 +243,13 @@ class SwimEntityMapper {
         headPosition: [HeadPositionOptionsEnum.unselected],
         turn: [TurnOptionsEnum.unselected],
       ),
+      loggedSwimType: LoggedSwimType.race,
+      raceDetails: CreateRaceDetailsEntity(
+        meetName: ausSwimModel.meetName,
+        date: ausSwimModel.date,
+        raceResultId: ausSwimModel.externlSwimId,
+      ),
+      dive: true, // Currently hardcoded as true --- IGNORE ---
     );
   }
 

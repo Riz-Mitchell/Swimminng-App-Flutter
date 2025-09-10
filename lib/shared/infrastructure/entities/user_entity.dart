@@ -1,7 +1,9 @@
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:swimming_app_frontend/features/signup/domain/enum/selected_sex_enum.dart';
 import 'package:swimming_app_frontend/features/signup/domain/enum/selected_user_type_enum.dart';
 import 'package:swimming_app_frontend/features/signup/domain/models/signup_form_model.dart';
+import 'package:swimming_app_frontend/shared/helper/json_formatting.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/streak_entity.dart';
 
 class QueryUsersEntity {
@@ -42,6 +44,7 @@ class GetUserEntity {
   final SelectedUserTypeEnum userType;
   final DateTime createdAt;
   final GetStreakEntity streak;
+  final String? externalSourceUserId;
 
   GetUserEntity({
     required this.id,
@@ -51,6 +54,7 @@ class GetUserEntity {
     required this.userType,
     required this.createdAt,
     required this.streak,
+    this.externalSourceUserId,
   });
 
   factory GetUserEntity.fromJson(Map<String, dynamic> json) {
@@ -59,11 +63,10 @@ class GetUserEntity {
       name: json['name'] as String,
       age: json['age'] as int,
       height: json['height']?.toDouble(),
-      userType: SelectedUserTypeEnum.values.byName(
-        (json['userType'] as String).toLowerCase(),
-      ),
+      userType: enumFromJson(SelectedUserTypeEnum.values, json['userType']),
       createdAt: DateTime.parse(json['createdAt'] as String).toLocal(),
       streak: GetStreakEntity.fromJson(json['streak'] as Map<String, dynamic>),
+      externalSourceUserId: json['externalSourceUserId'] as String?,
     );
   }
 
@@ -115,24 +118,27 @@ class CreateUserEntity {
   Map<String, dynamic> toJson() => {
     'name': name,
     'phoneNumber': phoneNumber,
-    'dateOfBirth': dateOfBirth.toIso8601String(),
+    'dateOfBirth': dateOfBirth.toUtc().toIso8601String(),
     'height': height,
     'email': email,
     'userType': userType.name[0].toUpperCase() + userType.name.substring(1),
   };
 }
 
+@immutable
 class UpdateUserEntity {
   final String? name;
   final DateTime? dateOfBirth;
   final double? height;
   final String? email;
+  final String? externalSourceUserId;
 
   const UpdateUserEntity({
     this.name,
     this.dateOfBirth,
     this.height,
     this.email,
+    this.externalSourceUserId,
   });
 
   UpdateUserEntity copyWith({
@@ -140,20 +146,25 @@ class UpdateUserEntity {
     DateTime? dateOfBirth,
     double? height,
     String? email,
+    String? externalSourceUserId,
   }) {
     return UpdateUserEntity(
       name: name ?? this.name,
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       height: height ?? this.height,
       email: email ?? this.email,
+      externalSourceUserId: externalSourceUserId ?? this.externalSourceUserId,
     );
   }
 
   Map<String, dynamic> toJson() => {
     if (name != null) 'name': name,
-    if (dateOfBirth != null) 'dateOfBirth': dateOfBirth!.toIso8601String(),
+    if (dateOfBirth != null)
+      'dateOfBirth': dateOfBirth!.toUtc().toIso8601String(),
     if (height != null) 'height': height,
     if (email != null) 'email': email,
+    if (externalSourceUserId != null)
+      'externalSourceUserId': externalSourceUserId,
   };
 }
 

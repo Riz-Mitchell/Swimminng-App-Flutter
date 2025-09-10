@@ -15,6 +15,11 @@ import 'package:swimming_app_frontend/features/logbook/presentation/screens/swim
 import 'package:swimming_app_frontend/features/login/presentation/screens/done_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/phone_num_login_screen.dart';
 import 'package:swimming_app_frontend/features/login/presentation/screens/verify_login_screen.dart';
+import 'package:swimming_app_frontend/features/profile/domain/enum/profile_editing_type_enum.dart';
+import 'package:swimming_app_frontend/features/profile/presentation/screens/change_linked_racing_account_profile_screen.dart';
+import 'package:swimming_app_frontend/features/profile/presentation/screens/change_pfp_profile_screen.dart';
+import 'package:swimming_app_frontend/features/profile/presentation/screens/edit_field_profile_screen.dart';
+import 'package:swimming_app_frontend/features/profile/presentation/screens/settings_profile_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/date_of_birth_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/height_signup_screen.dart';
 import 'package:swimming_app_frontend/features/signup/presentation/screens/initial_screen.dart';
@@ -203,6 +208,30 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/link-external-swims',
         name: 'linkExternalSwims',
         builder: (context, state) => const LinkExternalSwimsScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        name: 'settings',
+        builder: (context, state) => const SettingsProfileScreen(),
+      ),
+      GoRoute(
+        path: '/change-pfp',
+        name: 'changePfp',
+        builder: (context, state) => const ChangePFPProfileScreen(),
+      ),
+      GoRoute(
+        path: '/change-linked-racing-account',
+        name: 'changeLinkedRacingAccount',
+        builder: (context, state) =>
+            const ChangeLinkedRacingAccountProfileScreen(),
+      ),
+      GoRoute(
+        path: '/edit-user-field',
+        name: 'editUserField',
+        builder: (context, state) {
+          final editingType = state.extra as ProfileEditingTypeEnum;
+          return EditFieldProfileScreen(editingType: editingType);
+        },
       ),
     ],
   );

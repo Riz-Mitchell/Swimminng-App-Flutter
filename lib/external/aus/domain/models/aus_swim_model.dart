@@ -41,6 +41,27 @@ class AusSwimMapper {
     GetAusSwimEntity swimEntity,
     List<GetAusSplitEntity> splitListEntities,
   ) {
+    print('splits length: ${splitListEntities.length}');
+
+    List<CreateAusSplitModel> insertingSplits;
+
+    // No splits available, create a single split with total time
+    if (splitListEntities.isEmpty) {
+      insertingSplits = [
+        CreateAusSplitModel(
+          splitDistance: swimEntity.distance,
+          splitTime: swimEntity.time,
+        ),
+      ];
+    } else {
+      insertingSplits = splitListEntities.map((splitEntity) {
+        return CreateAusSplitModel(
+          splitDistance: splitEntity.calculatedSplitDistance,
+          splitTime: splitEntity.cumulativeSplitTimeMilliseconds / 1000.0,
+        );
+      }).toList();
+    }
+
     return CreateAusSwimModel(
       externlSwimId: swimEntity.raceResultId,
       event: _getEventFromStrokeAndDistance(
@@ -50,14 +71,7 @@ class AusSwimMapper {
       poolType: _getPoolTypeFromCourse(swimEntity.course),
       date: swimEntity.date,
       meetName: swimEntity.meet,
-      splits: splitListEntities.map((splitEntity) {
-        return CreateAusSplitModel(
-          splitDistance: splitEntity.calculatedSplitDistance,
-          splitTime:
-              splitEntity.cumulativeSplitTimeMilliseconds /
-              1000.0, // Convert milliseconds to seconds
-        );
-      }).toList(),
+      splits: insertingSplits,
     );
   }
 

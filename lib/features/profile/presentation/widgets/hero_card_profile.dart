@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:swimming_app_frontend/shared/application/providers/router_provider.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/entities/user_entity.dart';
 import 'package:swimming_app_frontend/shared/presentation/theme/metric_colors.dart';
 import 'package:swimming_app_frontend/shared/presentation/widgets/icon_button_widget.dart';
@@ -47,7 +48,8 @@ class HeroCardProfile extends ConsumerWidget {
                 IconButtonWidget(
                       path: 'assets/svg/gear.svg',
                       overrideColor: colorScheme.primary,
-                      onTapped: () => print('Settings Tapped'),
+                      onTapped: () async =>
+                          await ref.read(routerProvider).push('/settings'),
                     )
                     .animate()
                     .fadeIn(

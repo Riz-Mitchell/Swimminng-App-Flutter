@@ -79,9 +79,35 @@ class GetAusSwimEntity {
       distance: (json['distance'] as num).toInt(),
       stroke: enumFromJson(AusStrokeEnum.values, json['stroke']),
       course: enumFromJson(AusCourseEnum.values, json['course']),
-      time: double.tryParse(json['time']?.toString() ?? '0') ?? 0.0,
+      time: _parseTime(json['time']),
       date: DateTime.parse(json['date'] as String),
       meet: json['meet'] as String,
     );
+  }
+
+  static double _parseTime(dynamic value) {
+    if (value == null) return 0.0;
+
+    // If it's already a double or int
+    if (value is num) {
+      return value.toDouble();
+    }
+
+    // If it's a string, parse it
+    if (value is String) {
+      final parts = value.split(':');
+
+      if (parts.length == 2) {
+        // Format mm:ss.ss
+        final minutes = double.tryParse(parts[0]) ?? 0.0;
+        final seconds = double.tryParse(parts[1]) ?? 0.0;
+        return (minutes * 60) + seconds;
+      } else if (parts.length == 1) {
+        // Just seconds as a string
+        return double.tryParse(parts[0]) ?? 0.0;
+      }
+    }
+
+    throw FormatException('Invalid time format: $value');
   }
 }

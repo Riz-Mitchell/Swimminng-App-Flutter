@@ -15,8 +15,13 @@ class AusRepository {
 
   Future<QueryResAusSwimEntity> getSwimsQueryAsync(
     QueryReqAusSwimEntity query,
+    CancelToken cancelToken,
   ) async {
-    final res = await _apiClient.get('/results/results', query: query.toJson());
+    final res = await _apiClient.get(
+      '/results/results',
+      query: query.toJson(),
+      cancelToken: cancelToken,
+    );
 
     if (res == null) {
       throw Exception('Failed to get all Aus swims: No response from server.');

@@ -104,6 +104,10 @@ class ExternalSwimmerSearchBarWidget extends ConsumerWidget {
           ...List.generate(results.length, (index) {
             final result = results[index];
             return ExternalSwimmerResultWidget(
+              isSelected: (data.selectedSwimmer != null)
+                  ? result.participantId == data.selectedSwimmer!.participantId
+                  : false,
+              id: result.participantId,
               fullName: result.fullName,
               club: result.club,
               onTap: () {

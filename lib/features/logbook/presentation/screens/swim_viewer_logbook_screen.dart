@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:swimming_app_frontend/features/log_swims/presentation/screens/log_swims_shell_screen.dart';
 import 'package:swimming_app_frontend/features/logbook/application/logbook_provider.dart';
 import 'package:swimming_app_frontend/features/logbook/application/viewing_swim_logbook_provider.dart';
 import 'package:swimming_app_frontend/features/logbook/domain/models/viewing_swim_model.dart';
+import 'package:swimming_app_frontend/features/logbook/presentation/widgets/potential_time_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/radial_guage_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/split_selector_logbook_widget.dart';
 import 'package:swimming_app_frontend/features/logbook/presentation/widgets/swim_viewer_graph_logbook_widget.dart';
@@ -63,35 +65,76 @@ class SwimViewerLogbookScreen extends ConsumerWidget {
             ],
           ),
           SizedBox(height: 40),
-          RadialGaugeLogbookWidget(split: viewingSwimState.selectedSplit),
-          SizedBox(height: 30),
-
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Velocity Graph',
-                style: textTheme.headlineSmall?.copyWith(
-                  color: colorScheme.secondary,
-                ),
+          RadialGaugeLogbookWidget(split: viewingSwimState.selectedSplit)
+              .animate()
+              .fadeIn(
+                duration: 500.ms,
+                curve: Curves.fastEaseInToSlowEaseOut,
+                delay: 100.ms,
+              )
+              .move(
+                begin: const Offset(0, 50), // start 50 pixels below
+                end: Offset.zero, // move to final position
+                duration: 400.ms,
+                curve: Curves.fastEaseInToSlowEaseOut,
               ),
-              SvgPicture.asset(
-                'assets/svg/swimmer_icon.svg',
-                width: 25,
-                height: 25,
-                colorFilter: ColorFilter.mode(
-                  colorScheme.secondary,
-                  BlendMode.srcIn,
-                ),
+          SizedBox(height: 40),
+          PotentialTimeLogbookWidget(split: viewingSwimState.selectedSplit!)
+              .animate()
+              .fadeIn(
+                duration: 500.ms,
+                curve: Curves.fastEaseInToSlowEaseOut,
+                delay: 200.ms,
+              )
+              .move(
+                begin: const Offset(0, 50), // start 50 pixels below
+                end: Offset.zero, // move to final position
+                duration: 400.ms,
+                curve: Curves.fastEaseInToSlowEaseOut,
               ),
-            ],
-          ),
-          SizedBox(height: 20),
-          SwimViewerGraphLogbookWidget(
-            swim: viewingSwimState.swim!,
-            selectedSplit: viewingSwimState.selectedSplit!,
-          ),
+          SizedBox(height: 40),
+          Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Velocity Graph',
+                        style: textTheme.headlineSmall?.copyWith(
+                          color: colorScheme.secondary,
+                        ),
+                      ),
+                      SvgPicture.asset(
+                        'assets/svg/swimmer_icon.svg',
+                        width: 25,
+                        height: 25,
+                        colorFilter: ColorFilter.mode(
+                          colorScheme.secondary,
+                          BlendMode.srcIn,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  SwimViewerGraphLogbookWidget(
+                    swim: viewingSwimState.swim!,
+                    selectedSplit: viewingSwimState.selectedSplit!,
+                  ),
+                ],
+              )
+              .animate()
+              .fadeIn(
+                duration: 500.ms,
+                curve: Curves.fastEaseInToSlowEaseOut,
+                delay: 300.ms,
+              )
+              .move(
+                begin: const Offset(0, 50), // start 50 pixels below
+                end: Offset.zero, // move to final position
+                duration: 400.ms,
+                curve: Curves.fastEaseInToSlowEaseOut,
+              ),
           SizedBox(height: 200),
         ],
       ),

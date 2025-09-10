@@ -55,7 +55,7 @@ class LinkExternalSwimsWidget extends ConsumerWidget {
             );
 
             print('Linking swims for swimmer ${selectedSwimmer}...');
-            await ref.read(linkExternalSwimsProvider.notifier).getSwimsToLink();
+            // await ref.read(linkExternalSwimsProvider.notifier).getSwimsToLink();
           },
         ),
         ...getFirst5Swims(linkExternalSwimsState, ref),
