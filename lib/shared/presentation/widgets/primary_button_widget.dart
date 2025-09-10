@@ -6,6 +6,7 @@ class PrimaryButtonWidget extends ConsumerWidget {
   final VoidCallback? onPressed;
   final Color? overrideBgColor;
   final Color? overrideColor;
+  final TextStyle? overrideStyle;
 
   const PrimaryButtonWidget({
     super.key,
@@ -13,30 +14,33 @@ class PrimaryButtonWidget extends ConsumerWidget {
     this.onPressed,
     this.overrideBgColor,
     this.overrideColor,
+    this.overrideStyle,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shadowColor: Colors.transparent,
-          backgroundColor: (overrideBgColor != null)
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => _handleOnPressed(),
+      child: Container(
+        alignment: Alignment.center,
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: (overrideBgColor != null)
               ? overrideBgColor!
               : Theme.of(context).colorScheme.primary,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          padding: const EdgeInsets.symmetric(vertical: 16),
         ),
-        onPressed: () => _handleOnPressed(),
-
         child: Text(
           text,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: (overrideColor != null)
-                ? overrideColor
-                : Theme.of(context).colorScheme.onPrimary,
-          ),
+          style: (overrideStyle != null)
+              ? overrideStyle
+              : Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: (overrideColor != null)
+                      ? overrideColor
+                      : Theme.of(context).colorScheme.onPrimary,
+                ),
         ),
       ),
     );
