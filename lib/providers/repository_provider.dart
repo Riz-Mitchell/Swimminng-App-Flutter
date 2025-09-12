@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/api.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/repository/auth_repository.dart';
+import 'package:swimming_app_frontend/shared/infrastructure/repository/image_repository.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/repository/swim_repository.dart';
 import 'package:swimming_app_frontend/shared/infrastructure/repository/user_repository.dart';
 
@@ -17,4 +18,9 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 final swimRepositoryProvider = Provider<SwimRepository>((ref) {
   final api = ref.read(apiClientProvider);
   return SwimRepository(api);
+});
+
+final imageRepositoryProvider = Provider<ImageRepository>((ref) {
+  final api = ref.read(apiClientProvider);
+  return ImageRepository(api);
 });
