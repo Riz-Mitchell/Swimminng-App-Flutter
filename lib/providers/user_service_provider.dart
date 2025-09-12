@@ -5,5 +5,6 @@ import 'package:swimming_app_frontend/providers/repository_provider.dart';
 final userServiceProvider = Provider<UserService>((ref) {
   final userRepo = ref.read(userRepositoryProvider);
   final authRepo = ref.read(authRepositoryProvider);
-  return UserService(userRepo, authRepo);
+  final imageRepo = ref.read(imageRepositoryProvider);
+  return UserService(userRepo, authRepo, imageRepo);
 });
