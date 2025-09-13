@@ -36,6 +36,7 @@ class QueryUsersEntity {
   };
 }
 
+@immutable
 class GetUserEntity {
   final String id; // Dart doesn't use Guid – treat as String
   final String name;
@@ -44,9 +45,10 @@ class GetUserEntity {
   final SelectedUserTypeEnum userType;
   final DateTime createdAt;
   final GetStreakEntity streak;
+  final String? profileImageUrl;
   final String? externalSourceUserId;
 
-  GetUserEntity({
+  const GetUserEntity({
     required this.id,
     required this.name,
     required this.age,
@@ -54,6 +56,7 @@ class GetUserEntity {
     required this.userType,
     required this.createdAt,
     required this.streak,
+    this.profileImageUrl,
     this.externalSourceUserId,
   });
 
@@ -66,6 +69,7 @@ class GetUserEntity {
       userType: enumFromJson(SelectedUserTypeEnum.values, json['userType']),
       createdAt: DateTime.parse(json['createdAt'] as String).toLocal(),
       streak: GetStreakEntity.fromJson(json['streak'] as Map<String, dynamic>),
+      profileImageUrl: json['profileImageUrl'] as String?,
       externalSourceUserId: json['externalSourceUserId'] as String?,
     );
   }

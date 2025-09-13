@@ -52,15 +52,43 @@ class SettingsProfileScreen extends ConsumerWidget {
                       ),
                       shape: BoxShape.circle,
                     ),
-                    child: SvgPicture.asset(
-                      'assets/svg/user_placeholder.svg',
-                      width: 100,
-                      height: 100,
-                      colorFilter: ColorFilter.mode(
-                        colorScheme.primary,
-                        BlendMode.srcIn,
-                      ),
-                    ),
+                    child: (profileInfo.user.profileImageUrl == null)
+                        ? SvgPicture.asset(
+                            'assets/svg/user_placeholder.svg',
+                            width: 100,
+                            height: 100,
+                            colorFilter: ColorFilter.mode(
+                              colorScheme.primary,
+                              BlendMode.srcIn,
+                            ),
+                          )
+                        : Image.network(
+                            profileInfo
+                                .user
+                                .profileImageUrl!, // <-- Your image URL here
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit
+                                .cover, // Ensures the image covers the circular area
+                            errorBuilder: (context, error, stackTrace) {
+                              // Fallback if the image fails to load
+                              return SvgPicture.asset(
+                                'assets/svg/user_placeholder.svg',
+                                width: 100,
+                                height: 100,
+                                colorFilter: ColorFilter.mode(
+                                  colorScheme.primary,
+                                  BlendMode.srcIn,
+                                ),
+                              );
+                            },
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          ),
                   ),
                   SizedBox(height: 30),
                   Text(

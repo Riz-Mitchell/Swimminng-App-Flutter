@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swimming_app_frontend/features/profile/domain/models/profile_model.dart';
 import 'package:swimming_app_frontend/providers/user_service_provider.dart';
@@ -31,6 +33,14 @@ class ProfileNotifier extends AsyncNotifier<ProfileModel> {
     state = AsyncValue.data(state.value!.copyWith(user: await updatedUser));
 
     ref.read(routerProvider).pop();
+  }
+
+  Future<void> updatePfpAsync(File image) async {
+    final userId = state.value!.user.id;
+
+    final updatedUser = ref
+        .read(userServiceProvider)
+        .changeUserPfpAsync(userId, image);
   }
 }
 

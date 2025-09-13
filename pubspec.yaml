@@ -1,7 +1,7 @@
 name: swimming_app_frontend
-description: "A new Flutter project."
+description: "InteliSwim mobile application"
 publish_to: 'none'
-version: 0.0.1
+version: 0.1.0+18
 
 environment:
   sdk: ^3.8.1
@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  permission_handler: ^12.0.1
   shared_preferences: ^2.5.3
   flutter_secure_storage: ^9.2.4
   table_calendar: ^3.2.0
@@ -35,6 +36,9 @@ dependencies:
   hive_flutter: ^1.1.0
   flutter_animate: ^4.5.2
   country_icons: ^3.0.0
+  mime: ^2.0.0
+  image_cropper: ^9.1.0
+  image_picker: ^1.2.0
 
 dev_dependencies:
   flutter_test:

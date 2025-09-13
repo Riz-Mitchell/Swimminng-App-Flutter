@@ -318,11 +318,15 @@ class ApiClient {
     }
   }
 
-  Future<Response<T>?> put<T>(String path, {dynamic data}) async {
+  Future<Response<T>?> put<T>(
+    String path, {
+    dynamic data,
+    Options? options,
+  }) async {
     await init();
 
     try {
-      return await _dio.put<T>(path, data: data);
+      return await _dio.put<T>(path, data: data, options: options);
     } catch (e, stacktrace) {
       print('PUT $path failed: $e');
       print(stacktrace);

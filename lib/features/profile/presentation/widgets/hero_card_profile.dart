@@ -19,6 +19,9 @@ class HeroCardProfile extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
+    final hasPfp =
+        user.profileImageUrl != null && user.profileImageUrl!.isNotEmpty;
+
     print('user: ${user.name}, age: ${user.age}');
 
     return Container(
@@ -79,15 +82,42 @@ class HeroCardProfile extends ConsumerWidget {
                         ),
                         shape: BoxShape.circle,
                       ),
-                      child: SvgPicture.asset(
-                        'assets/svg/user_placeholder.svg',
-                        width: 250,
-                        height: 250,
-                        colorFilter: ColorFilter.mode(
-                          colorScheme.primary,
-                          BlendMode.srcIn,
-                        ),
-                      ),
+                      child: (!hasPfp)
+                          ? SvgPicture.asset(
+                              'assets/svg/user_placeholder.svg',
+                              width: 250,
+                              height: 250,
+                              colorFilter: ColorFilter.mode(
+                                colorScheme.primary,
+                                BlendMode.srcIn,
+                              ),
+                            )
+                          : Image.network(
+                              user.profileImageUrl!, // <-- Your image URL here
+                              width: 250,
+                              height: 250,
+                              fit: BoxFit
+                                  .cover, // Ensures the image covers the circular area
+                              errorBuilder: (context, error, stackTrace) {
+                                // Fallback if the image fails to load
+                                return SvgPicture.asset(
+                                  'assets/svg/user_placeholder.svg',
+                                  width: 250,
+                                  height: 250,
+                                  colorFilter: ColorFilter.mode(
+                                    colorScheme.primary,
+                                    BlendMode.srcIn,
+                                  ),
+                                );
+                              },
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                            ),
                     )
                     .animate() // start the animation chain
                     .fadeIn(
